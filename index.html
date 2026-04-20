@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sơn Vũ | Writeup · Tools · Blog</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: rgba(255, 255, 255, 0.08);
+      --panel-strong: rgba(255, 255, 255, 0.12);
+      --text: #eef2ff;
+      --muted: #b6c0e0;
+      --accent: #7c9cff;
+      --accent-2: #8ef0d0;
+      --border: rgba(255, 255, 255, 0.14);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      --max: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(124, 156, 255, 0.22), transparent 28%),
+        radial-gradient(circle at top right, rgba(142, 240, 208, 0.14), transparent 22%),
+        linear-gradient(180deg, #0b1020 0%, #0d1328 100%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(11, 16, 32, 0.7);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+      gap: 16px;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      font-size: 1.05rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      padding: 10px 14px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      color: var(--muted);
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .hero {
+      padding: 72px 0 40px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 34px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(124, 156, 255, 0.14);
+      border: 1px solid rgba(124, 156, 255, 0.3);
+      color: #dbe4ff;
+      font-size: 0.92rem;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2.3rem, 5vw, 4.6rem);
+      line-height: 1.04;
+      margin: 0 0 16px;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      margin: 0;
+      font-size: 1.06rem;
+      color: var(--muted);
+      max-width: 60ch;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      transition: 0.2s ease;
+      font-weight: 600;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--accent), #9c7cff);
+      color: white;
+      border: none;
+    }
+
+    .btn.secondary:hover,
+    .btn.primary:hover,
+    .topic-card:hover,
+    .post:hover,
+    .tool-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      padding: 22px;
+    }
+
+    .stat-box {
+      padding: 20px;
+      border-radius: 22px;
+      background: var(--panel-strong);
+      border: 1px solid var(--border);
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .section {
+      padding: 22px 0 10px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      margin: 8px 0 0;
+    }
+
+    .topics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .topic-card {
+      padding: 24px;
+      transition: 0.2s ease;
+    }
+
+    .topic-card .tag {
+      display: inline-block;
+      font-size: 0.8rem;
+      color: #d8e1ff;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      padding: 6px 10px;
+      margin-bottom: 14px;
+    }
+
+    .topic-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.35rem;
+    }
+
+    .topic-card p {
+      color: var(--muted);
+      margin: 0 0 16px;
+    }
+
+    .topic-link {
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .list-card {
+      padding: 22px;
+    }
+
+    .post-list,
+    .tool-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .post,
+    .tool-item {
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      transition: 0.2s ease;
+    }
+
+    .meta {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .post h3,
+    .tool-item h3 {
+      margin: 0 0 8px;
+      font-size: 1.06rem;
+    }
+
+    .post p,
+    .tool-item p {
+      color: var(--muted);
+      margin: 0;
+      font-size: 0.96rem;
+    }
+
+    .footer {
+      padding: 36px 0 56px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .footer a {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    @media (max-width: 900px) {
+
+      .hero-grid,
+      .topics,
+      .split {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 40px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero-card,
+      .list-card,
+      .topic-card {
+        padding: 20px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top">Sơn Vũ</a>
+      <nav class="nav-links">
+        <a href="#writeup">Writeup</a>
+        <a href="#tools">Tools</a>
+        <a href="#blog">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="card hero-card">
+          <div class="eyebrow">Personal site · GitHub Pages</div>
+          <h1>Writeup, tools và những repo mình đang public.</h1>
+          <p>
+            Trang này đã được đổi từ mẫu chung sang bản lấy nội dung theo GitHub của bạn, ưu tiên các repo writeup,
+            reverse, lab và tool đang public để người vào trang có thể bấm đi thẳng tới đúng repo.
+          </p>
+          <div class="cta-row">
+            <a class="btn primary" href="#writeup">Xem Writeup</a>
+            <a class="btn secondary" href="https://github.com/SonVH2511" target="_blank" rel="noreferrer">GitHub
+              Profile</a>
+          </div>
+        </div>
+
+        <div class="card stats">
+          <div class="stat-box">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Repo public / note kỹ thuật</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Tool nổi bật</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">20+</div>
+            <div class="stat-label">Nhóm writeup theo event</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">Live</div>
+            <div class="stat-label">Link thẳng tới repo GitHub</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="writeup" class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Writeup</h2>
+            <p>Lấy từ các repo public hiện có trên GitHub: CTFs, ctf_writeup, CSCV2025 và malware.</p>
+          </div>
+        </div>
+
+        <div class="topics">
+          <article class="card topic-card">
+            <div class="tag">Main Repo</div>
+            <h3>CTFs</h3>
+            <p>Repo writeup chính, gồm nhiều event như SECCON Quals, KMActf 2024, UIUctf 2024, ImaginaryCTF 2024, vsCTF
+              2024, L3akCTF 2024, AkasecCTF 2024, HTB Business 2024, HTB Apocalypse 2024, WolvCTF 2024, JerseyCTF 2024,
+              TamuCTF 2024, Bsidessf 2024, KMA/KCSC và KCSCctf 2024.</p>
+            <a class="topic-link" href="https://github.com/SonVH2511/CTFs" target="_blank" rel="noreferrer">Mở repo
+              →</a>
+          </article>
+
+          <article class="card topic-card">
+            <div class="tag">Reverse</div>
+            <h3>ctf_writeup</h3>
+            <p>Repo cũ tập trung vào reverse engineering, hiện thấy các bài như RE_verseDIS, Rabat, Rio32, Rotterdam và
+              Rzerzow.</p>
+            <a class="topic-link" href="https://github.com/SonVH2511/ctf_writeup" target="_blank" rel="noreferrer">Xem
+              repo →</a>
+          </article>
+
+          <article class="card topic-card">
+            <div class="tag">Single Writeup</div>
+            <h3>CSCV2025</h3>
+            <p>Một repo writeup riêng cho challenge SVANM-CSCV2025, kiểu note ngắn nhưng đậm chất cá nhân.</p>
+            <a class="topic-link" href="https://github.com/SonVH2511/CSCV2025" target="_blank" rel="noreferrer">Đọc
+              writeup →</a>
+          </article>
+        </div>
+
+        <div class="split">
+          <div class="card list-card">
+            <div class="post-list">
+              <article class="post">
+                <div class="meta">Featured event repo</div>
+                <h3>KCSC2024</h3>
+                <p>Trong repo CTFs hiện nhìn thấy các challenge như <strong>Fake</strong> và <strong>RExRust</strong>,
+                  kèm file <code>writeups.md</code>.</p>
+              </article>
+              <article class="post">
+                <div class="meta">Featured event repo</div>
+                <h3>HTB Business 2024</h3>
+                <p>Có các mục <strong>rev_dontpanic</strong>, <strong>rev_flagcasino</strong>,
+                  <strong>rev_satellitehijack</strong>, <strong>rev_snappedshut</strong> và
+                  <strong>rev_tunnelmadness</strong>.
+                </p>
+              </article>
+              <article class="post">
+                <div class="meta">Research / lab</div>
+                <h3>malware</h3>
+                <p>Repo ghi chép / lab về malware và kỹ thuật như <strong>APT32</strong>, <strong>Reflective DLL
+                    Injection</strong>, <strong>Obfuscate</strong> và <strong>ThreadHijacking</strong>.</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="card list-card">
+            <div class="tool-list">
+              <article class="tool-item">
+                <div class="meta">Direct writeup link</div>
+                <h3><a href="https://github.com/SonVH2511/ctf_writeup/blob/main/Rotterdam.md" target="_blank"
+                    rel="noreferrer">Rotterdam</a></h3>
+                <p>Một bài reverse trong repo <code>ctf_writeup</code>, có snippet public trên GitHub search.</p>
+              </article>
+              <article class="tool-item">
+                <div class="meta">More writeups</div>
+                <h3><a href="https://github.com/SonVH2511/CTFs" target="_blank" rel="noreferrer">Browse all event
+                    folders</a></h3>
+                <p>Danh sách event hiện nhìn thấy gồm cả 0ops2024, Akasec, Bsidessf, DigitalDragon2024, Imaginary2024,
+                  UIU2024, vsCTF, jerseyCTF và wolvCTF.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tools" class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Tools</h2>
+            <p>Các tool / project code public đang thấy trên GitHub profile của bạn.</p>
+          </div>
+        </div>
+
+        <div class="split">
+          <div class="card list-card">
+            <div class="tool-list">
+              <article class="tool-item">
+                <div class="meta">Telegram automation</div>
+                <h3><a href="https://github.com/SonVH2511/TelemessageAutoforward" target="_blank"
+                    rel="noreferrer">TelemessageAutoforward</a></h3>
+                <p>Tool auto-forward tin nhắn Telegram bằng Telethon; README có hướng dẫn điền <code>api_id</code>,
+                  <code>api_hash</code>, group nhận và chạy nền bằng <code>pythonw.exe</code>.
+                </p>
+              </article>
+              <article class="tool-item">
+                <div class="meta">Automation script</div>
+                <h3><a href="https://github.com/SonVH2511/Awauto" target="_blank" rel="noreferrer">Awauto</a></h3>
+                <p>Script auto-type / random output để farm kiểu OwO; README mô tả setup bot, channel cá nhân và chạy
+                  local bằng Python.</p>
+              </article>
+              <article class="tool-item">
+                <div class="meta">IDA plugin</div>
+                <h3><a href="https://github.com/SonVH2511/REnew" target="_blank" rel="noreferrer">REnew</a></h3>
+                <p>Plugin IDA để reload binary đang mở mà không cần đóng rồi mở lại; dùng cho IDA 9.0+ và shortcut
+                  <code>Ctrl + Shift + R</code>.
+                </p>
+              </article>
+            </div>
+          </div>
+
+          <div class="card list-card">
+            <div class="tool-list">
+              <article class="tool-item">
+                <div class="meta">Code + practice</div>
+                <h3><a href="https://github.com/SonVH2511/CTFs" target="_blank" rel="noreferrer">CTFs repo</a></h3>
+                <p>Ngoài writeup, repo này còn có source giải, script và file lab cho từng challenge.</p>
+              </article>
+              <article class="tool-item">
+                <div class="meta">Research / notes</div>
+                <h3><a href="https://github.com/SonVH2511/malware" target="_blank" rel="noreferrer">malware</a></h3>
+                <p>Gần với note + lab hơn là tool, nhưng hợp để gắn vào mục project kỹ thuật nếu bạn muốn trang trông
+                  đầy hơn.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="blog" class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Blog</h2>
+            <p>Hiện GitHub của bạn chưa thấy repo blog riêng rõ ràng, nên tạm dùng mục này để dẫn sang các repo có chất
+              blog / note cá nhân nhất.</p>
+          </div>
+        </div>
+
+        <div class="card list-card">
+          <div class="post-list">
+            <article class="post">
+              <div class="meta">Personal note style</div>
+              <h3><a href="https://github.com/SonVH2511/CSCV2025" target="_blank" rel="noreferrer">CSCV2025</a></h3>
+              <p>Một bài note / writeup mang giọng cá nhân, có thể xem như bài post kỹ thuật ngắn.</p>
+            </article>
+            <article class="post">
+              <div class="meta">Reverse archive</div>
+              <h3><a href="https://github.com/SonVH2511/ctf_writeup" target="_blank" rel="noreferrer">ctf_writeup</a>
+              </h3>
+              <p>Dùng như archive các bài reverse cũ: RE_verseDIS, Rabat, Rio32, Rotterdam, Rzerzow.</p>
+            </article>
+            <article class="post">
+              <div class="meta">Everything else</div>
+              <h3><a href="https://github.com/SonVH2511" target="_blank" rel="noreferrer">GitHub Profile</a></h3>
+              <p>Fallback hợp lý nếu bạn chưa tách blog riêng: người xem vẫn thấy đủ repo, project và hoạt động công
+                khai.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    <p>
+      © 2025 Sơn Vũ · Built with HTML/CSS on GitHub Pages ·
+      <a href="https://github.com/SonVH2511" target="_blank" rel="noreferrer">GitHub</a>
+    </p>
+  </footer>
+</body>
+
+</html>
