@@ -14,8 +14,6 @@
     :root {
       --bg: #08111c;
       --panel: rgba(7, 15, 25, 0.72);
-      --panel-strong: rgba(8, 20, 34, 0.9);
-      --panel-soft: rgba(255, 255, 255, 0.08);
       --text: #f5f7fb;
       --muted: #d5ddec;
       --accent: #89d6ff;
@@ -51,11 +49,10 @@
       position: fixed;
       inset: 0;
       background:
-        linear-gradient(135deg, rgba(4, 9, 15, 0.82), rgba(8, 18, 28, 0.62)),
-        radial-gradient(circle at top left, rgba(77, 176, 255, 0.2), transparent 35%),
-        radial-gradient(circle at bottom right, rgba(255, 211, 138, 0.16), transparent 28%),
+        linear-gradient(135deg, rgba(4, 9, 15, 0.8), rgba(8, 18, 28, 0.58)),
+        radial-gradient(circle at top left, rgba(77, 176, 255, 0.16), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(255, 211, 138, 0.12), transparent 28%),
         url("Wallpaper.jpg") center center / cover no-repeat;
-      filter: saturate(1.05);
       transform: scale(1.02);
       z-index: -2;
     }
@@ -64,7 +61,7 @@
       content: "";
       position: fixed;
       inset: 0;
-      background: linear-gradient(180deg, rgba(8, 17, 28, 0.25), rgba(8, 17, 28, 0.84));
+      background: linear-gradient(180deg, rgba(8, 17, 28, 0.14), rgba(8, 17, 28, 0.84));
       z-index: -1;
     }
 
@@ -73,19 +70,7 @@
       text-decoration: none;
     }
 
-    button {
-      font: inherit;
-      color: inherit;
-      cursor: pointer;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    code,
-    pre {
+    code {
       font-family: "JetBrains Mono", Consolas, monospace;
     }
 
@@ -104,7 +89,7 @@
     .nav {
       position: sticky;
       top: 0;
-      z-index: 40;
+      z-index: 30;
       background: rgba(5, 12, 20, 0.55);
       border-bottom: 1px solid rgba(255, 255, 255, 0.09);
       backdrop-filter: blur(18px);
@@ -146,7 +131,7 @@
     }
 
     .hero {
-      padding: 72px 0 32px;
+      padding: 72px 0 36px;
     }
 
     .hero-grid {
@@ -158,7 +143,6 @@
 
     .hero-card,
     .stats-card,
-    .viewer-shell,
     .card {
       border-radius: var(--radius);
     }
@@ -278,228 +262,7 @@
     .section-head p {
       margin: 8px 0 0;
       color: var(--muted);
-      max-width: 70ch;
-    }
-
-    .viewer-shell {
-      display: grid;
-      grid-template-columns: minmax(250px, 320px) minmax(0, 1fr);
-      gap: 18px;
-      padding: 18px;
-    }
-
-    .viewer-menu,
-    .viewer-panel {
-      border-radius: 24px;
-      background: rgba(5, 13, 23, 0.56);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-    }
-
-    .viewer-menu {
-      padding: 18px;
-    }
-
-    .viewer-menu-title {
-      margin: 0 0 4px;
-      font-size: 1.1rem;
-      font-weight: 800;
-    }
-
-    .viewer-menu-copy {
-      margin: 0 0 16px;
-      font-size: 0.95rem;
-      color: var(--muted);
-    }
-
-    .viewer-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .viewer-link {
-      width: 100%;
-      text-align: left;
-      padding: 14px 15px;
-      border-radius: 18px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      background: rgba(255, 255, 255, 0.04);
-      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-    }
-
-    .viewer-link:hover,
-    .viewer-link.is-active {
-      transform: translateY(-1px);
-      background: rgba(137, 214, 255, 0.14);
-      border-color: rgba(137, 214, 255, 0.32);
-    }
-
-    .viewer-link small {
-      display: block;
-      color: #dbe9f6;
-      opacity: 0.76;
-      margin-bottom: 3px;
-    }
-
-    .viewer-link strong {
-      display: block;
-      font-size: 1rem;
-    }
-
-    .viewer-panel {
-      padding: 22px;
-      min-height: 680px;
-    }
-
-    .viewer-meta {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-
-    .viewer-meta p {
-      margin: 0;
-    }
-
-    .viewer-tag {
-      display: inline-flex;
-      padding: 7px 11px;
-      border-radius: 999px;
-      background: rgba(255, 211, 138, 0.14);
-      border: 1px solid rgba(255, 211, 138, 0.28);
-      color: #ffe7ba;
-      font-size: 0.88rem;
-      margin-bottom: 10px;
-    }
-
-    .viewer-title {
-      margin: 0;
-      font-size: clamp(1.9rem, 4vw, 2.7rem);
-      line-height: 1.08;
-      letter-spacing: -0.04em;
-    }
-
-    .viewer-description {
-      margin: 12px 0 0;
-      color: var(--muted);
       max-width: 68ch;
-    }
-
-    .viewer-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .viewer-status {
-      margin-bottom: 18px;
-      padding: 12px 14px;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(255, 255, 255, 0.04);
-      color: #dfe8f5;
-      font-size: 0.95rem;
-    }
-
-    .viewer-status.is-error {
-      background: rgba(255, 120, 120, 0.12);
-      border-color: rgba(255, 120, 120, 0.28);
-      color: #ffdada;
-    }
-
-    .viewer-status.is-hidden {
-      display: none;
-    }
-
-    .viewer-content {
-      min-height: 420px;
-      padding: 18px;
-      border-radius: 22px;
-      background: rgba(2, 8, 15, 0.48);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      overflow: auto;
-    }
-
-    .viewer-content h1,
-    .viewer-content h2,
-    .viewer-content h3,
-    .viewer-content h4,
-    .viewer-content h5,
-    .viewer-content h6 {
-      max-width: none;
-      margin-top: 1.5em;
-      margin-bottom: 0.5em;
-      line-height: 1.18;
-      letter-spacing: -0.03em;
-    }
-
-    .viewer-content h1:first-child,
-    .viewer-content h2:first-child,
-    .viewer-content h3:first-child {
-      margin-top: 0;
-    }
-
-    .viewer-content p,
-    .viewer-content li,
-    .viewer-content blockquote {
-      color: #edf3fb;
-    }
-
-    .viewer-content a {
-      color: var(--accent);
-      text-decoration: underline;
-      text-decoration-color: rgba(137, 214, 255, 0.45);
-      text-underline-offset: 3px;
-      word-break: break-word;
-    }
-
-    .viewer-content pre {
-      padding: 16px;
-      border-radius: 18px;
-      background: rgba(0, 0, 0, 0.34);
-      overflow-x: auto;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .viewer-content code {
-      padding: 0.15em 0.35em;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.08);
-      font-size: 0.92em;
-    }
-
-    .viewer-content pre code {
-      padding: 0;
-      background: transparent;
-    }
-
-    .viewer-content blockquote {
-      margin: 1.25rem 0;
-      padding: 0.6rem 1rem;
-      border-left: 3px solid rgba(137, 214, 255, 0.75);
-      background: rgba(137, 214, 255, 0.08);
-      border-radius: 0 14px 14px 0;
-    }
-
-    .viewer-content table {
-      width: 100%;
-      border-collapse: collapse;
-      overflow: hidden;
-      border-radius: 16px;
-      margin: 1.2rem 0;
-    }
-
-    .viewer-content th,
-    .viewer-content td {
-      padding: 12px 14px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      text-align: left;
-    }
-
-    .viewer-content th {
-      background: rgba(255, 255, 255, 0.08);
     }
 
     .grid-3 {
@@ -571,14 +334,9 @@
 
     @media (max-width: 960px) {
       .hero-grid,
-      .viewer-shell,
       .grid-3,
       .split {
         grid-template-columns: 1fr;
-      }
-
-      .viewer-panel {
-        min-height: 0;
       }
     }
 
@@ -593,18 +351,12 @@
       }
 
       .hero-card,
-      .card,
-      .viewer-panel,
-      .viewer-menu {
+      .card {
         padding: 18px;
       }
 
       .stats-card {
         grid-template-columns: 1fr;
-      }
-
-      .viewer-content {
-        padding: 16px;
       }
     }
   </style>
@@ -614,7 +366,6 @@
     <div class="container nav-inner">
       <a class="brand" href="#top">Sơn Vũ</a>
       <nav class="nav-links">
-        <a href="#viewer">Viewer</a>
         <a href="#writeup">Writeup</a>
         <a href="#tools">Tools</a>
         <a href="#blog">Blog</a>
@@ -626,74 +377,35 @@
     <section class="hero">
       <div class="container hero-grid">
         <div class="glass hero-card">
-          <div class="eyebrow">GitHub Pages · in-page viewer</div>
-          <h1>Repo vẫn giữ trên GitHub, nội dung thì mở ngay tại đây.</h1>
+          <div class="eyebrow">GitHub Pages · post routes</div>
+          <h1>Trang chủ gọn hơn, nội dung tách ra thành từng bài riêng.</h1>
           <p class="hero-copy">
-            Trang này dùng <code>Wallpaper.jpg</code> làm nền và thêm một khung xem nội dung ngay trên site.
-            Khi bấm vào từng repo hoặc writeup, trang sẽ tải README hay file markdown tương ứng và hiển thị trực tiếp
-            thay vì đưa người xem sang trang repo.
+            Mỗi mục giờ dẫn thẳng sang đường dẫn kiểu <code>/post/&lt;slug&gt;/</code> để đọc như một bài riêng,
+            thay vì mở ngay trên homepage. Trang chủ chỉ còn vai trò landing page và thư mục dẫn tới các bài.
           </p>
           <div class="cta-row">
-            <a class="btn btn-primary" href="#viewer">Mở viewer</a>
+            <a class="btn btn-primary" href="#writeup">Xem writeup</a>
             <a class="btn" href="https://github.com/SonVH2511" target="_blank" rel="noreferrer">GitHub profile</a>
           </div>
         </div>
 
         <div class="glass stats-card">
           <div class="stat-box">
-            <div class="stat-number">Inline</div>
-            <div class="stat-label">Bấm vào từng mục để xem nội dung ngay trên trang</div>
+            <div class="stat-number">Routes</div>
+            <div class="stat-label">Mỗi bài có đường dẫn riêng dưới <code>/post/</code></div>
           </div>
           <div class="stat-box">
-            <div class="stat-number">README</div>
-            <div class="stat-label">Ưu tiên tải README.md hoặc file markdown public trong repo</div>
+            <div class="stat-number">Clean</div>
+            <div class="stat-label">Homepage không còn khối xem tại chỗ hay phần phụ thừa</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">Markdown</div>
+            <div class="stat-label">Trang bài viết sẽ tự tải README hoặc file markdown tương ứng</div>
           </div>
           <div class="stat-box">
             <div class="stat-number">Wallpaper</div>
-            <div class="stat-label">Nền toàn trang lấy trực tiếp từ file Wallpaper.jpg local</div>
+            <div class="stat-label">Giữ nguyên nền <code>Wallpaper.jpg</code> cho toàn site</div>
           </div>
-          <div class="stat-box">
-            <div class="stat-number">Fallback</div>
-            <div class="stat-label">Vẫn có nút mở GitHub nếu repo không có markdown phù hợp</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="viewer" class="section">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2>Viewer</h2>
-            <p>Chọn một mục ở cột trái hoặc bấm nút “Xem trên trang” bên dưới. Nội dung được tải động từ GitHub và render trực tiếp trong khung này.</p>
-          </div>
-        </div>
-
-        <div class="glass viewer-shell">
-          <aside class="viewer-menu">
-            <h3 class="viewer-menu-title">Danh sách nội dung</h3>
-            <p class="viewer-menu-copy">Mỗi mục sẽ thử lấy markdown từ repo tương ứng. Nếu branch hoặc tên file khác, bạn có thể sửa lại URL trong phần script cuối trang.</p>
-            <div class="viewer-list" id="viewer-list"></div>
-          </aside>
-
-          <section class="viewer-panel">
-            <div class="viewer-meta">
-              <div>
-                <p class="viewer-tag" id="viewer-tag">Writeup</p>
-                <h3 class="viewer-title" id="viewer-title">CTFs</h3>
-                <p class="viewer-description" id="viewer-description">Nội dung của repo sẽ hiện ở đây.</p>
-              </div>
-              <div class="viewer-actions">
-                <a class="btn btn-primary" id="viewer-source" href="https://github.com/SonVH2511/CTFs" target="_blank" rel="noreferrer">Mở GitHub</a>
-                <button class="btn" id="viewer-reload" type="button">Tải lại</button>
-              </div>
-            </div>
-
-            <div class="viewer-status is-hidden" id="viewer-status" aria-live="polite"></div>
-            <article class="viewer-content" id="viewer-content">
-              <p>Đang chờ tải nội dung...</p>
-            </article>
-          </section>
         </div>
       </div>
     </section>
@@ -703,7 +415,7 @@
         <div class="section-head">
           <div>
             <h2>Writeup</h2>
-            <p>Các mục writeup chính vẫn giữ nguyên tinh thần của landing page cũ, nhưng hành động mặc định giờ là mở ngay trong viewer.</p>
+            <p>Các mục writeup chính giờ đi thẳng tới trang bài viết riêng dưới <code>/post/</code>.</p>
           </div>
         </div>
 
@@ -711,9 +423,9 @@
           <article class="glass card entry-card">
             <span class="entry-tag">Main Repo</span>
             <h3>CTFs</h3>
-            <p>Kho writeup tổng hợp theo event, phù hợp để dùng làm trang mở đầu trong viewer.</p>
+            <p>Kho writeup tổng hợp theo event, phù hợp làm landing page cho nhóm bài CTF.</p>
             <div class="entry-actions">
-              <button class="btn btn-primary js-load-content" type="button" data-content="ctfs">Xem trên trang</button>
+              <a class="btn btn-primary" href="/post/ctfs/">Mở bài</a>
               <a class="btn" href="https://github.com/SonVH2511/CTFs" target="_blank" rel="noreferrer">GitHub</a>
             </div>
           </article>
@@ -721,9 +433,9 @@
           <article class="glass card entry-card">
             <span class="entry-tag">Reverse</span>
             <h3>ctf_writeup</h3>
-            <p>Archive reverse cũ, viewer sẽ ưu tiên tải README và bạn có thể chọn bài cụ thể như Rotterdam.</p>
+            <p>Archive reverse cũ, có thể mở như một bài riêng hoặc làm đường dẫn tới các bài lẻ bên trong.</p>
             <div class="entry-actions">
-              <button class="btn btn-primary js-load-content" type="button" data-content="ctf_writeup">Xem trên trang</button>
+              <a class="btn btn-primary" href="/post/ctf-writeup/">Mở bài</a>
               <a class="btn" href="https://github.com/SonVH2511/ctf_writeup" target="_blank" rel="noreferrer">GitHub</a>
             </div>
           </article>
@@ -731,70 +443,12 @@
           <article class="glass card entry-card">
             <span class="entry-tag">Single Writeup</span>
             <h3>CSCV2025</h3>
-            <p>Repo writeup riêng, hợp để hiển thị như một bài blog hoặc note kỹ thuật ngắn.</p>
+            <p>Repo writeup riêng, hợp để hiển thị như một bài blog hoặc note kỹ thuật độc lập.</p>
             <div class="entry-actions">
-              <button class="btn btn-primary js-load-content" type="button" data-content="cscv2025">Xem trên trang</button>
+              <a class="btn btn-primary" href="/post/cscv2025/">Mở bài</a>
               <a class="btn" href="https://github.com/SonVH2511/CSCV2025" target="_blank" rel="noreferrer">GitHub</a>
             </div>
           </article>
-        </div>
-
-        <div class="split" style="margin-top: 18px;">
-          <div class="glass card">
-            <div class="section-head">
-              <div>
-                <h2 style="font-size: 1.4rem;">Featured</h2>
-                <p>Một vài entry tiêu biểu để người xem bấm và xem nhanh ngay trên site.</p>
-              </div>
-            </div>
-            <div class="grid-3" style="grid-template-columns: 1fr; gap: 14px;">
-              <article class="entry-card">
-                <span class="entry-tag">Specific file</span>
-                <h3>Rotterdam</h3>
-                <p>Viewer sẽ tải thẳng file <code>Rotterdam.md</code> từ repo <code>ctf_writeup</code>.</p>
-                <div class="entry-actions">
-                  <button class="btn btn-primary js-load-content" type="button" data-content="rotterdam">Xem trên trang</button>
-                  <a class="btn" href="https://github.com/SonVH2511/ctf_writeup/blob/main/Rotterdam.md" target="_blank" rel="noreferrer">GitHub</a>
-                </div>
-              </article>
-
-              <article class="entry-card">
-                <span class="entry-tag">Research / lab</span>
-                <h3>malware</h3>
-                <p>Repo note kỹ thuật, thích hợp để lấp đầy mục blog hoặc research trên homepage.</p>
-                <div class="entry-actions">
-                  <button class="btn btn-primary js-load-content" type="button" data-content="malware">Xem trên trang</button>
-                  <a class="btn" href="https://github.com/SonVH2511/malware" target="_blank" rel="noreferrer">GitHub</a>
-                </div>
-              </article>
-            </div>
-          </div>
-
-          <div class="glass card">
-            <div class="section-head">
-              <div>
-                <h2 style="font-size: 1.4rem;">Gợi ý sử dụng</h2>
-                <p>Phần này giúp người xem hiểu luôn luồng mới của trang.</p>
-              </div>
-            </div>
-            <div class="grid-3" style="grid-template-columns: 1fr; gap: 14px;">
-              <article class="entry-card">
-                <span class="entry-tag">Trải nghiệm mới</span>
-                <h3>Không rời khỏi trang</h3>
-                <p>Bấm vào repo hoặc bài viết để kéo xuống viewer và tải nội dung tại chỗ.</p>
-              </article>
-              <article class="entry-card">
-                <span class="entry-tag">Khi cần</span>
-                <h3>Vẫn có nút GitHub</h3>
-                <p>Nếu người xem muốn xem đầy đủ file cây thư mục hoặc code, nút GitHub vẫn còn trong từng card và trong viewer.</p>
-              </article>
-              <article class="entry-card">
-                <span class="entry-tag">Dễ mở rộng</span>
-                <h3>Chỉ cần thêm URL raw</h3>
-                <p>Bạn có thể thêm repo mới bằng cách khai báo thêm một item trong <code>CONTENT_LIBRARY</code> ở script cuối file.</p>
-              </article>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -804,7 +458,7 @@
         <div class="section-head">
           <div>
             <h2>Tools</h2>
-            <p>Các tool public cũng chuyển sang mô hình xem README trực tiếp trên trang.</p>
+            <p>Các tool public được chuyển thành các trang post riêng để đọc README hoặc mô tả ngay trong route của chúng.</p>
           </div>
         </div>
 
@@ -814,9 +468,9 @@
               <article class="entry-card">
                 <span class="entry-tag">Telegram automation</span>
                 <h3>TelemessageAutoforward</h3>
-                <p>Đọc nhanh README setup ngay trên trang thay vì nhảy sang repo.</p>
+                <p>Đọc README setup trong trang riêng của bài thay vì nhảy thẳng ra repo.</p>
                 <div class="entry-actions">
-                  <button class="btn btn-primary js-load-content" type="button" data-content="telemessage">Xem trên trang</button>
+                  <a class="btn btn-primary" href="/post/telemessageautoforward/">Mở bài</a>
                   <a class="btn" href="https://github.com/SonVH2511/TelemessageAutoforward" target="_blank" rel="noreferrer">GitHub</a>
                 </div>
               </article>
@@ -824,9 +478,9 @@
               <article class="entry-card">
                 <span class="entry-tag">Automation script</span>
                 <h3>Awauto</h3>
-                <p>Viewer sẽ tải README để người xem đọc setup bot hoặc script local trực tiếp.</p>
+                <p>Mỗi tool có route riêng giúp site trông như một thư viện bài viết thay vì danh sách link thô.</p>
                 <div class="entry-actions">
-                  <button class="btn btn-primary js-load-content" type="button" data-content="awauto">Xem trên trang</button>
+                  <a class="btn btn-primary" href="/post/awauto/">Mở bài</a>
                   <a class="btn" href="https://github.com/SonVH2511/Awauto" target="_blank" rel="noreferrer">GitHub</a>
                 </div>
               </article>
@@ -834,9 +488,9 @@
               <article class="entry-card">
                 <span class="entry-tag">IDA plugin</span>
                 <h3>REnew</h3>
-                <p>Phù hợp để hiển thị inline vì README thường là đủ cho người xem hiểu plugin làm gì.</p>
+                <p>README plugin có thể đọc ngay trong trang post mà không rời khỏi domain chính của site.</p>
                 <div class="entry-actions">
-                  <button class="btn btn-primary js-load-content" type="button" data-content="renew">Xem trên trang</button>
+                  <a class="btn btn-primary" href="/post/renew/">Mở bài</a>
                   <a class="btn" href="https://github.com/SonVH2511/REnew" target="_blank" rel="noreferrer">GitHub</a>
                 </div>
               </article>
@@ -846,20 +500,22 @@
           <div class="glass card">
             <div class="grid-3" style="grid-template-columns: 1fr; gap: 14px;">
               <article class="entry-card">
-                <span class="entry-tag">Code + practice</span>
-                <h3>CTFs repo</h3>
-                <p>Ngoài phần writeup, repo này có thể dùng như khu demo source hoặc script liên quan tới từng challenge.</p>
+                <span class="entry-tag">Specific file</span>
+                <h3>Rotterdam</h3>
+                <p>Một bài reverse riêng, giờ có route tách biệt thay vì nằm chen trong trang chủ.</p>
                 <div class="entry-actions">
-                  <button class="btn js-load-content" type="button" data-content="ctfs">Xem lại trong viewer</button>
+                  <a class="btn btn-primary" href="/post/rotterdam/">Mở bài</a>
+                  <a class="btn" href="https://github.com/SonVH2511/ctf_writeup/blob/main/Rotterdam.md" target="_blank" rel="noreferrer">GitHub</a>
                 </div>
               </article>
 
               <article class="entry-card">
                 <span class="entry-tag">Research / notes</span>
                 <h3>malware</h3>
-                <p>Đưa README hoặc ghi chú vào viewer để trang trông như một knowledge hub thay vì chỉ là danh sách link.</p>
+                <p>Repo note kỹ thuật phù hợp để đặt vào nhóm bài research hoặc blog độc lập.</p>
                 <div class="entry-actions">
-                  <button class="btn js-load-content" type="button" data-content="malware">Xem lại trong viewer</button>
+                  <a class="btn btn-primary" href="/post/malware/">Mở bài</a>
+                  <a class="btn" href="https://github.com/SonVH2511/malware" target="_blank" rel="noreferrer">GitHub</a>
                 </div>
               </article>
             </div>
@@ -873,7 +529,7 @@
         <div class="section-head">
           <div>
             <h2>Blog</h2>
-            <p>Phần này giờ hoạt động như lối tắt tới các repo có phong cách note hoặc bài viết dài.</p>
+            <p>Các mục có chất note hoặc bài viết dài được gom lại ở đây để người xem đi theo route bài viết riêng.</p>
           </div>
         </div>
 
@@ -882,25 +538,25 @@
             <article class="entry-card">
               <span class="entry-tag">Personal note style</span>
               <h3>CSCV2025</h3>
-              <p>Đọc như một bài note kỹ thuật ngắn ngay trong viewer.</p>
+              <p>Đọc như một bài note kỹ thuật ngắn ở route riêng.</p>
               <div class="entry-actions">
-                <button class="btn btn-primary js-load-content" type="button" data-content="cscv2025">Xem trên trang</button>
+                <a class="btn btn-primary" href="/post/cscv2025/">Mở bài</a>
               </div>
             </article>
 
             <article class="entry-card">
               <span class="entry-tag">Reverse archive</span>
               <h3>ctf_writeup</h3>
-              <p>Dùng như archive các bài reverse cũ, không cần bật tab GitHub riêng nữa.</p>
+              <p>Dùng như archive các bài reverse cũ, nhưng mỗi lượt vào đều là một route riêng gọn gàng hơn.</p>
               <div class="entry-actions">
-                <button class="btn btn-primary js-load-content" type="button" data-content="ctf_writeup">Xem trên trang</button>
+                <a class="btn btn-primary" href="/post/ctf-writeup/">Mở bài</a>
               </div>
             </article>
 
             <article class="entry-card">
               <span class="entry-tag">Fallback</span>
               <h3>GitHub profile</h3>
-              <p>Nút ngoài này vẫn hữu ích nếu bạn muốn giữ một lối đi tới toàn bộ profile công khai.</p>
+              <p>Nếu cần xem toàn bộ project hoặc activity công khai, vẫn có lối đi thẳng tới profile.</p>
               <div class="entry-actions">
                 <a class="btn btn-primary" href="https://github.com/SonVH2511" target="_blank" rel="noreferrer">Mở profile</a>
               </div>
@@ -913,264 +569,9 @@
 
   <footer class="footer container">
     <p>
-      . Sonvh · 13rəs ·
+      © 2026 Sơn Vũ · Background: <code>Wallpaper.jpg</code> ·
       <a href="https://github.com/SonVH2511" target="_blank" rel="noreferrer">GitHub</a>
     </p>
   </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script>
-    const CONTENT_LIBRARY = {
-      ctfs: {
-        tag: "Writeup / main repo",
-        title: "CTFs",
-        description: "Tải README chính từ repo CTFs để người xem đọc ngay trên homepage.",
-        source: "https://github.com/SonVH2511/CTFs",
-        candidates: [
-          "https://cdn.jsdelivr.net/gh/SonVH2511/CTFs@main/README.md",
-          "https://cdn.jsdelivr.net/gh/SonVH2511/CTFs@master/README.md",
-          "https://raw.githubusercontent.com/SonVH2511/CTFs/main/README.md",
-          "https://raw.githubusercontent.com/SonVH2511/CTFs/master/README.md"
-        ]
-      },
-      ctf_writeup: {
-        tag: "Reverse archive",
-        title: "ctf_writeup",
-        description: "Archive reverse cũ, ưu tiên đọc README hoặc trang giới thiệu repo.",
-        source: "https://github.com/SonVH2511/ctf_writeup",
-        candidates: [
-          "https://cdn.jsdelivr.net/gh/SonVH2511/ctf_writeup@main/README.md",
-          "https://cdn.jsdelivr.net/gh/SonVH2511/ctf_writeup@master/README.md",
-          "https://raw.githubusercontent.com/SonVH2511/ctf_writeup/main/README.md",
-          "https://raw.githubusercontent.com/SonVH2511/ctf_writeup/master/README.md"
-        ]
-      },
-      rotterdam: {
-        tag: "Specific writeup",
-        title: "Rotterdam",
-        description: "Tải trực tiếp file Rotterdam.md thay vì mở GitHub blob.",
-        source: "https://github.com/SonVH2511/ctf_writeup/blob/main/Rotterdam.md",
-        candidates: [
-          "https://cdn.jsdelivr.net/gh/SonVH2511/ctf_writeup@main/Rotterdam.md",
-          "https://cdn.jsdelivr.net/gh/SonVH2511/ctf_writeup@master/Rotterdam.md",
-          "https://raw.githubusercontent.com/SonVH2511/ctf_writeup/main/Rotterdam.md",
-          "https://raw.githubusercontent.com/SonVH2511/ctf_writeup/master/Rotterdam.md"
-        ]
-      },
-      cscv2025: {
-        tag: "Single writeup",
-        title: "CSCV2025",
-        description: "Repo note cá nhân, phù hợp để hiển thị như một bài blog ngay trên trang.",
-        source: "https://github.com/SonVH2511/CSCV2025",
-        candidates: [
-          "https://cdn.jsdelivr.net/gh/SonVH2511/CSCV2025@main/README.md",
-          "https://cdn.jsdelivr.net/gh/SonVH2511/CSCV2025@master/README.md",
-          "https://raw.githubusercontent.com/SonVH2511/CSCV2025/main/README.md",
-          "https://raw.githubusercontent.com/SonVH2511/CSCV2025/master/README.md"
-        ]
-      },
-      telemessage: {
-        tag: "Tool / README",
-        title: "TelemessageAutoforward",
-        description: "README hướng dẫn setup bot Telegram sẽ được hiển thị trong viewer.",
-        source: "https://github.com/SonVH2511/TelemessageAutoforward",
-        candidates: [
-          "https://cdn.jsdelivr.net/gh/SonVH2511/TelemessageAutoforward@main/README.md",
-          "https://cdn.jsdelivr.net/gh/SonVH2511/TelemessageAutoforward@master/README.md",
-          "https://raw.githubusercontent.com/SonVH2511/TelemessageAutoforward/main/README.md",
-          "https://raw.githubusercontent.com/SonVH2511/TelemessageAutoforward/master/README.md"
-        ]
-      },
-      awauto: {
-        tag: "Tool / README",
-        title: "Awauto",
-        description: "Viewer ưu tiên README để hiển thị setup, cách dùng và mô tả script.",
-        source: "https://github.com/SonVH2511/Awauto",
-        candidates: [
-          "https://cdn.jsdelivr.net/gh/SonVH2511/Awauto@main/README.md",
-          "https://cdn.jsdelivr.net/gh/SonVH2511/Awauto@master/README.md",
-          "https://raw.githubusercontent.com/SonVH2511/Awauto/main/README.md",
-          "https://raw.githubusercontent.com/SonVH2511/Awauto/master/README.md"
-        ]
-      },
-      renew: {
-        tag: "Tool / plugin",
-        title: "REnew",
-        description: "README của plugin IDA sẽ hiển thị trực tiếp để người xem không phải rời khỏi site.",
-        source: "https://github.com/SonVH2511/REnew",
-        candidates: [
-          "https://cdn.jsdelivr.net/gh/SonVH2511/REnew@main/README.md",
-          "https://cdn.jsdelivr.net/gh/SonVH2511/REnew@master/README.md",
-          "https://raw.githubusercontent.com/SonVH2511/REnew/main/README.md",
-          "https://raw.githubusercontent.com/SonVH2511/REnew/master/README.md"
-        ]
-      },
-      malware: {
-        tag: "Research / notes",
-        title: "malware",
-        description: "Repo note kỹ thuật hoặc lab malware, hợp với cách hiển thị inline như blog.",
-        source: "https://github.com/SonVH2511/malware",
-        candidates: [
-          "https://cdn.jsdelivr.net/gh/SonVH2511/malware@main/README.md",
-          "https://cdn.jsdelivr.net/gh/SonVH2511/malware@master/README.md",
-          "https://raw.githubusercontent.com/SonVH2511/malware/main/README.md",
-          "https://raw.githubusercontent.com/SonVH2511/malware/master/README.md"
-        ]
-      }
-    };
-
-    const viewerList = document.getElementById("viewer-list");
-    const viewerTag = document.getElementById("viewer-tag");
-    const viewerTitle = document.getElementById("viewer-title");
-    const viewerDescription = document.getElementById("viewer-description");
-    const viewerSource = document.getElementById("viewer-source");
-    const viewerReload = document.getElementById("viewer-reload");
-    const viewerStatus = document.getElementById("viewer-status");
-    const viewerContent = document.getElementById("viewer-content");
-    const triggerButtons = document.querySelectorAll(".js-load-content");
-    const viewerSection = document.getElementById("viewer");
-
-    let currentKey = null;
-
-    if (window.marked) {
-      marked.setOptions({
-        breaks: true,
-        gfm: true,
-        headerIds: false,
-        mangle: false
-      });
-    }
-
-    function setStatus(message, type = "info") {
-      viewerStatus.textContent = message;
-      viewerStatus.className = "viewer-status";
-      if (type === "error") {
-        viewerStatus.classList.add("is-error");
-      }
-      if (!message) {
-        viewerStatus.classList.add("is-hidden");
-      }
-    }
-
-    function activateButtons(key) {
-      document.querySelectorAll("[data-content]").forEach((node) => {
-        node.classList.toggle("is-active", node.dataset.content === key && node.classList.contains("viewer-link"));
-      });
-    }
-
-    function buildViewerMenu() {
-      const items = Object.entries(CONTENT_LIBRARY).map(([key, item]) => {
-        return `
-          <button class="viewer-link" type="button" data-content="${key}">
-            <small>${item.tag}</small>
-            <strong>${item.title}</strong>
-          </button>
-        `;
-      });
-
-      viewerList.innerHTML = items.join("");
-      viewerList.querySelectorAll(".viewer-link").forEach((button) => {
-        button.addEventListener("click", () => loadContent(button.dataset.content, true));
-      });
-    }
-
-    function rewriteRelativeUrls(container, loadedUrl, sourceUrl) {
-      const sourceBase = sourceUrl.endsWith("/") ? sourceUrl : sourceUrl + "/";
-      const loadedBase = loadedUrl.slice(0, loadedUrl.lastIndexOf("/") + 1);
-
-      container.querySelectorAll("a[href]").forEach((anchor) => {
-        const href = anchor.getAttribute("href");
-        if (!href || href.startsWith("#") || /^[a-z]+:/i.test(href)) {
-          return;
-        }
-        anchor.href = new URL(href, sourceBase).toString();
-        anchor.target = "_blank";
-        anchor.rel = "noreferrer";
-      });
-
-      container.querySelectorAll("img[src]").forEach((image) => {
-        const src = image.getAttribute("src");
-        if (!src || /^[a-z]+:/i.test(src) || src.startsWith("data:")) {
-          return;
-        }
-        image.src = new URL(src, loadedBase).toString();
-      });
-    }
-
-    async function fetchFirstAvailable(candidates) {
-      for (const url of candidates) {
-        try {
-          const response = await fetch(url, { cache: "no-store" });
-          if (!response.ok) {
-            continue;
-          }
-          const text = await response.text();
-          if (!text.trim()) {
-            continue;
-          }
-          return { text, url };
-        } catch (error) {
-          continue;
-        }
-      }
-      return null;
-    }
-
-    async function loadContent(key, shouldScroll = false) {
-      const entry = CONTENT_LIBRARY[key];
-      if (!entry) {
-        return;
-      }
-
-      currentKey = key;
-      activateButtons(key);
-      viewerTag.textContent = entry.tag;
-      viewerTitle.textContent = entry.title;
-      viewerDescription.textContent = entry.description;
-      viewerSource.href = entry.source;
-
-      setStatus("Đang tải nội dung từ GitHub...");
-      viewerContent.innerHTML = "<p>Đang tải nội dung...</p>";
-
-      if (shouldScroll) {
-        viewerSection.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-
-      const result = await fetchFirstAvailable(entry.candidates);
-
-      if (!result) {
-        setStatus("Không tải được markdown từ repo này. Bạn vẫn có thể dùng nút GitHub để mở repo trực tiếp.", "error");
-        viewerContent.innerHTML = `
-          <p>Viewer chưa lấy được file markdown phù hợp cho mục này.</p>
-          <p>Hãy kiểm tra lại tên branch hoặc tên file trong <code>CONTENT_LIBRARY</code> ở cuối <code>index.html</code>.</p>
-        `;
-        return;
-      }
-
-      setStatus(`Đã tải từ ${new URL(result.url).hostname}.`);
-
-      if (window.marked) {
-        viewerContent.innerHTML = marked.parse(result.text);
-      } else {
-        viewerContent.textContent = result.text;
-      }
-
-      rewriteRelativeUrls(viewerContent, result.url, entry.source);
-    }
-
-    buildViewerMenu();
-
-    triggerButtons.forEach((button) => {
-      button.addEventListener("click", () => loadContent(button.dataset.content, true));
-    });
-
-    viewerReload.addEventListener("click", () => {
-      if (currentKey) {
-        loadContent(currentKey, false);
-      }
-    });
-
-    loadContent("ctfs", false);
-  </script>
 </body>
 </html>
