@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sơn Vũ | Writeup · Tools · Blog</title>
+  <title>SonVH | Writeup · Tools · Blog</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -13,16 +13,20 @@
   <style>
     :root {
       --bg: #08111c;
-      --panel: rgba(7, 15, 25, 0.72);
+      --panel: rgba(7, 15, 25, 0.76);
+      --panel-soft: rgba(255, 255, 255, 0.08);
+      --surface: rgba(9, 18, 30, 0.94);
       --text: #f5f7fb;
       --muted: #d5ddec;
-      --accent: #89d6ff;
-      --accent-strong: #4db0ff;
-      --accent-warm: #ffd38a;
-      --border: rgba(255, 255, 255, 0.16);
-      --shadow: 0 22px 70px rgba(0, 0, 0, 0.38);
-      --max: 1180px;
+      --accent: #8fd3ff;
+      --accent-soft: rgba(143, 211, 255, 0.14);
+      --accent-border: rgba(143, 211, 255, 0.26);
+      --line: rgba(255, 255, 255, 0.12);
+      --shadow: 0 22px 60px rgba(0, 0, 0, 0.28);
+      --max: 1220px;
       --radius: 28px;
+      --site-background-image: url("/assets/images/wallpaper.jpg");
+      --profile-avatar-image: url("/assets/images/cscv2025.jpg");
     }
 
     * {
@@ -41,19 +45,18 @@
       color: var(--text);
       background: var(--bg);
       position: relative;
-      overflow-x: hidden;
     }
 
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      background:
-        linear-gradient(135deg, rgba(4, 9, 15, 0.8), rgba(8, 18, 28, 0.58)),
-        radial-gradient(circle at top left, rgba(77, 176, 255, 0.16), transparent 35%),
-        radial-gradient(circle at bottom right, rgba(255, 211, 138, 0.12), transparent 28%),
-        url("Wallpaper.jpg") center center / cover no-repeat;
-      transform: scale(1.02);
+      background-image:
+        linear-gradient(180deg, rgba(8, 17, 28, 0.28), rgba(8, 17, 28, 0.52)),
+        var(--site-background-image);
+      background-position: center, center;
+      background-size: auto, cover;
+      background-repeat: no-repeat, no-repeat;
       z-index: -2;
     }
 
@@ -61,7 +64,9 @@
       content: "";
       position: fixed;
       inset: 0;
-      background: linear-gradient(180deg, rgba(8, 17, 28, 0.14), rgba(8, 17, 28, 0.84));
+      background:
+        radial-gradient(circle at top left, rgba(143, 211, 255, 0.12), transparent 30%),
+        linear-gradient(180deg, rgba(8, 17, 28, 0.16), rgba(8, 17, 28, 0.34) 42%, rgba(8, 17, 28, 0.46));
       z-index: -1;
     }
 
@@ -81,7 +86,7 @@
 
     .glass {
       background: var(--panel);
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
       box-shadow: var(--shadow);
       backdrop-filter: blur(18px);
     }
@@ -89,10 +94,17 @@
     .nav {
       position: sticky;
       top: 0;
-      z-index: 30;
-      background: rgba(5, 12, 20, 0.55);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-      backdrop-filter: blur(18px);
+      z-index: 40;
+      background: rgba(8, 17, 28, 0.62);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      transition: transform 0.26s ease, opacity 0.26s ease;
+    }
+
+    .nav.is-hidden {
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
     }
 
     .nav-inner {
@@ -100,14 +112,15 @@
       align-items: center;
       justify-content: space-between;
       gap: 18px;
-      padding: 16px 0;
+      padding: 14px 0;
     }
 
     .brand {
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 800;
       letter-spacing: 0.04em;
       text-transform: uppercase;
+      color: #eef8ff;
     }
 
     .nav-links {
@@ -120,223 +133,489 @@
       padding: 10px 14px;
       border-radius: 999px;
       color: rgba(245, 247, 251, 0.84);
-      border: 1px solid transparent;
-      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
     }
 
     .nav-links a:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.14);
+      background: rgba(143, 211, 255, 0.12);
+      color: #ffffff;
       transform: translateY(-1px);
     }
 
-    .hero {
-      padding: 72px 0 36px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
-      gap: 22px;
-      align-items: stretch;
-    }
-
-    .hero-card,
-    .stats-card,
-    .card {
-      border-radius: var(--radius);
-    }
-
-    .hero-card {
-      padding: 34px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
+    .hero-banner {
+      min-height: min(380px, 48vh);
+      display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: rgba(137, 214, 255, 0.14);
-      border: 1px solid rgba(137, 214, 255, 0.28);
-      color: #d8f0ff;
-      font-size: 0.92rem;
-      margin-bottom: 18px;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
     }
 
-    h1 {
-      margin: 0 0 16px;
-      font-size: clamp(2.5rem, 6vw, 4.8rem);
-      line-height: 0.98;
-      letter-spacing: -0.04em;
-      max-width: 9ch;
+    .hero-banner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(8, 17, 28, 0.08), rgba(8, 17, 28, 0.28));
+    }
+
+    .hero-banner::after {
+      display: none;
     }
 
     .hero-copy {
+      position: relative;
+      z-index: 2;
+      padding: 48px 16px 36px;
+      color: #ffffff;
+      text-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-title {
       margin: 0;
-      font-size: 1.05rem;
-      color: var(--muted);
-      max-width: 62ch;
+      font-size: clamp(2.8rem, 6vw, 4.6rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
     }
 
-    .cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 26px;
+    .hero-subtitle {
+      margin: 10px 0 0;
+      font-size: 1.02rem;
+      color: rgba(255, 255, 255, 0.9);
     }
 
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 12px 18px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.06);
-      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    .home-shell {
+      position: relative;
+      z-index: 3;
+      margin-top: 0;
+      padding-top: 12px;
+      padding-bottom: 56px;
     }
 
-    .btn:hover {
-      transform: translateY(-1px);
-      background: rgba(255, 255, 255, 0.12);
-      border-color: rgba(255, 255, 255, 0.22);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, rgba(77, 176, 255, 0.96), rgba(255, 211, 138, 0.84));
-      color: #09111a;
-      font-weight: 800;
-      border: none;
-    }
-
-    .btn-primary:hover {
-      background: linear-gradient(135deg, rgba(123, 202, 255, 1), rgba(255, 225, 169, 0.92));
-    }
-
-    .stats-card {
-      padding: 22px;
+    .home-layout {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
     }
 
-    .stat-box {
-      padding: 20px;
-      border-radius: 22px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+    .sidebar {
+      display: grid;
+      gap: 18px;
+      position: sticky;
+      top: 24px;
     }
 
-    .stat-number {
-      margin-bottom: 6px;
-      font-size: 1.9rem;
-      font-weight: 800;
+    .music-card,
+    .profile-card {
+      border-radius: 26px;
+    }
+
+    .music-card {
+      padding: 14px;
+      min-height: 96px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .music-cover {
+      width: 58px;
+      height: 58px;
+      border-radius: 14px;
+      background:
+        linear-gradient(135deg, rgba(143, 211, 255, 0.18), rgba(193, 232, 255, 0.2)),
+        var(--profile-avatar-image) center center / cover no-repeat;
+      flex: 0 0 auto;
+    }
+
+    .music-card strong {
+      display: block;
+      color: #a8ddff;
+      font-size: 0.95rem;
+    }
+
+    .music-card p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .profile-card {
+      padding: 26px 22px;
+      text-align: center;
+    }
+
+    .profile-avatar {
+      width: 92px;
+      height: 92px;
+      border-radius: 999px;
+      margin: 0 auto 16px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.08)),
+        var(--profile-avatar-image) center center / cover no-repeat;
+      box-shadow:
+        0 10px 26px rgba(143, 211, 255, 0.18),
+        inset 0 0 0 3px rgba(255, 255, 255, 0.88);
+    }
+
+    .profile-name {
+      margin: 0;
+      font-size: 1.5rem;
       letter-spacing: -0.03em;
+      color: #a8ddff;
     }
 
-    .stat-label {
+    .profile-bio {
+      margin: 8px 0 0;
       color: var(--muted);
       font-size: 0.95rem;
     }
 
-    .section {
-      padding: 20px 0;
+    .profile-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 24px 0 18px;
     }
 
-    .section-head {
+    .profile-stat strong,
+    .profile-stat span {
+      display: block;
+    }
+
+    .profile-stat strong {
+      font-size: 1.3rem;
+      color: #a8ddff;
+    }
+
+    .profile-stat span {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .profile-links {
+      display: grid;
+      gap: 10px;
+    }
+
+    .profile-link {
       display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 18px;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      border-radius: 14px;
+      border: 2px solid rgba(143, 211, 255, 0.18);
+      background: rgba(255, 255, 255, 0.02);
+      color: #a8ddff;
+      font-weight: 700;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .profile-link:hover,
+    .profile-link.is-active {
+      transform: translateY(-1px);
+      background: rgba(143, 211, 255, 0.22);
+      border-color: rgba(143, 211, 255, 0.38);
+      color: #dff4ff;
+    }
+
+    .content-column {
+      display: grid;
+      gap: 34px;
+    }
+
+    .section {
+      display: grid;
+      gap: 18px;
     }
 
     .section-head h2 {
       margin: 0;
-      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
       letter-spacing: -0.03em;
+      color: #ffffff;
     }
 
     .section-head p {
-      margin: 8px 0 0;
+      margin: 6px 0 0;
       color: var(--muted);
       max-width: 68ch;
     }
 
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
+    .section-head-row {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
     }
 
-    .split {
+    .list-stack {
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-      gap: 18px;
+      gap: 28px;
     }
 
-    .card {
-      padding: 22px;
+    .recent-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .recent-page {
+      color: rgba(245, 247, 251, 0.72);
+      font-size: 0.92rem;
+      white-space: nowrap;
+    }
+
+    .recent-btn {
+      min-width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(7, 15, 25, 0.72);
+      color: #eef8ff;
+      font: inherit;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .recent-btn:hover:not(:disabled) {
+      background: rgba(143, 211, 255, 0.12);
+      border-color: rgba(143, 211, 255, 0.24);
+      transform: translateY(-1px);
+    }
+
+    .recent-btn:disabled {
+      opacity: 0.45;
+      cursor: default;
     }
 
     .entry-card {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      position: relative;
+      border-radius: 26px;
+      transition: transform 0.22s ease;
     }
 
     .entry-card:hover {
       transform: translateY(-2px);
-      border-color: rgba(255, 255, 255, 0.22);
-      background: rgba(11, 22, 34, 0.78);
+    }
+
+    .entry-card-link {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      border-radius: 26px;
+    }
+
+    .entry-shell {
+      display: grid;
+      grid-template-columns: 38% minmax(0, 1fr);
+      align-items: stretch;
+      min-height: 248px;
+      border-radius: 26px;
+      overflow: hidden;
+      background: linear-gradient(180deg, #0b1624, #08111c);
+      border: none;
+      box-shadow: var(--shadow);
+    }
+
+    .entry-card.is-reversed .entry-shell {
+      grid-template-columns: minmax(0, 1fr) 38%;
+    }
+
+    .entry-cover {
+      grid-row: 1;
+      min-height: 248px;
+      background:
+        linear-gradient(135deg, rgba(11, 32, 52, 0.08), rgba(11, 32, 52, 0.28)),
+        var(--card-cover-image, var(--card-background-image, none)) center center / cover no-repeat;
+      clip-path: polygon(0 0, 100% 0, 88% 100%, 0 100%);
+      z-index: 2;
+      transition: filter 0.25s ease, opacity 0.25s ease;
+    }
+
+    .entry-card.is-reversed .entry-cover {
+      grid-column: 2;
+      clip-path: polygon(12% 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .entry-card:hover .entry-cover {
+      filter: saturate(1.06) brightness(1.02);
+    }
+
+    .entry-panel {
+      grid-row: 1;
+      position: relative;
+      min-height: 248px;
+      padding: 24px 28px 22px 58px;
+      overflow: hidden;
+      z-index: 3;
+    }
+
+    .entry-card.is-reversed .entry-panel {
+      grid-column: 1;
+      padding: 24px 58px 22px 28px;
+    }
+
+    .entry-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 0 -54px;
+      background: linear-gradient(180deg, #0b1624, #08111c);
+      clip-path: polygon(54px 0, 100% 0, 100% 100%, 0 100%);
+      z-index: 0;
+    }
+
+    .entry-card.is-reversed .entry-panel::before {
+      inset: 0 -54px 0 0;
+      clip-path: polygon(0 0, 100% 0, calc(100% - 54px) 100%, 0 100%);
+    }
+
+    .entry-content {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-height: 192px;
+      justify-content: space-between;
+    }
+
+    .entry-labels {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .entry-badge,
+    .entry-tag,
+    .entry-chip {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      line-height: 1;
+    }
+
+    .entry-badge {
+      padding: 6px 10px;
+      background: var(--accent-soft);
+      border: 1px solid var(--accent-border);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 800;
     }
 
     .entry-tag {
-      display: inline-flex;
-      align-self: flex-start;
       padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(213, 221, 236, 0.84);
       font-size: 0.8rem;
     }
 
-    .entry-card h3 {
-      margin: 0;
-      font-size: 1.2rem;
-    }
-
-    .entry-card p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .entry-actions {
-      margin-top: auto;
+    .entry-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px 16px;
+      color: rgba(213, 221, 236, 0.76);
+      font-size: 0.9rem;
+    }
+
+    .entry-meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .entry-content h3 {
+      margin: 0;
+      font-size: clamp(1.7rem, 3vw, 2.2rem);
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      color: var(--accent);
+    }
+
+    .entry-summary {
+      margin: 0;
+      color: rgba(213, 221, 236, 0.88);
+      font-size: 1rem;
+      max-width: 62ch;
+    }
+
+    .entry-footer {
+      display: flex;
+      justify-content: flex-start;
+      align-items: end;
+      gap: 14px;
+    }
+
+    .entry-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .entry-tags-empty {
+      min-height: 1px;
+    }
+
+    .entry-chip {
+      padding: 6px 10px;
+      background: rgba(143, 211, 255, 0.1);
+      border: 1px solid rgba(143, 211, 255, 0.22);
+      color: #a8ddff;
+      font-size: 0.82rem;
     }
 
     .footer {
-      padding: 36px 0 54px;
+      padding: 0 0 42px;
       text-align: center;
-      color: rgba(245, 247, 251, 0.8);
+      color: #9b808b;
     }
 
     .footer a {
-      color: #ffffff;
+      color: #a8ddff;
       font-weight: 700;
     }
 
-    @media (max-width: 960px) {
-      .hero-grid,
-      .grid-3,
-      .split {
+    @media (max-width: 1100px) {
+      .home-layout {
         grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .profile-card {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .entry-shell,
+      .entry-card.is-reversed .entry-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .entry-cover,
+      .entry-card.is-reversed .entry-cover {
+        min-height: 190px;
+        clip-path: none;
+      }
+
+      .entry-panel,
+      .entry-card.is-reversed .entry-panel {
+        padding: 34px 22px 22px;
+      }
+
+      .entry-panel::before,
+      .entry-card.is-reversed .entry-panel::before {
+        inset: 0;
+        clip-path: none;
       }
     }
 
@@ -346,17 +625,20 @@
         align-items: flex-start;
       }
 
-      .hero {
-        padding-top: 44px;
+      .hero-banner {
+        min-height: 300px;
       }
 
-      .hero-card,
-      .card {
-        padding: 18px;
+      .home-shell {
+        margin-top: 0;
       }
 
-      .stats-card {
+      .sidebar {
         grid-template-columns: 1fr;
+      }
+
+      .entry-content h3 {
+        font-size: 1.45rem;
       }
     }
   </style>
@@ -364,8 +646,9 @@
 <body>
   <header class="nav">
     <div class="container nav-inner">
-      <a class="brand" href="#top">Sơn Vũ</a>
+      <a class="brand" href="#top" id="site-brand">13rəs</a>
       <nav class="nav-links">
+        <a href="#recent">Recent</a>
         <a href="#writeup">Writeup</a>
         <a href="#tools">Tools</a>
         <a href="#blog">Blog</a>
@@ -374,194 +657,94 @@
   </header>
 
   <main id="top">
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="glass hero-card">
-          <div class="eyebrow">GitHub Pages · post routes</div>
-          <h1>Trang chủ gọn hơn, nội dung tách ra thành từng bài riêng.</h1>
-          <p class="hero-copy">
-            Mỗi mục giờ dẫn thẳng sang đường dẫn kiểu <code>/post/&lt;slug&gt;/</code> để đọc như một bài riêng,
-            thay vì mở ngay trên homepage. Trang chủ chỉ còn vai trò landing page và thư mục dẫn tới các bài.
-          </p>
-          <div class="cta-row">
-            <a class="btn btn-primary" href="#writeup">Xem writeup</a>
-            <a class="btn" href="https://github.com/SonVH2511" target="_blank" rel="noreferrer">GitHub profile</a>
-          </div>
-        </div>
-
-        <div class="glass stats-card">
-          <div class="stat-box">
-            <div class="stat-number">Routes</div>
-            <div class="stat-label">Mỗi bài có đường dẫn riêng dưới <code>/post/</code></div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-number">Clean</div>
-            <div class="stat-label">Homepage không còn khối xem tại chỗ hay phần phụ thừa</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-number">Markdown</div>
-            <div class="stat-label">Trang bài viết sẽ tự tải README hoặc file markdown tương ứng</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-number">Wallpaper</div>
-            <div class="stat-label">Giữ nguyên nền <code>Wallpaper.jpg</code> cho toàn site</div>
-          </div>
-        </div>
+    <section class="hero-banner">
+      <div class="hero-copy">
+        <h1 class="hero-title" id="hero-title">13rəs's blog</h1>
+        <p class="hero-subtitle" id="hero-subtitle">Writeup · Tools · Notes</p>
       </div>
     </section>
 
-    <section id="writeup" class="section">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2>Writeup</h2>
-            <p>Các mục writeup chính giờ đi thẳng tới trang bài viết riêng dưới <code>/post/</code>.</p>
-          </div>
-        </div>
-
-        <div class="grid-3">
-          <article class="glass card entry-card">
-            <span class="entry-tag">Main Repo</span>
-            <h3>CTFs</h3>
-            <p>Kho writeup tổng hợp theo event, phù hợp làm landing page cho nhóm bài CTF.</p>
-            <div class="entry-actions">
-              <a class="btn btn-primary" href="/post/ctfs/">Mở bài</a>
-              <a class="btn" href="https://github.com/SonVH2511/CTFs" target="_blank" rel="noreferrer">GitHub</a>
-            </div>
-          </article>
-
-          <article class="glass card entry-card">
-            <span class="entry-tag">Reverse</span>
-            <h3>ctf_writeup</h3>
-            <p>Archive reverse cũ, có thể mở như một bài riêng hoặc làm đường dẫn tới các bài lẻ bên trong.</p>
-            <div class="entry-actions">
-              <a class="btn btn-primary" href="/post/ctf-writeup/">Mở bài</a>
-              <a class="btn" href="https://github.com/SonVH2511/ctf_writeup" target="_blank" rel="noreferrer">GitHub</a>
-            </div>
-          </article>
-
-          <article class="glass card entry-card">
-            <span class="entry-tag">Single Writeup</span>
-            <h3>CSCV2025</h3>
-            <p>Repo writeup riêng, hợp để hiển thị như một bài blog hoặc note kỹ thuật độc lập.</p>
-            <div class="entry-actions">
-              <a class="btn btn-primary" href="/post/cscv2025/">Mở bài</a>
-              <a class="btn" href="https://github.com/SonVH2511/CSCV2025" target="_blank" rel="noreferrer">GitHub</a>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="tools" class="section">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2>Tools</h2>
-            <p>Các tool public được chuyển thành các trang post riêng để đọc README hoặc mô tả ngay trong route của chúng.</p>
-          </div>
-        </div>
-
-        <div class="split">
-          <div class="glass card">
-            <div class="grid-3" style="grid-template-columns: 1fr; gap: 14px;">
-              <article class="entry-card">
-                <span class="entry-tag">Telegram automation</span>
-                <h3>TelemessageAutoforward</h3>
-                <p>Đọc README setup trong trang riêng của bài thay vì nhảy thẳng ra repo.</p>
-                <div class="entry-actions">
-                  <a class="btn btn-primary" href="/post/telemessageautoforward/">Mở bài</a>
-                  <a class="btn" href="https://github.com/SonVH2511/TelemessageAutoforward" target="_blank" rel="noreferrer">GitHub</a>
-                </div>
-              </article>
-
-              <article class="entry-card">
-                <span class="entry-tag">Automation script</span>
-                <h3>Awauto</h3>
-                <p>Mỗi tool có route riêng giúp site trông như một thư viện bài viết thay vì danh sách link thô.</p>
-                <div class="entry-actions">
-                  <a class="btn btn-primary" href="/post/awauto/">Mở bài</a>
-                  <a class="btn" href="https://github.com/SonVH2511/Awauto" target="_blank" rel="noreferrer">GitHub</a>
-                </div>
-              </article>
-
-              <article class="entry-card">
-                <span class="entry-tag">IDA plugin</span>
-                <h3>REnew</h3>
-                <p>README plugin có thể đọc ngay trong trang post mà không rời khỏi domain chính của site.</p>
-                <div class="entry-actions">
-                  <a class="btn btn-primary" href="/post/renew/">Mở bài</a>
-                  <a class="btn" href="https://github.com/SonVH2511/REnew" target="_blank" rel="noreferrer">GitHub</a>
-                </div>
-              </article>
+    <section class="home-shell">
+      <div class="container home-layout">
+        <aside class="sidebar">
+          <div class="glass music-card">
+            <div class="music-cover"></div>
+            <div>
+              <strong id="music-title">Now playing</strong>
+              <p id="music-subtitle">Nhạc nền / quote / dòng trạng thái ngắn</p>
             </div>
           </div>
 
-          <div class="glass card">
-            <div class="grid-3" style="grid-template-columns: 1fr; gap: 14px;">
-              <article class="entry-card">
-                <span class="entry-tag">Specific file</span>
-                <h3>Rotterdam</h3>
-                <p>Một bài reverse riêng, giờ có route tách biệt thay vì nằm chen trong trang chủ.</p>
-                <div class="entry-actions">
-                  <a class="btn btn-primary" href="/post/rotterdam/">Mở bài</a>
-                  <a class="btn" href="https://github.com/SonVH2511/ctf_writeup/blob/main/Rotterdam.md" target="_blank" rel="noreferrer">GitHub</a>
-                </div>
-              </article>
+          <div class="glass profile-card">
+            <div class="profile-avatar"></div>
+            <h2 class="profile-name" id="profile-name">SonVH</h2>
+            <p class="profile-bio" id="profile-bio">Reverse · Malware · Writeup</p>
 
-              <article class="entry-card">
-                <span class="entry-tag">Research / notes</span>
-                <h3>malware</h3>
-                <p>Repo note kỹ thuật phù hợp để đặt vào nhóm bài research hoặc blog độc lập.</p>
-                <div class="entry-actions">
-                  <a class="btn btn-primary" href="/post/malware/">Mở bài</a>
-                  <a class="btn" href="https://github.com/SonVH2511/malware" target="_blank" rel="noreferrer">GitHub</a>
-                </div>
-              </article>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="blog" class="section">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2>Blog</h2>
-            <p>Các mục có chất note hoặc bài viết dài được gom lại ở đây để người xem đi theo route bài viết riêng.</p>
-          </div>
-        </div>
-
-        <div class="glass card">
-          <div class="grid-3">
-            <article class="entry-card">
-              <span class="entry-tag">Personal note style</span>
-              <h3>CSCV2025</h3>
-              <p>Đọc như một bài note kỹ thuật ngắn ở route riêng.</p>
-              <div class="entry-actions">
-                <a class="btn btn-primary" href="/post/cscv2025/">Mở bài</a>
+            <div class="profile-stats">
+              <div class="profile-stat">
+                <strong id="stat-posts">0</strong>
+                <span>Bài viết</span>
               </div>
-            </article>
-
-            <article class="entry-card">
-              <span class="entry-tag">Reverse archive</span>
-              <h3>ctf_writeup</h3>
-              <p>Dùng như archive các bài reverse cũ, nhưng mỗi lượt vào đều là một route riêng gọn gàng hơn.</p>
-              <div class="entry-actions">
-                <a class="btn btn-primary" href="/post/ctf-writeup/">Mở bài</a>
+              <div class="profile-stat">
+                <strong id="stat-sections">0</strong>
+                <span>Danh mục</span>
               </div>
-            </article>
-
-            <article class="entry-card">
-              <span class="entry-tag">Fallback</span>
-              <h3>GitHub profile</h3>
-              <p>Nếu cần xem toàn bộ project hoặc activity công khai, vẫn có lối đi thẳng tới profile.</p>
-              <div class="entry-actions">
-                <a class="btn btn-primary" href="https://github.com/SonVH2511" target="_blank" rel="noreferrer">Mở profile</a>
+              <div class="profile-stat">
+                <strong id="stat-tags">0</strong>
+                <span>Tags</span>
               </div>
-            </article>
+            </div>
+
+            <div class="profile-links">
+              <a class="profile-link is-active" href="#top">Trang chủ</a>
+              <a class="profile-link" href="#writeup">Writeup</a>
+              <a class="profile-link" href="#tools">Tools</a>
+              <a class="profile-link" href="#blog">Blog</a>
+            </div>
           </div>
+        </aside>
+
+        <div class="content-column">
+          <section id="recent" class="section">
+            <div class="section-head">
+              <div class="section-head-row">
+                <div>
+                  <h2 id="recent-title">Recent</h2>
+                  <p id="recent-description">Dang tai cac bai vua cap nhat...</p>
+                </div>
+                <div class="recent-controls">
+                  <button class="recent-btn" id="recent-prev" type="button" aria-label="Trang truoc">←</button>
+                  <span class="recent-page" id="recent-page">1 / 1</span>
+                  <button class="recent-btn" id="recent-next" type="button" aria-label="Trang sau">→</button>
+                </div>
+              </div>
+            </div>
+            <div class="list-stack" id="recent-list"></div>
+          </section>
+
+          <section id="writeup" class="section">
+            <div class="section-head">
+              <h2 id="writeup-title">Writeup</h2>
+              <p id="writeup-description">Đang tải dữ liệu từ JSON...</p>
+            </div>
+            <div class="list-stack" id="writeup-list"></div>
+          </section>
+
+          <section id="tools" class="section">
+            <div class="section-head">
+              <h2 id="tools-title">Tools</h2>
+              <p id="tools-description">Đang tải dữ liệu từ JSON...</p>
+            </div>
+            <div class="list-stack" id="tools-list"></div>
+          </section>
+
+          <section id="blog" class="section">
+            <div class="section-head">
+              <h2 id="blog-title">Blog</h2>
+              <p id="blog-description">Đang tải dữ liệu từ JSON...</p>
+            </div>
+            <div class="list-stack" id="blog-list"></div>
+          </section>
         </div>
       </div>
     </section>
@@ -569,9 +752,38 @@
 
   <footer class="footer container">
     <p>
-      © 2026 Sơn Vũ · Background: <code>Wallpaper.jpg</code> ·
+      © 2026 SonVH · Data source: <code>data/posts.json</code> ·
       <a href="https://github.com/SonVH2511" target="_blank" rel="noreferrer">GitHub</a>
     </p>
   </footer>
+
+  <script src="/assets/homepage.js"></script>
+  <script>
+    (() => {
+      const nav = document.querySelector(".nav");
+      if (!nav) return;
+
+      let lastY = window.scrollY;
+
+      window.addEventListener("scroll", () => {
+        const currentY = window.scrollY;
+        const delta = currentY - lastY;
+
+        if (currentY <= 16) {
+          nav.classList.remove("is-hidden");
+          lastY = currentY;
+          return;
+        }
+
+        if (delta > 8) {
+          nav.classList.add("is-hidden");
+        } else if (delta < -8) {
+          nav.classList.remove("is-hidden");
+        }
+
+        lastY = currentY;
+      }, { passive: true });
+    })();
+  </script>
 </body>
 </html>

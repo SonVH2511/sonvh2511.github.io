@@ -1,0 +1,212 @@
+{
+  "site": {
+    "owner": "13rəs's blog",
+    "homeBackground": "/assets/images/wallpaper.jpg",
+    "defaultPostBackground": "/assets/images/wallpaper.jpg",
+    "heroSubtitle": "Writeup · Tools · Notes",
+    "musicTitle": "Now playing",
+    "musicSubtitle": "Nhạc nền / quote / dòng trạng thái ngắn",
+    "profileBio": "Reverse · Malware · Writeup",
+    "profileAvatar": "/assets/images/avatar.jpg"
+  },
+  "sections": {
+    "writeup": {
+      "title": "Writeup",
+      "description": "",
+      "items": ["ctfs", "ctf-writeup", "cscv2025"]
+    },
+    "tools": {
+      "title": "Tools",
+      "description": "Mỗi tool là một item riêng trong dữ liệu, nên sau này thêm bớt rất nhanh.",
+      "items": ["telemessageautoforward", "awauto", "renew", "rotterdam", "malware"]
+    },
+    "blog": {
+      "title": "Blog",
+      "description": "Những mục có chất note hoặc bài viết dài cũng được đẩy lên từ cùng một nguồn dữ liệu.",
+      "items": ["cscv2025", "ctf-writeup", "github-profile"]
+    }
+  },
+  "posts": {
+    "ctfs": {
+      "slug": "ctfs",
+      "tag": "Main Repo",
+      "title": "CTFs",
+      "summary": "Kho writeup tổng hợp theo event, phù hợp làm landing page cho nhóm bài CTF.",
+      "description": "Kho writeup tổng hợp theo event, phù hợp làm landing page cho nhóm bài CTF.",
+      "route": "/post/ctfs/",
+      "source": "https://github.com/SonVH2511/CTFs",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/wallpaper.jpg",
+      "pinned": true,
+      "publishedAt": "2026-04-20",
+      "updatedAt": "2026-04-20",
+      "wordCount": 1240,
+      "readingTime": "5 phút",
+      "tags": ["CTF", "Writeup", "Event archive"],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/CTFs/main/readme.md",
+        "https://raw.githubusercontent.com/SonVH2511/CTFs/master/readme.md"
+      ]
+    },
+    "KMACTF2025": {
+      "slug": "kma-ctf2025",
+      "tag": "KMA CTF",
+      "title": "KMA CTF 2025",
+      "summary": "Repo note kỹ thuật phù hợp để đặt vào nhóm bài research hoặc blog độc lập.",
+      "description": "WU kmactf2025.",
+      "route": "/post/KMACTF2025/",
+      "source": "https://github.com/SonVH2511/KMACTF2025",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/kmactf.jpg",
+      "publishedAt": "2026-04-15",
+      "updatedAt": "2026-04-20",
+      "wordCount": 740,
+      "readingTime": "3 phút",
+      "tags": ["CTF", "Writeup", "Reverse"],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/KMACTF2025/main/readme.md",
+        "https://raw.githubusercontent.com/SonVH2511/KMACTF2025/master/readme.md"
+      ]
+    },
+    "ctf-writeup": {
+      "slug": "ctf-writeup",
+      "tag": "Reverse",
+      "title": "ctf_writeup",
+      "summary": "Archive reverse cũ, có thể mở như một bài riêng hoặc làm đường dẫn tới các bài lẻ bên trong.",
+      "description": "Archive reverse cũ, có thể mở như một bài riêng hoặc làm đường dẫn tới các bài lẻ bên trong.",
+      "route": "/post/ctf-writeup/",
+      "source": "https://github.com/SonVH2511/ctf_writeup",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/wallpaper.jpg",
+      "publishedAt": "2026-04-19",
+      "updatedAt": "2026-04-20",
+      "wordCount": 860,
+      "readingTime": "3 phút",
+      "tags": ["Reverse", "Archive"],
+      "candidates": [
+
+        "https://raw.githubusercontent.com/SonVH2511/ctf_writeup/main/readme.md",
+        "https://raw.githubusercontent.com/SonVH2511/ctf_writeup/master/readme.md"
+      ]
+    },
+    "cscv2025": {
+      "slug": "cscv2025",
+      "tag": "Single Writeup",
+      "title": "CSCV2025",
+      "summary": "Repo writeup riêng, hợp để hiển thị như một bài blog hoặc note kỹ thuật độc lập.",
+      "description": "Repo writeup riêng, hợp để hiển thị như một bài blog hoặc note kỹ thuật độc lập.",
+      "route": "/post/cscv2025/",
+      "source": "https://github.com/SonVH2511/CSCV2025",
+      "background": "/assets/images/cscv2025.jpg",
+      "cover": "/assets/images/cscv2025.jpg",
+      "publishedAt": "2026-04-18",
+      "updatedAt": "2026-04-20",
+      "wordCount": 520,
+      "readingTime": "2 phút",
+      "tags": ["Note", "Writeup"],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/CSCV2025/main/readme.md",
+        "https://raw.githubusercontent.com/SonVH2511/CSCV2025/master/readme.md"
+      ]
+    },
+    "telemessageautoforward": {
+      "slug": "telemessageautoforward",
+      "tag": "Telegram automation",
+      "title": "TelemessageAutoforward",
+      "summary": "Công cụ archive tin nhắn Telegram tự động forward, arlert những thay đổi trong nhóm chat",
+      "description": "Công cụ archive tin nhắn Telegram tự động forward vào một group hoặc channel khác, giúp quản lý thông tin hiệu quả hơn mà không cần phải truy cập trực tiếp vào Telegram.",
+      "route": "/post/telemessageautoforward/",
+      "source": "https://github.com/SonVH2511/TelemessageAutoforward",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/teleforward.png",
+      "publishedAt": "2026-04-20",
+      "updatedAt": "2026-04-20",
+      "wordCount": 410,
+      "readingTime": "2 phút",
+      "tags": ["Tool", "Telegram", "Automation"],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/TelemessageAutoforward/main/readme.md",
+        "https://raw.githubusercontent.com/SonVH2511/TelemessageAutoforward/master/readme.md"
+      ]
+    },
+    "awauto": {
+      "slug": "awauto",
+      "tag": "Automation script",
+      "title": "Awauto",
+      "summary": "",
+      "description": "Tool cheat bot awa discord",
+      "route": "/post/awauto/",
+      "source": "https://github.com/SonVH2511/Awauto",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/owo.png",
+      "publishedAt": "2026-04-20",
+      "updatedAt": "2026-04-20",
+      "wordCount": 360,
+      "readingTime": "1 phút",
+      "tags": ["Tool", "Script"],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/Awauto/main/readme.md",
+        "https://raw.githubusercontent.com/SonVH2511/Awauto/master/readme.md"
+      ]
+    },
+    "renew": {
+      "slug": "renew",
+      "tag": "IDA plugin",
+      "title": "REnew",
+      "summary": "readme plugin có thể đọc ngay trong trang post mà không rời khỏi domain chính của site.",
+      "description": "readme plugin có thể đọc ngay trong trang post mà không rời khỏi domain chính của site.",
+      "route": "/post/renew/",
+      "source": "https://github.com/SonVH2511/REnew",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/idarenew.png",
+      "publishedAt": "2026-04-17",
+      "updatedAt": "2026-04-20",
+      "wordCount": 290,
+      "readingTime": "1 phút",
+      "tags": ["IDA", "Plugin", "Reverse"],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/REnew/main/readme.md",
+        "https://raw.githubusercontent.com/SonVH2511/REnew/master/readme.md"
+      ]
+    },
+    "Ida scyllahide": {
+      "slug": "ida-scyllahide",
+      "tag": "Ida scyllahide",
+      "title": "Ida scyllahide",
+      "summary": "Repo note kỹ thuật phù hợp để đặt vào nhóm bài research hoặc blog độc lập.",
+      "description": "Repo note kỹ thuật phù hợp để đặt vào nhóm bài research hoặc blog độc lập.",
+      "route": "/post/ida-scyllahide/",
+      "source": "https://github.com/SonVH2511/idascyllahide",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/idascyllahide.png",
+      "publishedAt": "2026-04-15",
+      "updatedAt": "2026-04-20",
+      "wordCount": 740,
+      "readingTime": "3 phút",
+      "tags": ["Tool", "IDA", "Reverse"],
+      "candidates": [
+
+        "https://raw.githubusercontent.com/SonVH2511/idascyllahide/main/readme.md",
+        "https://raw.githubusercontent.com/SonVH2511/idascyllahide/master/readme.md"
+      ]
+    },
+
+    "github-profile": {
+      "slug": "github-profile",
+      "tag": "Fallback",
+      "title": "GitHub profile",
+      "summary": "Nếu cần xem toàn bộ project hoặc activity công khai, vẫn có lối đi thẳng tới profile.",
+      "description": "Nếu cần xem toàn bộ project hoặc activity công khai, vẫn có lối đi thẳng tới profile.",
+      "route": "https://github.com/SonVH2511",
+      "primaryLabel": "Mở profile",
+      "source": "https://github.com/SonVH2511",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/wallpaper.jpg",
+      "external": true,
+      "publishedAt": "2026-04-20",
+      "updatedAt": "2026-04-20",
+      "tags": ["Profile"],
+      "candidates": []
+    }
+  }
+}
