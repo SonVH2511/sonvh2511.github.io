@@ -40,6 +40,18 @@
       "title": "Blog",
       "description": "Sharing vo van linh tinh :v",
       "items": []
+    },
+    "malware": {
+      "title": "Malware",
+      "description": "Malware analysis + tech",
+      "items": [
+        "APT32",
+        "Guloader",
+        "Bdreinit",
+        "CFF mal",
+        "WaitingthreadHijacking",
+        "DeathSleep"
+      ]
     }
   },
   "posts": {
@@ -320,6 +332,76 @@
       "candidates": [
         "https://raw.githubusercontent.com/SonVH2511/idascyllahide/main/README.md",
         "https://raw.githubusercontent.com/SonVH2511/idascyllahide/master/README.md"
+      ]
+    },
+    "APT32": {
+      "slug": "APT32",
+      "tag": "APT32",
+      "title": "APT32",
+      "summary": "Phân tích APT32.",
+      "description": "Repo note kỹ thuật phù hợp để đặt vào nhóm bài research hoặc blog độc lập.",
+      "route": "/post/APT32/",
+      "source": "https://github.com/SonVH2511/malware/blob/main/APT32",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/APT32.png",
+      "publishedAt": "2026-04-15",
+      "updatedAt": "2026-04-20",
+      "wordCount": 740,
+      "readingTime": "3 phút",
+      "tags": [
+        "Malware",
+        "Reverse"
+      ],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/malware/main/APT32/report.md",
+        "https://raw.githubusercontent.com/SonVH2511/malware/master/APT32/report.md"
+      ]
+    },
+    "CFF mal": {
+      "slug": "CFF mal",
+      "tag": "CFF mal",
+      "title": "CFF mal",
+      "summary": "Phân tích mã độc có CFF/MBA và deob.",
+      "description": "Hồi làm còn gà mấy a xem thôi đừng chê, tha e.",
+      "route": "/post/ObfuscateCFF/",
+      "source": "https://github.com/SonVH2511/malware/blob/main/Task4-Obfuscate/Malware",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/ObfuscateCFF.png",
+      "publishedAt": "2026-04-15",
+      "updatedAt": "2026-04-20",
+      "wordCount": 740,
+      "readingTime": "3 phút",
+      "tags": [
+        "Malware",
+        "Reverse"
+      ],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/malware/main/Task4-Obfuscate/Malware/readme.md",
+        "https://raw.githubusercontent.com/SonVH2511/malware/master/Task4-Obfuscate/Malware/readme.md"
+      ]
+    },
+    "Guloader": {
+      "slug": "Guloader",
+      "tag": "Guloader",
+      "title": "Guloader",
+      "summary": "Phân tích dòng mã độc Guloader, deobf Guloader, chôm chỉa shell của Guloader làm của riêng.",
+      "description": "gugugaga",
+      "route": "/post/Guloader/",
+      "source": "https://github.com/SonVH2511/malware/blob/main/Guloader",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/GuGuGaGa.jpg",
+      "publishedAt": "2026-04-15",
+      "updatedAt": "2026-04-20",
+      "wordCount": 740,
+      "readingTime": "3 phút",
+      "tags": [
+        "Malware",
+        "Reverse",
+        "Deobfuscate"
+      ],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/malware/main/Guloader/readme.md",
+        "https://raw.githubusercontent.com/SonVH2511/malware/master/Guloader/readme.md"
       ]
     },
     "github-profile": {
