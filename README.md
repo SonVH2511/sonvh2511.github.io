@@ -1,4 +1,6 @@
-﻿# Gitio
+﻿# Github.io theme
+
+Inspired by [Hexo theme Reimu](https://github.com/D-Sketon/hexo-theme-reimu)
 
 Personal static blog / portfolio site for writeups, tools, malware notes, and GitHub-backed post content.
 
