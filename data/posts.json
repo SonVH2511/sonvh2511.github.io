@@ -404,6 +404,54 @@
         "https://raw.githubusercontent.com/SonVH2511/malware/master/Guloader/readme.md"
       ]
     },
+    "Waiting Thread Hijacking": {
+      "slug": "Waiting Thread Hijacking",
+      "tag": "Waiting Thread Hijacking",
+      "title": "Waiting Thread Hijacking",
+      "summary": "Nghiên cứu tech Waiting Thread Hijacking.",
+      "description": "gugugaga",
+      "route": "/post/WaitingThreadHijacking/",
+      "source": "https://github.com/SonVH2511/malware/blob/main/Task5-ThreadHijacking",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/WaitingThreadHijacking.png",
+      "publishedAt": "2026-04-15",
+      "updatedAt": "2026-04-20",
+      "wordCount": 740,
+      "readingTime": "3 phút",
+      "tags": [
+        "Malware",
+        "Reverse",
+        "Evasion Technique"
+      ],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/malware/main/Task5-ThreadHijacking/readme.md",
+        "https://raw.githubusercontent.com/SonVH2511/malware/master/Task5-ThreadHijacking/readme.md"
+      ]
+    },
+    "Reflective dll Injection": {
+      "slug": "Reflective dll Injection",
+      "tag": "Reflective dll Injection",
+      "title": "Reflective dll Injection",
+      "summary": "Nghiên cứu tech Reflective dll Injection.",
+      "description": "gugugaga",
+      "route": "/post/Reflective dll Injection/",
+      "source": "https://github.com/SonVH2511/malware/blob/main/Task3-Reflective%20dll%20Injection",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/wallpaper.jpg",
+      "publishedAt": "2026-04-15",
+      "updatedAt": "2026-04-20",
+      "wordCount": 740,
+      "readingTime": "3 phút",
+      "tags": [
+        "Malware",
+        "Reverse",
+        "Evasion Technique"
+      ],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/malware/main/Task3-Reflective%20dll%20Injection/reflective%20dll%20injection.md",
+        "https://raw.githubusercontent.com/SonVH2511/malware/master/Task3-Reflective%20dll%20Injection/reflective%20dll%20injection.md"
+      ]
+    },
     "github-profile": {
       "slug": "github-profile",
       "tag": "Fallback",
