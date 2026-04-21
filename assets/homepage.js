@@ -140,6 +140,22 @@
     return Number.isNaN(time) ? 0 : time;
   }
 
+  function sortEntriesByPublishedDate(entries) {
+    return entries.slice().sort((left, right) => {
+      if (Boolean(left && left.pinned) !== Boolean(right && right.pinned)) {
+        return left && left.pinned ? -1 : 1;
+      }
+
+      const rightDate = parseDate(right && (right.publishedAt || right.updatedAt));
+      const leftDate = parseDate(left && (left.publishedAt || left.updatedAt));
+      if (rightDate !== leftDate) {
+        return rightDate - leftDate;
+      }
+
+      return String(left && left.title || "").localeCompare(String(right && right.title || ""));
+    });
+  }
+
   function setupRecentPosts(posts) {
     if (!recentNodes.list) {
       return;
@@ -148,8 +164,12 @@
     const recentPosts = Object.values(posts)
       .filter((entry) => entry && !entry.external && !entry.private)
       .sort((left, right) => {
-        const rightDate = parseDate(right.updatedAt || right.publishedAt);
-        const leftDate = parseDate(left.updatedAt || left.publishedAt);
+        if (Boolean(left && left.pinned) !== Boolean(right && right.pinned)) {
+          return left && left.pinned ? -1 : 1;
+        }
+
+        const rightDate = parseDate(right.publishedAt || right.updatedAt);
+        const leftDate = parseDate(left.publishedAt || left.updatedAt);
         if (rightDate !== leftDate) {
           return rightDate - leftDate;
         }
@@ -161,7 +181,7 @@
     }
 
     if (recentNodes.description) {
-      recentNodes.description.textContent = "List of recently updated posts, 4 posts per page.";
+      recentNodes.description.textContent = "Latest published posts, 4 posts per page.";
     }
 
     if (!recentPosts.length) {
@@ -793,9 +813,13 @@
         nodes.description.textContent = section.description || "";
       }
 
-      const items = (section.items || [])
-        .map((slug) => posts[slug])
-        .filter(Boolean)
+      const entries = sortEntriesByPublishedDate(
+        (section.items || [])
+          .map((slug) => posts[slug])
+          .filter(Boolean)
+      );
+
+      const items = entries
         .map((entry, index) => createPostCard(entry, index))
         .join("\n");
 
