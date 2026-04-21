@@ -37,7 +37,9 @@
     "blog": {
       "title": "Blog",
       "description": "Sharing vo van linh tinh :v",
-      "items": []
+      "items": [
+        "blog1"
+      ]
     },
     "malware": {
       "title": "Malware",
@@ -101,6 +103,30 @@
       "candidates": [
         "https://raw.githubusercontent.com/SonVH2511/KMACTF2025/main/readme.md",
         "https://raw.githubusercontent.com/SonVH2511/KMACTF2025/master/readme.md"
+      ]
+    },
+    "blog1": {
+      "slug": "blog1",
+      "tag": "Blog",
+      "title": "Thấy plugin này, chốt ngay cho IDA",
+      "summary": "Blog chia sẻ những plugin hữu ích trong quá trình sử dụng IDA",
+      "description": "Thấy plugin này, chốt ngay cho IDA",
+      "route": "/post/blog1/",
+      "source": "https://github.com/SonVH2511/blog",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/blog1_thumbnail.png",
+      "publishedAt": "2026-04-21",
+      "updatedAt": "2026-04-21",
+      "wordCount": 1137,
+      "readingTime": "6 min",
+      "tags": [
+        "Blog",
+        "IDA",
+        "Sharing"
+      ],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/blog/main/blog1.md",
+        "https://raw.githubusercontent.com/SonVH2511/blog/master/blog1.md"
       ]
     },
     "cscv2025": {
