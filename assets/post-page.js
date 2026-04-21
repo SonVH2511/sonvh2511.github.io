@@ -153,7 +153,10 @@
     });
 
     tocNode.innerHTML = items
-      .map((item) => `<a class="toc-link depth-${item.depth}" href="#${item.id}">${item.text}</a>`)
+      .map((item) => {
+        const safeText = item.text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        return `<a class="toc-link depth-${item.depth}" href="#${item.id}">${safeText}</a>`;
+      })
       .join("");
 
     if (tocDescriptionNode) {
@@ -161,7 +164,6 @@
     }
 
     const links = Array.from(tocNode.querySelectorAll(".toc-link"));
-    const headingMap = new Map(items.map((item, index) => [item.id, { item, link: links[index] }]));
 
     const updateActiveLink = () => {
       let activeId = items[0].id;

@@ -76,8 +76,8 @@
         "Event archive"
       ],
       "candidates": [
-        "https://raw.githubusercontent.com/SonVH2511/CTFs/main/readme.md",
-        "https://raw.githubusercontent.com/SonVH2511/CTFs/master/readme.md"
+        "https://raw.githubusercontent.com/SonVH2511/CTFs/main/README.md",
+        "https://raw.githubusercontent.com/SonVH2511/CTFs/master/README.md"
       ]
     },
     "KMACTF2025": {
@@ -338,6 +338,7 @@
       "slug": "APT32",
       "tag": "APT32",
       "title": "APT32",
+      "private": true,
       "summary": "Phân tích APT32.",
       "description": "Repo note kỹ thuật phù hợp để đặt vào nhóm bài research hoặc blog độc lập.",
       "route": "/post/APT32/",
@@ -361,6 +362,7 @@
       "slug": "CFF mal",
       "tag": "CFF mal",
       "title": "CFF mal",
+      "private": true,
       "summary": "Phân tích mã độc có CFF/MBA và deob.",
       "description": "Hồi làm còn gà mấy a xem thôi đừng chê, tha e.",
       "route": "/post/ObfuscateCFF/",
@@ -384,6 +386,7 @@
       "slug": "Guloader",
       "tag": "Guloader",
       "title": "Guloader",
+      "private": true,
       "summary": "Phân tích dòng mã độc Guloader, deobf Guloader, chôm chỉa shell của Guloader làm của riêng.",
       "description": "gugugaga",
       "route": "/post/Guloader/",
@@ -408,6 +411,7 @@
       "slug": "Waiting Thread Hijacking",
       "tag": "Waiting Thread Hijacking",
       "title": "Waiting Thread Hijacking",
+      "private": true,
       "summary": "Nghiên cứu tech Waiting Thread Hijacking.",
       "description": "gugugaga",
       "route": "/post/WaitingThreadHijacking/",
@@ -432,6 +436,7 @@
       "slug": "Reflective dll Injection",
       "tag": "Reflective dll Injection",
       "title": "Reflective dll Injection",
+      "private": true,
       "summary": "Nghiên cứu tech Reflective dll Injection.",
       "description": "gugugaga",
       "route": "/post/Reflective dll Injection/",
