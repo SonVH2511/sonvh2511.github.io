@@ -285,4 +285,51 @@
       }
     });
   });
+
+  function handleRouting() {
+    let hash = window.location.hash.replace("#", "");
+    if (!hash || hash === "top") {
+      hash = "recent";
+    }
+    
+    const allSections = ["recent", "writeup", "tools", "blog"];
+    
+    allSections.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.style.display = (id === hash) ? "" : "none";
+      }
+    });
+
+    document.querySelectorAll(".profile-link, .nav-links a").forEach((link) => {
+      const href = link.getAttribute("href") || "";
+      const linkHash = href.replace("#", "");
+      const isActive = linkHash === hash || (hash === "recent" && linkHash === "top");
+      
+      if (link.classList.contains("profile-link")) {
+        if (isActive) {
+          link.classList.add("is-active");
+        } else {
+          link.classList.remove("is-active");
+        }
+      } else {
+        if (isActive) {
+          link.style.color = "#ffffff";
+          link.style.background = "rgba(143, 211, 255, 0.12)";
+          link.style.transform = "translateY(-1px)";
+        } else {
+          link.style.color = "";
+          link.style.background = "";
+          link.style.transform = "";
+        }
+      }
+    });
+  }
+
+  window.addEventListener("hashchange", () => {
+    handleRouting();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  handleRouting();
 })();
