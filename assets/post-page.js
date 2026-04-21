@@ -80,9 +80,9 @@
 
     const headings = Array.from(container.querySelectorAll("h2, h3, h4"));
     if (!headings.length) {
-      tocNode.innerHTML = '<p class="toc-empty">Bai viet nay chua co heading de lap muc luc.</p>';
+      tocNode.innerHTML = '<p class="toc-empty">This post has no headings for a table of contents.</p>';
       if (tocDescriptionNode) {
-        tocDescriptionNode.textContent = "Khong tim thay cac dau muc ro rang trong bai viet nay.";
+        tocDescriptionNode.textContent = "Could not find clear headings in this post.";
       }
       return;
     }
@@ -112,9 +112,9 @@
       .map((item) => `<a class="toc-link depth-${item.depth}" href="#${item.id}">${item.text}</a>`)
       .join("");
 
-    // if (tocDescriptionNode) {
-    //   tocDescriptionNode.textContent = `${items.length} dau muc de ban nhay nhanh trong bai viet.`;
-    // }
+    if (tocDescriptionNode) {
+      tocDescriptionNode.textContent = `${items.length} sections for quick navigation.`;
+    }
 
     const links = Array.from(tocNode.querySelectorAll(".toc-link"));
     const headingMap = new Map(items.map((item, index) => [item.id, { item, link: links[index] }]));
@@ -257,12 +257,12 @@
       applyPostBackground(site.defaultPostBackground || site.homeBackground);
 
       if (!entry) {
-        pageTitleNode.textContent = "Khong tim thay bai";
-        titleNode.textContent = "Khong tim thay bai";
-        descNode.textContent = "Slug nay chua duoc khai bao trong data/posts.json.";
+        pageTitleNode.textContent = "Post Not Found";
+        titleNode.textContent = "Post Not Found";
+        descNode.textContent = "This slug is not declared in data/posts.json.";
         sourceNode.removeAttribute("href");
-        contentNode.innerHTML = "<p>Hay kiem tra lai slug hoac du lieu trong <code>data/posts.json</code>.</p>";
-        setStatus("Khong tim thay cau hinh cho bai viet nay.", "error");
+        contentNode.innerHTML = "<p>Please check the slug or data in <code>data/posts.json</code>.</p>";
+        setStatus("Configuration for this post not found.", "error");
         return null;
       }
 
@@ -272,7 +272,7 @@
       descNode.textContent = entry.description || "";
       sourceNode.href = entry.source || "#";
 
-      setStatus("Dang tai noi dung tu GitHub...");
+      setStatus("Loading content from GitHub...");
       return { entry, site };
     })
     .then(async (result) => {
@@ -283,14 +283,14 @@
       const fetched = await fetchFirstAvailable(result.entry.candidates || []);
       if (!fetched) {
         contentNode.innerHTML = [
-          "<p>Chua tai duoc file markdown cho bai nay.</p>",
-          "<p>Hay kiem tra branch, ten file, hoac mang <code>candidates</code> trong <code>data/posts.json</code>.</p>"
+          "<p>Failed to load the markdown file for this post.</p>",
+          "<p>Please check the branch, file name, or <code>candidates</code> array in <code>data/posts.json</code>.</p>"
         ].join("");
-        setStatus("Khong tai duoc markdown tu GitHub cho bai nay.", "error");
+        setStatus("Failed to load markdown from GitHub for this post.", "error");
         return;
       }
 
-      setStatus("Da tai noi dung tu " + new URL(fetched.url).hostname + ".");
+      setStatus("Content loaded from " + new URL(fetched.url).hostname + ".");
 
       if (window.marked) {
         contentNode.innerHTML = marked.parse(fetched.text);
@@ -308,10 +308,10 @@
       layoutTocRail();
     })
     .catch(() => {
-      contentNode.innerHTML = "<p>Chua tai duoc cau hinh bai viet tu file JSON.</p>";
-      setStatus("Khong doc duoc data/posts.json.", "error");
+      contentNode.innerHTML = "<p>Failed to load post configuration from JSON.</p>";
+      setStatus("Could not read data/posts.json.", "error");
       if (tocNode) {
-        tocNode.innerHTML = '<p class="toc-empty">Khong tao duoc muc luc vi bai viet chua tai xong.</p>';
+        tocNode.innerHTML = '<p class="toc-empty">Table of contents could not be generated as the post is not fully loaded.</p>';
       }
     });
 })();
