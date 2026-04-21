@@ -47,11 +47,9 @@
       "items": [
         "APT32",
         "Guloader",
-        "Bdreinit",
         "CFF mal",
         "Waiting Thread Hijacking",
-        "Reflective dll Injection",
-        "DeathSleep"
+        "Reflective dll Injection"
       ]
     }
   },
@@ -363,7 +361,6 @@
       "slug": "APT32",
       "tag": "Malware",
       "title": "APT32",
-      "private": false,
       "summary": "Phân tích APT32.",
       "description": "Task phân tích APT32.",
       "route": "/post/APT32/",
@@ -387,7 +384,6 @@
       "slug": "CFF mal",
       "tag": "Malware",
       "title": "CFF/MBA obfuscate malware",
-      "private": false,
       "summary": "Phân tích mã độc có CFF/MBA và deob.",
       "description": "Hồi làm còn gà mấy a xem thôi đừng chê, tha e.",
       "route": "/post/ObfuscateCFF/",
@@ -411,7 +407,6 @@
       "slug": "Guloader",
       "tag": "Malware",
       "title": "Guloader",
-      "private": false,
       "summary": "Phân tích dòng mã độc Guloader, deobf Guloader, chôm chỉa shell của Guloader làm của riêng.",
       "description": "gugugaga",
       "route": "/post/Guloader/",
@@ -436,7 +431,6 @@
       "slug": "Waiting Thread Hijacking",
       "tag": "Evasion Technique",
       "title": "Waiting Thread Hijacking",
-      "private": false,
       "summary": "Nghiên cứu tech Waiting Thread Hijacking.",
       "description": "gugugaga",
       "route": "/post/WaitingThreadHijacking/",
@@ -460,7 +454,6 @@
       "slug": "Reflective dll Injection",
       "tag": "Evasion Technique",
       "title": "Reflective dll Injection",
-      "private": false,
       "summary": "Nghiên cứu tech Reflective dll Injection.",
       "description": "gugugaga",
       "route": "/post/Reflective dll Injection/",

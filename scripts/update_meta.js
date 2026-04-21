@@ -40,6 +40,7 @@ async function fetchWithRetry(url, options = {}, retries = 3) {
       await sleep(1000 * (i + 1));
     }
   }
+  return null;
 }
 
 async function getLatestCommitDate(owner, repo, ref, filePath, githubToken) {
@@ -63,7 +64,8 @@ async function fetchGitHubContent(owner, repo, ref, filePath, githubToken) {
     return null;
   }
 
-  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(filePath)}?ref=${encodeURIComponent(ref)}`;
+  const decodedPath = decodeURIComponent(filePath);
+  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${decodedPath.split('/').map(encodeURIComponent).join('/')}?ref=${encodeURIComponent(ref)}`;
   const headers = {
     'User-Agent': 'NodeJS',
     'Authorization': `token ${githubToken}`,
@@ -135,7 +137,8 @@ async function processPosts(githubToken) {
       const match = rawUrl.match(/raw\.githubusercontent\.com\/([^\/]+)\/([^\/]+)\/([^\/]+)\/(.+)/);
       if (!match) continue;
 
-      const [, owner, repo, ref, filePath] = match;
+      const [, owner, repo, ref, rawFilePath] = match;
+      const filePath = decodeURIComponent(rawFilePath);
 
       // 1. Fetch Markdown content to count words
       let text = await fetchGitHubContent(owner, repo, ref, filePath, githubToken);
@@ -174,7 +177,7 @@ async function processPosts(githubToken) {
     }
   }
 
-  fs.writeFileSync(DATA_PATH, JSON.stringify(data, null, 2), 'utf-8');
+  fs.writeFileSync(DATA_PATH, JSON.stringify(data, null, 2) + '\n', 'utf-8');
   console.log("Finished updating posts.json");
 }
 
