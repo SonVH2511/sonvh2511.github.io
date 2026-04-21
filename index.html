@@ -91,56 +91,7 @@
       backdrop-filter: blur(18px);
     }
 
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      background: rgba(8, 17, 28, 0.62);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(20px);
-      transition: transform 0.26s ease, opacity 0.26s ease;
-    }
 
-    .nav.is-hidden {
-      transform: translateY(-100%);
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      padding: 14px 0;
-    }
-
-    .brand {
-      font-size: 1rem;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: #eef8ff;
-    }
-
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .nav-links a {
-      padding: 10px 14px;
-      border-radius: 999px;
-      color: rgba(245, 247, 251, 0.84);
-      transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
-    }
-
-    .nav-links a:hover {
-      background: rgba(143, 211, 255, 0.12);
-      color: #ffffff;
-      transform: translateY(-1px);
-    }
 
     .hero-banner {
       min-height: min(380px, 48vh);
@@ -764,33 +715,6 @@
   </footer>
 
   <script src="/assets/homepage.js"></script>
-  <script>
-    (() => {
-      const nav = document.querySelector(".nav");
-      if (!nav) return;
-
-      let lastY = window.scrollY;
-
-      window.addEventListener("scroll", () => {
-        const currentY = window.scrollY;
-        const delta = currentY - lastY;
-
-        if (currentY <= 16) {
-          nav.classList.remove("is-hidden");
-          lastY = currentY;
-          return;
-        }
-
-        if (delta > 8) {
-          nav.classList.add("is-hidden");
-        } else if (delta < -8) {
-          nav.classList.remove("is-hidden");
-        }
-
-        lastY = currentY;
-      }, { passive: true });
-    })();
-  </script>
 </body>
 
 </html>

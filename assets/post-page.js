@@ -1,5 +1,22 @@
 (function () {
   const DATA_URL = "/data/posts.json";
+
+  function getPostKey() {
+    const params = new URLSearchParams(window.location.search);
+    const querySlug = params.get("slug");
+    if (querySlug) {
+      return querySlug;
+    }
+
+    const cleanPath = window.location.pathname.replace(/\/+$/, "");
+    const match = cleanPath.match(/\/post\/([^/]+)$/);
+    if (match && match[1] && match[1] !== "post") {
+      return decodeURIComponent(match[1]);
+    }
+
+    return document.body.dataset.postKey || "";
+  }
+
   const key = getPostKey();
 
   const titleNode = document.getElementById("post-title");
@@ -12,6 +29,25 @@
   const tocNode = document.getElementById("post-toc");
   const tocDescriptionNode = document.getElementById("toc-description");
   const tocShellNode = document.querySelector(".toc-shell");
+
+  const patSubmit = document.getElementById("pat-submit");
+  const patClear = document.getElementById("pat-clear");
+  const patInput = document.getElementById("pat-input");
+  
+  if (patSubmit) {
+    patSubmit.addEventListener("click", () => {
+      if (patInput && patInput.value.trim()) {
+        localStorage.setItem("github_pat", patInput.value.trim());
+        window.location.reload();
+      }
+    });
+  }
+  if (patClear) {
+    patClear.addEventListener("click", () => {
+      localStorage.removeItem("github_pat");
+      window.location.reload();
+    });
+  }
 
   function setupScrollNav() {
     const nav = document.querySelector(".nav");
@@ -138,22 +174,6 @@
     window.addEventListener("scroll", updateActiveLink, { passive: true });
   }
 
-  function getPostKey() {
-    const params = new URLSearchParams(window.location.search);
-    const querySlug = params.get("slug");
-    if (querySlug) {
-      return querySlug;
-    }
-
-    const cleanPath = window.location.pathname.replace(/\/+$/, "");
-    const match = cleanPath.match(/\/post\/([^/]+)$/);
-    if (match && match[1] && match[1] !== "post") {
-      return decodeURIComponent(match[1]);
-    }
-
-    return document.body.dataset.postKey || "";
-  }
-
   function setStatus(message, type) {
     statusNode.textContent = message || "";
     statusNode.className = "status";
@@ -197,9 +217,39 @@
     });
   }
 
+  async function fetchWithPAT(url, pat) {
+    const match = url.match(/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.+)/);
+    if (!match) return null;
+    const [, owner, repo, ref, filePath] = match;
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(filePath)}?ref=${ref}`;
+    
+    try {
+      const res = await fetch(apiUrl, {
+        headers: {
+          'Authorization': `Bearer ${pat}`,
+          'Accept': 'application/vnd.github.v3.raw'
+        },
+        cache: "no-store"
+      });
+      if (res.ok) {
+        const text = await res.text();
+        return { url, text };
+      }
+    } catch (e) {
+      console.warn("API load error:", url, e);
+    }
+    return null;
+  }
+
   async function fetchFirstAvailable(candidates) {
+    const pat = localStorage.getItem("github_pat");
     for (const url of candidates) {
       try {
+        if (pat && url.includes("raw.githubusercontent.com")) {
+          const apiResult = await fetchWithPAT(url, pat);
+          if (apiResult) return apiResult;
+        }
+
         const response = await fetch(url, { cache: "no-store" });
         if (!response.ok) {
           continue;
@@ -282,18 +332,35 @@
 
       const fetched = await fetchFirstAvailable(result.entry.candidates || []);
       if (!fetched) {
-        contentNode.innerHTML = [
-          "<p>Failed to load the markdown file for this post.</p>",
-          "<p>Please check the branch, file name, or <code>candidates</code> array in <code>data/posts.json</code>.</p>"
-        ].join("");
-        setStatus("Failed to load markdown from GitHub for this post.", "error");
+        const hasGithubRaw = (result.entry.candidates || []).some(url => url.includes("raw.githubusercontent.com"));
+        if (hasGithubRaw) {
+          const authForm = document.getElementById("private-auth-form");
+          if (authForm) {
+            authForm.style.display = "block";
+            const clearBtn = document.getElementById("pat-clear");
+            if (localStorage.getItem("github_pat") && clearBtn) {
+              clearBtn.style.display = "block";
+            }
+          }
+          contentNode.innerHTML = "";
+          setStatus("Authentication Required: This post may be in a private repository.", "error");
+        } else {
+          contentNode.innerHTML = [
+            "<p>Failed to load the markdown file for this post.</p>",
+            "<p>Please check the branch, file name, or <code>candidates</code> array in <code>data/posts.json</code>.</p>"
+          ].join("");
+          setStatus("Failed to load markdown from GitHub for this post.", "error");
+        }
         return;
       }
 
       setStatus("Content loaded from " + new URL(fetched.url).hostname + ".");
 
       if (window.marked) {
-        contentNode.innerHTML = marked.parse(fetched.text);
+        const rawHtml = marked.parse(fetched.text);
+        contentNode.innerHTML = window.DOMPurify
+          ? DOMPurify.sanitize(rawHtml, { USE_PROFILES: { html: true } })
+          : rawHtml;
         if (window.hljs) {
           contentNode.querySelectorAll('pre code').forEach((block) => {
             hljs.highlightElement(block);

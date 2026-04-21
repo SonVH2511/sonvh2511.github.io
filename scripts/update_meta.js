@@ -4,18 +4,24 @@ const path = require('path');
 const DATA_PATH = path.join(__dirname, '..', 'data', 'posts.json');
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
+async function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function fetchWithRetry(url, options = {}, retries = 3) {
   for (let i = 0; i < retries; i++) {
     try {
       const res = await fetch(url, options);
       if (res.ok) return res;
-      if (res.status === 404) return res; 
-      if (res.status === 403) { 
-         console.warn(`[!] HTTP 403 on ${url}, probably rate limited.`);
-         return res;
+      if (res.status === 404) return res;
+      if (res.status === 403) {
+        console.warn(`[!] HTTP 403 on ${url}, rate limited. Waiting ${2000 * (i + 1)}ms before retry...`);
+        await sleep(2000 * (i + 1)); // 2s, 4s, 6s backoff
+        continue;
       }
     } catch (e) {
       if (i === retries - 1) throw e;
+      await sleep(1000 * (i + 1));
     }
   }
 }

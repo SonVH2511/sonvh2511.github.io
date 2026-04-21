@@ -369,28 +369,11 @@
       }
     });
 
-    document.querySelectorAll(".profile-link, .nav-links a").forEach((link) => {
+    document.querySelectorAll(".profile-link").forEach((link) => {
       const href = link.getAttribute("href") || "";
       const linkHash = href.replace("#", "");
       const isActive = linkHash === hash || (hash === "recent" && linkHash === "top");
-      
-      if (link.classList.contains("profile-link")) {
-        if (isActive) {
-          link.classList.add("is-active");
-        } else {
-          link.classList.remove("is-active");
-        }
-      } else {
-        if (isActive) {
-          link.style.color = "#ffffff";
-          link.style.background = "rgba(143, 211, 255, 0.12)";
-          link.style.transform = "translateY(-1px)";
-        } else {
-          link.style.color = "";
-          link.style.background = "";
-          link.style.transform = "";
-        }
-      }
+      link.classList.toggle("is-active", isActive);
     });
   }
 
