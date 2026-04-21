@@ -246,7 +246,7 @@
       "tag": "IDA plugin",
       "title": "showstackframe",
       "summary": "",
-      "description": "Tool cheat bot awa discord",
+      "description": "Plugin IDA hỗ trợ show stackframe",
       "route": "/post/showStackframe/",
       "source": "https://github.com/SonVH2511/showStackframe",
       "background": "/assets/images/wallpaper.jpg",
@@ -268,8 +268,8 @@
       "slug": "CTIP_Watcher",
       "tag": "Tool",
       "title": "CTIP Watcher",
-      "summary": "",
-      "description": "Tool cheat bot awa discord",
+      "summary": "Phát triển công cụ giám sát và quản lý từ watcher, thêm tính năng chủ động tìm kiếm/dò quét domain phishing, core-detect phising",
+      "description": "Xem full source tại github",
       "route": "/post/CTIP_Watcher/",
       "source": "https://github.com/SonVH2511/CTIP_Watcher",
       "background": "/assets/images/wallpaper.jpg",
@@ -307,16 +307,16 @@
         "Reverse"
       ],
       "candidates": [
-        "https://raw.githubusercontent.com/SonVH2511/REnew/main/readme.md",
-        "https://raw.githubusercontent.com/SonVH2511/REnew/master/readme.md"
+        "https://raw.githubusercontent.com/SonVH2511/REnew/main/README.md",
+        "https://raw.githubusercontent.com/SonVH2511/REnew/master/README.md"
       ]
     },
     "Ida scyllahide": {
       "slug": "ida-scyllahide",
       "tag": "Ida scyllahide",
       "title": "Ida scyllahide",
-      "summary": "Repo note kỹ thuật phù hợp để đặt vào nhóm bài research hoặc blog độc lập.",
-      "description": "Repo note kỹ thuật phù hợp để đặt vào nhóm bài research hoặc blog độc lập.",
+      "summary": "Xem full source tại github",
+      "description": "Plugin hỗ trợ inject scyllahide vào ida.",
       "route": "/post/ida-scyllahide/",
       "source": "https://github.com/SonVH2511/idascyllahide",
       "background": "/assets/images/wallpaper.jpg",
@@ -341,7 +341,7 @@
       "title": "APT32",
       "private": false,
       "summary": "Phân tích APT32.",
-      "description": "Repo note kỹ thuật phù hợp để đặt vào nhóm bài research hoặc blog độc lập.",
+      "description": "Task phân tích APT32.",
       "route": "/post/APT32/",
       "source": "https://github.com/SonVH2511/malware/blob/main/APT32",
       "background": "/assets/images/wallpaper.jpg",
