@@ -66,7 +66,7 @@ async function processPosts() {
 
       const words = text.trim().split(/\s+/).length;
       post.wordCount = words;
-      post.readingTime = Math.ceil(words / 250) + " phút";
+      post.readingTime = Math.ceil(words / 250) + " min";
 
       // 2. Fetch Commit Data for dates
       const commitDate = await getLatestCommitDate(owner, repo, ref, filePath);

@@ -52,7 +52,7 @@
       items.push(`<span class="entry-meta-item">🕘 <span>${escapeHtml(entry.updatedAt)}</span></span>`);
     }
     if (entry.wordCount) {
-      items.push(`<span class="entry-meta-item">✎ <span>${escapeHtml(entry.wordCount)} chữ</span></span>`);
+      items.push(`<span class="entry-meta-item">✎ <span>${escapeHtml(entry.wordCount)} words</span></span>`);
     }
     if (entry.readingTime) {
       items.push(`<span class="entry-meta-item">⌛ <span>${escapeHtml(entry.readingTime)}</span></span>`);
@@ -139,11 +139,11 @@
     }
 
     if (recentNodes.description) {
-      recentNodes.description.textContent = "Danh sach cac bai moi cap nhat, 4 bai moi trang.";
+      recentNodes.description.textContent = "List of recently updated posts, 4 posts per page.";
     }
 
     if (!recentPosts.length) {
-      recentNodes.list.innerHTML = "<p>Chua co bai viet nao de hien thi.</p>";
+      recentNodes.list.innerHTML = "<p>No posts to display.</p>";
       if (recentNodes.page) recentNodes.page.textContent = "0 / 0";
       if (recentNodes.prev) recentNodes.prev.disabled = true;
       if (recentNodes.next) recentNodes.next.disabled = true;
@@ -208,6 +208,10 @@
     if (site.profileAvatar) {
       document.documentElement.style.setProperty("--profile-avatar-image", `url("${site.profileAvatar}")`);
     }
+    
+    if (site.musicCover) {
+      document.documentElement.style.setProperty("--music-cover-image", `url("${site.musicCover}")`);
+    }
 
     const owner = site.owner || "Site";
     const heroTitle = document.getElementById("hero-title");
@@ -239,6 +243,70 @@
     if (statPosts) statPosts.textContent = String(allPosts.length);
     if (statSections) statSections.textContent = String(Object.keys(sections).length);
     if (statTags) statTags.textContent = String(tagSet.size);
+
+    const bgAudio = document.getElementById("bg-audio");
+    const musicCard = document.getElementById("music-card");
+    const musicIcon = document.getElementById("music-icon");
+    if (bgAudio && site.audioUrl) {
+      bgAudio.src = site.audioUrl;
+      bgAudio.volume = 0.5;
+
+      const musicCover = document.getElementById("music-cover");
+      let hasInteracted = false;
+
+      const updateUIPlaying = () => {
+        if (musicIcon) {
+          musicIcon.textContent = "⏸";
+          musicIcon.style.display = "flex";
+        }
+        if (musicCover) musicCover.classList.add("playing");
+      };
+
+      const updateUIPaused = () => {
+        if (musicIcon) {
+          musicIcon.textContent = "▶";
+        }
+        if (musicCover) musicCover.classList.remove("playing");
+      };
+
+      bgAudio.addEventListener("play", updateUIPlaying);
+      bgAudio.addEventListener("pause", updateUIPaused);
+
+      bgAudio.play().catch(() => {
+        const onInteract = () => {
+          if (!hasInteracted) {
+             hasInteracted = true;
+             bgAudio.play().catch(() => {});
+             document.removeEventListener("click", onInteract);
+             document.removeEventListener("keydown", onInteract);
+          }
+        };
+        document.addEventListener("click", onInteract);
+        document.addEventListener("keydown", onInteract);
+      });
+    }
+
+    if (musicCard && bgAudio) {
+      musicCard.addEventListener("click", (e) => {
+        e.stopPropagation(); 
+        if (!bgAudio.src || bgAudio.src.endsWith(window.location.host + "/")) return;
+        if (bgAudio.paused) {
+          bgAudio.play().catch(e => console.warn("Audio play failed:", e));
+        } else {
+          bgAudio.pause();
+        }
+      });
+      musicCard.addEventListener("mouseenter", () => {
+        if (bgAudio.src && !bgAudio.src.endsWith(window.location.host + "/") && musicIcon) {
+          musicIcon.style.display = "flex";
+        }
+      });
+      musicCard.addEventListener("mouseleave", () => {
+        if (bgAudio.paused && musicIcon) {
+          musicIcon.style.display = "none";
+        }
+      });
+    }
   }
 
   async function loadHomepageData() {
@@ -274,14 +342,14 @@
         .map((entry, index) => createPostCard(entry, index))
         .join("\n");
 
-      nodes.list.innerHTML = items || "<p>Chưa có bài nào trong mục này.</p>";
+      nodes.list.innerHTML = items || "<p>No posts in this category yet.</p>";
     });
   }
 
   loadHomepageData().catch(() => {
     Object.values(sectionNodes).forEach((nodes) => {
       if (nodes.list) {
-        nodes.list.innerHTML = "<p>Chưa tải được dữ liệu bài viết từ file JSON.</p>";
+        nodes.list.innerHTML = "<p>Failed to load posts data from JSON.</p>";
       }
     });
   });

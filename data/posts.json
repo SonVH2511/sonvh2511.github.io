@@ -4,10 +4,12 @@
     "homeBackground": "/assets/images/wallpaper.jpg",
     "defaultPostBackground": "/assets/images/wallpaper.jpg",
     "heroSubtitle": "Writeup · Tools · Notes",
-    "musicTitle": "Now playing",
-    "musicSubtitle": "Nhạc nền / quote / dòng trạng thái ngắn",
+    "musicTitle": "Túy Âm",
+    "musicSubtitle": "làm tí nhạc",
     "profileBio": "Reverse · Malware · Writeup",
-    "profileAvatar": "/assets/images/avatar.jpg"
+    "profileAvatar": "/assets/images/avatar.jpg",
+    "audioUrl": "assets/music/Tuy-Am.mp3",
+    "musicCover": "/assets/images/tuyam.png"
   },
   "sections": {
     "writeup": {
@@ -16,27 +18,27 @@
       "items": [
         "ctfs",
         "KMACTF2025",
-        "cscv2025"
+        "cscv2025",
+        "KCSC CTF 2024",
+        "KMA/KCSC ctf"
       ]
     },
     "tools": {
       "title": "Tools",
       "description": "",
       "items": [
+        "CTIP Watcher",
         "telemessageautoforward",
         "awauto",
         "renew",
-        "Ida scyllahide"
+        "Ida scyllahide",
+        "Show stackframe"
       ]
     },
     "blog": {
       "title": "Blog",
       "description": "Sharing vo van linh tinh :v",
-      "items": [
-        "cscv2025",
-        "ctf-writeup",
-        "github-profile"
-      ]
+      "items": []
     }
   },
   "posts": {
@@ -69,7 +71,7 @@
       "slug": "kma-ctf2025",
       "tag": "KMA CTF",
       "title": "KMA CTF 2025",
-      "summary": "Repo note kỹ thuật phù hợp để đặt vào nhóm bài research hoặc blog độc lập.",
+      "summary": "Writeup",
       "description": "WU kmactf2025.",
       "route": "/post/KMACTF2025/",
       "source": "https://github.com/SonVH2511/KMACTF2025",
@@ -89,35 +91,12 @@
         "https://raw.githubusercontent.com/SonVH2511/KMACTF2025/master/readme.md"
       ]
     },
-    "ctf-writeup": {
-      "slug": "ctf-writeup",
-      "tag": "Reverse",
-      "title": "ctf_writeup",
-      "summary": "Archive reverse cũ, có thể mở như một bài riêng hoặc làm đường dẫn tới các bài lẻ bên trong.",
-      "description": "Archive reverse cũ, có thể mở như một bài riêng hoặc làm đường dẫn tới các bài lẻ bên trong.",
-      "route": "/post/ctf-writeup/",
-      "source": "https://github.com/SonVH2511/ctf_writeup",
-      "background": "/assets/images/wallpaper.jpg",
-      "cover": "/assets/images/wallpaper.jpg",
-      "publishedAt": "2026-04-19",
-      "updatedAt": "2026-04-20",
-      "wordCount": 860,
-      "readingTime": "3 phút",
-      "tags": [
-        "Reverse",
-        "Archive"
-      ],
-      "candidates": [
-        "https://raw.githubusercontent.com/SonVH2511/ctf_writeup/main/readme.md",
-        "https://raw.githubusercontent.com/SonVH2511/ctf_writeup/master/readme.md"
-      ]
-    },
     "cscv2025": {
       "slug": "cscv2025",
       "tag": "Single Writeup",
       "title": "CSCV2025",
-      "summary": "Repo writeup riêng, hợp để hiển thị như một bài blog hoặc note kỹ thuật độc lập.",
-      "description": "Repo writeup riêng, hợp để hiển thị như một bài blog hoặc note kỹ thuật độc lập.",
+      "summary": "writeup",
+      "description": "writeup",
       "route": "/post/cscv2025/",
       "source": "https://github.com/SonVH2511/CSCV2025",
       "background": "/assets/images/cscv2025.jpg",
@@ -157,6 +136,28 @@
         "https://raw.githubusercontent.com/SonVH2511/CTFs/main/CTF_KMActf2024/writeups.md"
       ]
     },
+    "KMA/KCSC ctf": {
+      "slug": "kma-kcsc-ctf",
+      "tag": "Single Writeup",
+      "title": "KMA/KCSC ctf",
+      "summary": "",
+      "description": "Tổng hợp writeup chall KMA/KCSC ctf đời trước.",
+      "route": "/post/CTF_KMA_KCSC/",
+      "source": "https://github.com/SonVH2511/CTFs/blob/main/CTF_KMA_KCSC",
+      "background": "/assets/images/background.jpg",
+      "cover": "/assets/images/kma-kcsc.png",
+      "publishedAt": "2026-04-18",
+      "updatedAt": "2026-04-20",
+      "wordCount": 520,
+      "readingTime": "2 phút",
+      "tags": [
+        "Note",
+        "Writeup"
+      ],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/CTFs/main/CTF_KMA_KCSC/writeup.md"
+      ]
+    },
     "KCSC CTF 2024": {
       "slug": "kcscctf",
       "tag": "Single Writeup",
@@ -166,7 +167,7 @@
       "route": "/post/KCSCCTF2024/",
       "source": "https://github.com/SonVH2511/CTFs/blob/main/KCSC2024",
       "background": "/assets/images/background.jpg",
-      "cover": "/assets/images/kmactf.jpg",
+      "cover": "/assets/images/kcscctf2024.jpg",
       "publishedAt": "2026-04-18",
       "updatedAt": "2026-04-20",
       "wordCount": 520,
@@ -226,6 +227,52 @@
         "https://raw.githubusercontent.com/SonVH2511/Awauto/master/readme.md"
       ]
     },
+    "Show stackframe": {
+      "slug": "showstackframe",
+      "tag": "IDA plugin",
+      "title": "showstackframe",
+      "summary": "",
+      "description": "Tool cheat bot awa discord",
+      "route": "/post/showStackframe/",
+      "source": "https://github.com/SonVH2511/showStackframe",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/wallpaper.png",
+      "publishedAt": "2026-04-20",
+      "updatedAt": "2026-04-20",
+      "wordCount": 360,
+      "readingTime": "1 phút",
+      "tags": [
+        "Tool",
+        "IDA"
+      ],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/showStackframe/main/readme.md",
+        "https://raw.githubusercontent.com/SonVH2511/showStackframe/master/readme.md"
+      ]
+    },
+    "CTIP Watcher": {
+      "slug": "CTIP_Watcher",
+      "tag": "Tool",
+      "title": "CTIP Watcher",
+      "summary": "",
+      "description": "Tool cheat bot awa discord",
+      "route": "/post/CTIP_Watcher/",
+      "source": "https://github.com/SonVH2511/CTIP_Watcher",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/watcher.png",
+      "publishedAt": "2026-04-20",
+      "updatedAt": "2026-04-20",
+      "wordCount": 360,
+      "readingTime": "1 phút",
+      "tags": [
+        "Tool",
+        "Monitor"
+      ],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/CTIP_Watcher/main/README.md",
+        "https://raw.githubusercontent.com/SonVH2511/CTIP_Watcher/master/README.md"
+      ]
+    },
     "renew": {
       "slug": "renew",
       "tag": "IDA plugin",
@@ -270,8 +317,8 @@
         "Reverse"
       ],
       "candidates": [
-        "https://raw.githubusercontent.com/SonVH2511/idascyllahide/main/readme.md",
-        "https://raw.githubusercontent.com/SonVH2511/idascyllahide/master/readme.md"
+        "https://raw.githubusercontent.com/SonVH2511/idascyllahide/main/README.md",
+        "https://raw.githubusercontent.com/SonVH2511/idascyllahide/master/README.md"
       ]
     },
     "github-profile": {
