@@ -124,7 +124,7 @@
     }
 
     const recentPosts = Object.values(posts)
-      .filter((entry) => entry && !entry.external)
+      .filter((entry) => entry && !entry.external && !entry.private)
       .sort((left, right) => {
         const rightDate = parseDate(right.updatedAt || right.publishedAt);
         const leftDate = parseDate(left.updatedAt || left.publishedAt);
@@ -230,7 +230,7 @@
     if (musicTitle) musicTitle.textContent = site.musicTitle || "Now playing";
     if (musicSubtitle) musicSubtitle.textContent = site.musicSubtitle || "";
 
-    const allPosts = Object.values(posts).filter((entry) => !entry.external);
+    const allPosts = Object.values(posts).filter((entry) => !entry.external && !entry.private);
     const tagSet = new Set();
     allPosts.forEach((entry) => {
       (entry.tags || []).forEach((tag) => tagSet.add(tag));
