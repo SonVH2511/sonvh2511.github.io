@@ -277,18 +277,7 @@
       bgAudio.addEventListener("play", updateUIPlaying);
       bgAudio.addEventListener("pause", updateUIPaused);
 
-      bgAudio.play().catch(() => {
-        const onInteract = () => {
-          if (!hasInteracted) {
-             hasInteracted = true;
-             bgAudio.play().catch(() => {});
-             document.removeEventListener("click", onInteract);
-             document.removeEventListener("keydown", onInteract);
-          }
-        };
-        document.addEventListener("click", onInteract);
-        document.addEventListener("keydown", onInteract);
-      });
+
     }
 
     if (musicCard && bgAudio) {
