@@ -222,7 +222,7 @@
     const musicTitle = document.getElementById("music-title");
     const musicSubtitle = document.getElementById("music-subtitle");
 
-    if (heroTitle) heroTitle.textContent = owner;
+    if (heroTitle) heroTitle.textContent = site.heroTitle || owner;
     if (heroSubtitle) heroSubtitle.textContent = site.heroSubtitle || "";
     if (siteBrand) siteBrand.textContent = owner;
     if (profileName) profileName.textContent = owner;
