@@ -13,17 +13,31 @@
     "writeup": {
       "title": "Writeup",
       "description": "",
-      "items": ["ctfs", "ctf-writeup", "cscv2025"]
+      "items": [
+        "ctfs",
+        "KMACTF2025",
+        "cscv2025"
+      ]
     },
     "tools": {
       "title": "Tools",
-      "description": "Mỗi tool là một item riêng trong dữ liệu, nên sau này thêm bớt rất nhanh.",
-      "items": ["telemessageautoforward", "awauto", "renew", "rotterdam", "malware"]
+      "description": "",
+      "items": [
+        "telemessageautoforward",
+        "awauto",
+        "renew",
+        "rotterdam",
+        "malware"
+      ]
     },
     "blog": {
       "title": "Blog",
-      "description": "Những mục có chất note hoặc bài viết dài cũng được đẩy lên từ cùng một nguồn dữ liệu.",
-      "items": ["cscv2025", "ctf-writeup", "github-profile"]
+      "description": "Sharing vo van linh tinh :v",
+      "items": [
+        "cscv2025",
+        "ctf-writeup",
+        "github-profile"
+      ]
     }
   },
   "posts": {
@@ -42,7 +56,11 @@
       "updatedAt": "2026-04-20",
       "wordCount": 1240,
       "readingTime": "5 phút",
-      "tags": ["CTF", "Writeup", "Event archive"],
+      "tags": [
+        "CTF",
+        "Writeup",
+        "Event archive"
+      ],
       "candidates": [
         "https://raw.githubusercontent.com/SonVH2511/CTFs/main/readme.md",
         "https://raw.githubusercontent.com/SonVH2511/CTFs/master/readme.md"
@@ -62,7 +80,11 @@
       "updatedAt": "2026-04-20",
       "wordCount": 740,
       "readingTime": "3 phút",
-      "tags": ["CTF", "Writeup", "Reverse"],
+      "tags": [
+        "CTF",
+        "Writeup",
+        "Reverse"
+      ],
       "candidates": [
         "https://raw.githubusercontent.com/SonVH2511/KMACTF2025/main/readme.md",
         "https://raw.githubusercontent.com/SonVH2511/KMACTF2025/master/readme.md"
@@ -82,9 +104,11 @@
       "updatedAt": "2026-04-20",
       "wordCount": 860,
       "readingTime": "3 phút",
-      "tags": ["Reverse", "Archive"],
+      "tags": [
+        "Reverse",
+        "Archive"
+      ],
       "candidates": [
-
         "https://raw.githubusercontent.com/SonVH2511/ctf_writeup/main/readme.md",
         "https://raw.githubusercontent.com/SonVH2511/ctf_writeup/master/readme.md"
       ]
@@ -103,10 +127,57 @@
       "updatedAt": "2026-04-20",
       "wordCount": 520,
       "readingTime": "2 phút",
-      "tags": ["Note", "Writeup"],
+      "tags": [
+        "Note",
+        "Writeup"
+      ],
       "candidates": [
         "https://raw.githubusercontent.com/SonVH2511/CSCV2025/main/readme.md",
         "https://raw.githubusercontent.com/SonVH2511/CSCV2025/master/readme.md"
+      ]
+    },
+    "KMACTF2024": {
+      "slug": "kma-ctf2024",
+      "tag": "Single Writeup",
+      "title": "KMA CTF 2024",
+      "summary": "",
+      "description": "kmactf writeup.",
+      "route": "/post/KMACTF2024/",
+      "source": "https://github.com/SonVH2511/CTFs/blob/main/CTF_KMActf2024",
+      "background": "/assets/images/background.jpg",
+      "cover": "/assets/images/kmactf.jpg",
+      "publishedAt": "2026-04-18",
+      "updatedAt": "2026-04-20",
+      "wordCount": 520,
+      "readingTime": "2 phút",
+      "tags": [
+        "Note",
+        "Writeup"
+      ],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/CTFs/main/CTF_KMActf2024/writeups.md"
+      ]
+    },
+    "KCSC CTF 2024": {
+      "slug": "kcscctf",
+      "tag": "Single Writeup",
+      "title": "KCSC CTF 2024",
+      "summary": "",
+      "description": "kmactf writeup.",
+      "route": "/post/KCSCCTF2024/",
+      "source": "https://github.com/SonVH2511/CTFs/blob/main/KCSC2024",
+      "background": "/assets/images/background.jpg",
+      "cover": "/assets/images/kmactf.jpg",
+      "publishedAt": "2026-04-18",
+      "updatedAt": "2026-04-20",
+      "wordCount": 520,
+      "readingTime": "2 phút",
+      "tags": [
+        "Note",
+        "Writeup"
+      ],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/CTFs/main/KCSC2024/writeups.md"
       ]
     },
     "telemessageautoforward": {
@@ -123,7 +194,11 @@
       "updatedAt": "2026-04-20",
       "wordCount": 410,
       "readingTime": "2 phút",
-      "tags": ["Tool", "Telegram", "Automation"],
+      "tags": [
+        "Tool",
+        "Telegram",
+        "Automation"
+      ],
       "candidates": [
         "https://raw.githubusercontent.com/SonVH2511/TelemessageAutoforward/main/readme.md",
         "https://raw.githubusercontent.com/SonVH2511/TelemessageAutoforward/master/readme.md"
@@ -143,7 +218,10 @@
       "updatedAt": "2026-04-20",
       "wordCount": 360,
       "readingTime": "1 phút",
-      "tags": ["Tool", "Script"],
+      "tags": [
+        "Tool",
+        "Script"
+      ],
       "candidates": [
         "https://raw.githubusercontent.com/SonVH2511/Awauto/main/readme.md",
         "https://raw.githubusercontent.com/SonVH2511/Awauto/master/readme.md"
@@ -163,7 +241,11 @@
       "updatedAt": "2026-04-20",
       "wordCount": 290,
       "readingTime": "1 phút",
-      "tags": ["IDA", "Plugin", "Reverse"],
+      "tags": [
+        "IDA",
+        "Plugin",
+        "Reverse"
+      ],
       "candidates": [
         "https://raw.githubusercontent.com/SonVH2511/REnew/main/readme.md",
         "https://raw.githubusercontent.com/SonVH2511/REnew/master/readme.md"
@@ -183,14 +265,16 @@
       "updatedAt": "2026-04-20",
       "wordCount": 740,
       "readingTime": "3 phút",
-      "tags": ["Tool", "IDA", "Reverse"],
+      "tags": [
+        "Tool",
+        "IDA",
+        "Reverse"
+      ],
       "candidates": [
-
         "https://raw.githubusercontent.com/SonVH2511/idascyllahide/main/readme.md",
         "https://raw.githubusercontent.com/SonVH2511/idascyllahide/master/readme.md"
       ]
     },
-
     "github-profile": {
       "slug": "github-profile",
       "tag": "Fallback",
@@ -205,7 +289,9 @@
       "external": true,
       "publishedAt": "2026-04-20",
       "updatedAt": "2026-04-20",
-      "tags": ["Profile"],
+      "tags": [
+        "Profile"
+      ],
       "candidates": []
     }
   }

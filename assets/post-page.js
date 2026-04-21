@@ -112,9 +112,9 @@
       .map((item) => `<a class="toc-link depth-${item.depth}" href="#${item.id}">${item.text}</a>`)
       .join("");
 
-    if (tocDescriptionNode) {
-      tocDescriptionNode.textContent = `${items.length} dau muc de ban nhay nhanh trong bai viet.`;
-    }
+    // if (tocDescriptionNode) {
+    //   tocDescriptionNode.textContent = `${items.length} dau muc de ban nhay nhanh trong bai viet.`;
+    // }
 
     const links = Array.from(tocNode.querySelectorAll(".toc-link"));
     const headingMap = new Map(items.map((item, index) => [item.id, { item, link: links[index] }]));
@@ -294,6 +294,11 @@
 
       if (window.marked) {
         contentNode.innerHTML = marked.parse(fetched.text);
+        if (window.hljs) {
+          contentNode.querySelectorAll('pre code').forEach((block) => {
+            hljs.highlightElement(block);
+          });
+        }
       } else {
         contentNode.textContent = fetched.text;
       }
