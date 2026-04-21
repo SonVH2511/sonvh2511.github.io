@@ -317,7 +317,7 @@
 
     .music-controls {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
     }
 
@@ -343,6 +343,12 @@
     .music-btn:disabled {
       opacity: 0.45;
       cursor: default;
+    }
+
+    .music-btn.is-active {
+      background: rgba(143, 211, 255, 0.16);
+      border-color: rgba(143, 211, 255, 0.34);
+      color: #dff4ff;
     }
 
     .music-btn svg,
@@ -922,6 +928,16 @@
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="m5 4 10 8-10 8V4Z"></path>
                   <path d="M19 5v14"></path>
+                </svg>
+              </button>
+              <button class="music-btn" id="music-loop" type="button" aria-label="Loop current track" title="Loop current track">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M17 17h2a2 2 0 0 0 2-2v-2"></path>
+                  <path d="M3 9V7a2 2 0 0 1 2-2h14"></path>
+                  <path d="m7 17-4-4 4-4"></path>
+                  <path d="m17 3 4 4-4 4"></path>
+                  <path d="M7 13h7a2 2 0 0 1 2 2v2"></path>
+                  <path d="M12 9h1v6"></path>
                 </svg>
               </button>
             </div>

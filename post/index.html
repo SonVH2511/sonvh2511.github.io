@@ -74,6 +74,60 @@
             </nav>
           </div>
         </aside>
+        <aside class="post-music-shell" aria-labelledby="post-music-title">
+          <div class="post-music-card" id="post-music-card">
+            <div class="post-music-top">
+              <div>
+                <div class="post-music-eyebrow">Music</div>
+                <h2 class="post-music-title" id="post-music-title">Not playing</h2>
+                <p class="post-music-subtitle" id="post-music-subtitle">Open the main page to start a playlist.</p>
+              </div>
+              <button class="post-music-toggle" id="post-music-list-toggle" type="button" aria-expanded="false" aria-label="Toggle playlist" title="Toggle playlist">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="post-music-progress" aria-hidden="true">
+              <span class="post-music-progress-bar" id="post-music-progress-bar"></span>
+            </div>
+            <div class="post-music-meta">
+              <span id="post-music-position">0 / 0</span>
+            </div>
+            <div class="post-music-controls">
+              <button class="post-music-btn" id="post-music-prev" type="button" aria-label="Previous track" title="Previous track">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19 20 9 12l10-8v16Z"></path>
+                  <path d="M5 19V5"></path>
+                </svg>
+              </button>
+              <button class="post-music-btn" id="post-music-play" type="button" aria-label="Play" title="Play">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m8 5 11 7-11 7V5Z"></path>
+                </svg>
+              </button>
+              <button class="post-music-btn" id="post-music-next" type="button" aria-label="Next track" title="Next track">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m5 4 10 8-10 8V4Z"></path>
+                  <path d="M19 5v14"></path>
+                </svg>
+              </button>
+              <button class="post-music-btn" id="post-music-loop" type="button" aria-label="Loop current track" title="Loop current track">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M17 17h2a2 2 0 0 0 2-2v-2"></path>
+                  <path d="M3 9V7a2 2 0 0 1 2-2h14"></path>
+                  <path d="m7 17-4-4 4-4"></path>
+                  <path d="m17 3 4 4-4 4"></path>
+                  <path d="M7 13h7a2 2 0 0 1 2 2v2"></path>
+                  <path d="M12 9h1v6"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="post-music-playlist" id="post-music-playlist">
+              <div class="post-music-playlist-inner" id="post-music-playlist-inner"></div>
+            </div>
+          </div>
+        </aside>
       </div>
     </section>
   </main>
