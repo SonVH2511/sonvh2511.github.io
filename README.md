@@ -69,25 +69,6 @@ Notes:
 - cover art is extracted from the MP3 file itself when an `APIC` frame exists
 - if no embedded art is found, the player falls back to `site.musicCover`
 
-## Local Development
-
-This is a static site, so any local static server works.
-
-### Option 1: VS Code Live Server
-
-This repo already includes a Live Server port setting in `.vscode/settings.json`.
-
-### Option 2: Python
-
-```powershell
-python -m http.server 5501
-```
-
-Then open:
-
-- homepage: <http://localhost:5501>
-- post page example: <http://localhost:5501/post/?slug=ctfs>
-
 ## Update Music Library
 
 Whenever you add/remove MP3 files in `assets/music`, regenerate the manifest:
