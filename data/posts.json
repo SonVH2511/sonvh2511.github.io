@@ -108,7 +108,7 @@
       "tag": "Blog",
       "title": "Thấy plugin này, chốt ngay cho IDA",
       "summary": "Blog chia sẻ những plugin hữu ích trong quá trình sử dụng IDA",
-      "description": "Thấy plugin này, chốt ngay cho IDA",
+      "description": "blog đầu",
       "route": "/post/blog1/",
       "source": "https://github.com/SonVH2511/blog",
       "background": "/assets/images/wallpaper.jpg",
