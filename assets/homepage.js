@@ -63,11 +63,6 @@
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#39;");
   }
-
-  function escapeAttr(value) {
-    return escapeHtml(value);
-  }
-
   function createMetaItems(entry) {
     const items = [];
 
@@ -101,20 +96,21 @@
 
   function createPostCard(entry, index) {
     const summary = entry.summary || entry.description || "";
-    const cardBackground = entry.background ? `--card-background-image: url('${escapeAttr(entry.background)}');` : "";
+    const cardBackground = entry.background ? `--card-background-image: url('${escapeHtml(entry.background)}');` : "";
     const coverImage = (entry.cover || entry.background)
-      ? `--card-cover-image: url('${escapeAttr(entry.cover || entry.background)}');`
+      ? `--card-cover-image: url('${escapeHtml(entry.cover || entry.background)}');`
       : "";
     const cardStyle = cardBackground || coverImage ? ` style="${cardBackground}${coverImage}"` : "";
     const metaItems = createMetaItems(entry);
     const tags = createTags(entry.tags);
     const route = entry.external ? (entry.route || "#") : `/post/?slug=${encodeURIComponent(entry.slug || "")}`;
+    const safeRoute = escapeHtml(route);
     const routeAttrs = entry.external ? ' target="_blank" rel="noreferrer"' : "";
     const reverseClass = index % 2 === 1 ? " is-reversed" : "";
 
     return [
       `<article class="entry-card${reverseClass}"${cardStyle}>`,
-      `  <a class="entry-card-link" href="${escapeAttr(route)}"${routeAttrs} aria-label="${escapeAttr(entry.title || "")}"></a>`,
+      `  <a class="entry-card-link" href="${safeRoute}"${routeAttrs} aria-label="${escapeHtml(entry.title || "")}"></a>`,
       '  <div class="entry-shell">',
       '    <div class="entry-cover"></div>',
       '    <div class="entry-panel">',
@@ -488,7 +484,7 @@
       return musicCoverCache.get(audioUrl);
     }
 
-    const pending = fetch(audioUrl, { cache: "force-cache" })
+    const pending = fetch(audioUrl, { headers: { Range: 'bytes=0-262143' }, cache: "force-cache" })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Failed to load MP3: ${response.status}`);
@@ -702,7 +698,7 @@
     updateTrackDetails();
 
     if (state.tracks.length) {
-      selectTrack(state.currentIndex, true);
+      selectTrack(state.currentIndex, false);
     }
   }
 

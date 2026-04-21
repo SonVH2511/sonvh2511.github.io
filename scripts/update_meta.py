@@ -8,7 +8,7 @@ import argparse
 from datetime import datetime
 from pathlib import Path
 from urllib.error import HTTPError, URLError
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 from urllib.request import Request, urlopen
 
 
@@ -69,7 +69,7 @@ def fetch_github_content(owner: str, repo: str, ref: str, file_path: str, github
         return None
 
     api_url = (
-        f"https://api.github.com/repos/{owner}/{repo}/contents/{quote(file_path)}"
+        f"https://api.github.com/repos/{owner}/{repo}/contents/{quote(file_path, safe='/')}"
         f"?ref={quote(ref)}"
     )
     headers = {
@@ -146,7 +146,8 @@ def process_posts(github_token: str | None) -> None:
             if not match:
                 continue
 
-            owner, repo, ref, file_path = match.groups()
+            owner, repo, ref, raw_file_path = match.groups()
+            file_path = unquote(raw_file_path)
             text = fetch_github_content(owner, repo, ref, file_path, github_token)
             if text is None:
                 status, text = fetch_with_retry(raw_url)
