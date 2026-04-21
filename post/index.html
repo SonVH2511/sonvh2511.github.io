@@ -56,8 +56,11 @@
           </div>
         </div>
         <aside class="toc-shell" aria-labelledby="toc-title">
-          <div class="toc-card">
-            <div class="toc-eyebrow">Overview</div>
+          <div class="toc-card" id="toc-card">
+            <div class="toc-eyebrow" id="toc-toggle" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between; user-select: none;">
+              <span>Overview</span>
+              <span class="toc-icon" style="transition: transform 0.2s ease; font-size: 10px; opacity: 0.7;">▼</span>
+            </div>
             <h2 class="toc-title" id="toc-title"></h2>
             <!-- <p class="toc-description" id="toc-description">Analyzing headings...</p> -->
             <nav class="toc-nav" id="post-toc" aria-label="Table of contents">

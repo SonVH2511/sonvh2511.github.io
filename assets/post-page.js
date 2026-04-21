@@ -48,6 +48,14 @@
       window.location.reload();
     });
   }
+  
+  const tocToggle = document.getElementById("toc-toggle");
+  const tocCard = document.getElementById("toc-card");
+  if (tocToggle && tocCard) {
+    tocToggle.addEventListener("click", () => {
+      tocCard.classList.toggle("is-collapsed");
+    });
+  }
 
   function setupScrollNav() {
     const nav = document.querySelector(".nav");
@@ -91,7 +99,7 @@
 
     const contentRect = contentNode.getBoundingClientRect();
     const shellLeft = contentRect.right + 22;
-    const maxWidth = Math.max(240, Math.min(290, window.innerWidth - shellLeft - 16));
+    const maxWidth = Math.max(240, Math.min(480, window.innerWidth - shellLeft - 22));
 
     tocShellNode.style.left = `${shellLeft}px`;
     tocShellNode.style.top = "86px";
