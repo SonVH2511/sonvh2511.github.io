@@ -277,7 +277,7 @@
       "slug": "renew",
       "tag": "IDA plugin",
       "title": "REnew",
-      "summary": "readme plugin có thể đọc ngay trong trang post mà không rời khỏi domain chính của site.",
+      "summary": "IDA plugin hỗ trợ reopen file hiện tại, sử dụng khi vừa debug với src của mình.",
       "description": "readme plugin có thể đọc ngay trong trang post mà không rời khỏi domain chính của site.",
       "route": "/post/renew/",
       "source": "https://github.com/SonVH2511/REnew",
