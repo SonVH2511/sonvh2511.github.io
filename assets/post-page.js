@@ -205,6 +205,7 @@
   function rewriteRelativeUrls(container, loadedUrl, sourceUrl) {
     const sourceBase = sourceUrl.endsWith("/") ? sourceUrl : sourceUrl + "/";
     const loadedBase = loadedUrl.slice(0, loadedUrl.lastIndexOf("/") + 1);
+    const pat = localStorage.getItem("github_pat");
 
     container.querySelectorAll("a[href]").forEach((anchor) => {
       const href = anchor.getAttribute("href");
@@ -221,7 +222,33 @@
       if (!src || /^[a-z]+:/i.test(src) || src.startsWith("data:")) {
         return;
       }
-      image.src = new URL(src, loadedBase).toString();
+      const absoluteUrl = new URL(src, loadedBase).toString();
+
+      if (pat && absoluteUrl.includes("raw.githubusercontent.com")) {
+        const match = absoluteUrl.match(/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.+)/);
+        if (match) {
+          const [, owner, repo, ref, filePath] = match;
+          const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(filePath)}?ref=${ref}`;
+          
+          fetch(apiUrl, {
+            headers: {
+              'Authorization': `Bearer ${pat}`,
+              'Accept': 'application/vnd.github.v3.raw'
+            }
+          }).then(res => {
+            if (res.ok) return res.blob();
+            throw new Error('Image fetch failed');
+          }).then(blob => {
+            image.src = URL.createObjectURL(blob);
+          }).catch(e => {
+            console.warn("Failed to load private image, falling back:", absoluteUrl);
+            image.src = absoluteUrl;
+          });
+          return;
+        }
+      }
+
+      image.src = absoluteUrl;
     });
   }
 
