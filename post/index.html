@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title id="page-title">Post | SonVH</title>
+  <link rel="icon" type="image/jpeg" href="/assets/images/kcsc.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -39,10 +40,16 @@
         <article class="content" id="post-content">
           <p>Loading content...</p>
         </article>
-        <div id="private-auth-form" style="display: none; padding: 24px; background: rgba(0,0,0,0.2); border-radius: 12px; margin-top: 24px; text-align: center; border: 1px solid rgba(255,255,255,0.05);">
+        <div id="private-auth-form"
+          style="display: none; padding: 24px; background: rgba(0,0,0,0.2); border-radius: 12px; margin-top: 24px; text-align: center; border: 1px solid rgba(255,255,255,0.05);">
           <h3 style="margin-top: 0; color: #ffeb3b;">Protected Repository</h3>
-          <p style="color: #ccc; margin-bottom: 16px; font-size: 0.9em; line-height: 1.5;">This content is inside a private repository. Enter your GitHub Personal Access Token (PAT) to authorize.<br><a href="https://github.com/settings/tokens/new" target="_blank" style="color: #a8ddff; text-decoration: underline;" rel="noreferrer">Get your token here</a> (Settings &gt; Developer settings &gt; Tokens (classic)). Remember to check the <strong>repo</strong> scope.</p>
-          <input type="password" id="pat-input" placeholder="ghp_xxxx..." style="padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: white; width: 100%; max-width: 300px; margin-bottom: 16px; display: block; margin-left: auto; margin-right: auto;">
+          <p style="color: #ccc; margin-bottom: 16px; font-size: 0.9em; line-height: 1.5;">This content is inside a
+            private repository. Enter your GitHub Personal Access Token (PAT) to authorize.<br><a
+              href="https://github.com/settings/tokens/new" target="_blank"
+              style="color: #a8ddff; text-decoration: underline;" rel="noreferrer">Get your token here</a> (Settings
+            &gt; Developer settings &gt; Tokens (classic)). Remember to check the <strong>repo</strong> scope.</p>
+          <input type="password" id="pat-input" placeholder="ghp_xxxx..."
+            style="padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: white; width: 100%; max-width: 300px; margin-bottom: 16px; display: block; margin-left: auto; margin-right: auto;">
           <div style="display: flex; gap: 12px; justify-content: center;">
             <button id="pat-submit" class="btn btn-primary" style="cursor: pointer;">Unlock</button>
             <button id="pat-clear" class="btn" style="cursor: pointer; display: none;">Clear Token</button>
@@ -63,7 +70,7 @@
     </section>
   </main>
   <footer class="footer shell">
-    <p>&copy; 2026 SonVH</p>
+    <p>&copy; SonVH</p>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
