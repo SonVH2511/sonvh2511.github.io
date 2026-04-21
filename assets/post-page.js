@@ -27,7 +27,7 @@
   const contentNode = document.getElementById("post-content");
   const pageTitleNode = document.getElementById("page-title");
   const tocNode = document.getElementById("post-toc");
-  const tocDescriptionNode = document.getElementById("toc-description");
+
   const tocShellNode = document.querySelector(".toc-shell");
 
   const patSubmit = document.getElementById("pat-submit");
@@ -125,9 +125,6 @@
     const headings = Array.from(container.querySelectorAll("h2, h3, h4"));
     if (!headings.length) {
       tocNode.innerHTML = '<p class="toc-empty">This post has no headings for a table of contents.</p>';
-      if (tocDescriptionNode) {
-        tocDescriptionNode.textContent = "Could not find clear headings in this post.";
-      }
       return;
     }
 
@@ -158,10 +155,6 @@
         return `<a class="toc-link depth-${item.depth}" href="#${item.id}">${safeText}</a>`;
       })
       .join("");
-
-    if (tocDescriptionNode) {
-      tocDescriptionNode.textContent = `${items.length} sections for quick navigation.`;
-    }
 
     const links = Array.from(tocNode.querySelectorAll(".toc-link"));
 
@@ -259,7 +252,7 @@
         const match = absoluteUrl.match(/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.+)/);
         if (match) {
           const [, owner, repo, ref, filePath] = match;
-          const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(filePath)}?ref=${ref}`;
+          const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath.split('/').map(encodeURIComponent).join('/')}?ref=${ref}`;
 
           if (imgObserver) {
             image.dataset.apiUrl = apiUrl;
@@ -292,7 +285,7 @@
     const match = url.match(/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.+)/);
     if (!match) return null;
     const [, owner, repo, ref, filePath] = match;
-    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(filePath)}?ref=${ref}`;
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath.split('/').map(encodeURIComponent).join('/')}?ref=${ref}`;
     
     try {
       const res = await fetch(apiUrl, {
