@@ -3,7 +3,7 @@
   const MUSIC_LIBRARY_URL = "/data/music-library.json";
   const RECENT_PAGE_SIZE = 4;
   const MUSIC_SAMPLE_SIZE = 10;
-  const MUSIC_STATE_KEY = "homepage_music_state_v2";
+  const MUSIC_STATE_KEY = "site_music_session_v3";
   const musicCoverCache = new Map();
 
   const sectionNodes = {
@@ -49,6 +49,7 @@
     buttonToggle: document.getElementById("music-toggle"),
     prev: document.getElementById("music-prev"),
     next: document.getElementById("music-next"),
+    loop: document.getElementById("music-loop"),
     listToggle: document.getElementById("music-list-toggle"),
     playlist: document.getElementById("music-playlist"),
     playlistInner: document.getElementById("music-playlist-inner"),
@@ -311,8 +312,14 @@
 
   function persistMusicState(state) {
     try {
-      localStorage.setItem(MUSIC_STATE_KEY, JSON.stringify({
-        isExpanded: state.isExpanded
+      const audio = state && state.audio;
+      sessionStorage.setItem(MUSIC_STATE_KEY, JSON.stringify({
+        tracks: state.tracks || [],
+        currentIndex: state.currentIndex || 0,
+        currentTime: audio && Number.isFinite(audio.currentTime) ? audio.currentTime : 0,
+        isPaused: audio ? audio.paused : true,
+        isExpanded: Boolean(state.isExpanded),
+        loopCurrent: Boolean(state.loopCurrent)
       }));
     } catch (error) {
       // Ignore storage failures.
@@ -321,7 +328,7 @@
 
   function restoreMusicState() {
     try {
-      const raw = localStorage.getItem(MUSIC_STATE_KEY);
+      const raw = sessionStorage.getItem(MUSIC_STATE_KEY);
       if (!raw) {
         return null;
       }
@@ -361,6 +368,16 @@
       : '<svg viewBox="0 0 24 24" aria-hidden="true" data-icon="play"><path d="m8 5 11 7-11 7V5Z"></path></svg>';
     musicNodes.buttonToggle.setAttribute("aria-label", isPlaying ? "Pause" : "Play");
     musicNodes.buttonToggle.setAttribute("title", isPlaying ? "Pause" : "Play");
+  }
+
+  function setLoopButtonState(isActive) {
+    if (!musicNodes.loop) {
+      return;
+    }
+
+    musicNodes.loop.classList.toggle("is-active", Boolean(isActive));
+    musicNodes.loop.setAttribute("aria-label", isActive ? "Disable loop current track" : "Loop current track");
+    musicNodes.loop.setAttribute("title", isActive ? "Disable loop current track" : "Loop current track");
   }
 
   function setMusicExpanded(state, expanded) {
@@ -527,16 +544,24 @@
     }
 
     const restored = restoreMusicState();
+    const restoredTracks = Array.isArray(restored && restored.tracks)
+      ? restored.tracks.map(normalizeMusicEntry).filter(Boolean)
+      : [];
+    const tracks = restoredTracks.length
+      ? restoredTracks
+      : musicList;
     const state = {
-      tracks: musicList,
-      currentIndex: 0,
+      tracks,
+      currentIndex: Math.max(0, Math.min(Number(restored && restored.currentIndex) || 0, Math.max(tracks.length - 1, 0))),
       isExpanded: Boolean(restored && restored.isExpanded),
       fallbackCover: resolveUrl(site.musicCover || site.profileAvatar || ""),
-      coverToken: 0
+      coverToken: 0,
+      loopCurrent: Boolean(restored && restored.loopCurrent)
     };
 
     const audio = musicNodes.audio;
-    audio.loop = false;
+    state.audio = audio;
+    audio.loop = state.loopCurrent;
     audio.preload = "metadata";
 
     function updatePlaybackButtons() {
@@ -558,12 +583,16 @@
       if (musicNodes.next) {
         musicNodes.next.disabled = !hasTracks;
       }
+      if (musicNodes.loop) {
+        musicNodes.loop.disabled = !hasTracks;
+      }
       if (musicNodes.listToggle) {
         musicNodes.listToggle.disabled = !hasTracks;
       }
       if (musicNodes.cover) {
         musicNodes.cover.classList.toggle("playing", isPlaying);
       }
+      setLoopButtonState(hasTracks && state.loopCurrent);
     }
 
     function updateProgress() {
@@ -624,7 +653,7 @@
       });
     }
 
-    function selectTrack(index, shouldAutoplay) {
+    function selectTrack(index, shouldAutoplay, startTime = 0) {
       if (!state.tracks.length) {
         updateTrackDetails();
         return;
@@ -641,14 +670,35 @@
         audio.src = audioUrl;
       }
 
-      audio.currentTime = 0;
+      const applyStartTime = () => {
+        if (!startTime) {
+          audio.currentTime = 0;
+          return;
+        }
+
+        const safeTime = Math.max(0, Number(startTime) || 0);
+        try {
+          audio.currentTime = safeTime;
+        } catch (error) {
+          audio.currentTime = 0;
+        }
+      };
+
+      if (audio.readyState >= 1) {
+        applyStartTime();
+      } else {
+        audio.addEventListener("loadedmetadata", applyStartTime, { once: true });
+      }
+
       updateTrackDetails();
       loadTrackCover(track);
+      persistMusicState(state);
 
       if (shouldAutoplay && audio.src) {
         audio.play().catch((error) => {
           console.warn("Audio play failed:", error);
           updatePlaybackButtons();
+          persistMusicState(state);
         });
       }
     }
@@ -668,6 +718,13 @@
       }
     }
 
+    function toggleLoopCurrent() {
+      state.loopCurrent = !state.loopCurrent;
+      audio.loop = state.loopCurrent;
+      updatePlaybackButtons();
+      persistMusicState(state);
+    }
+
     if (musicNodes.playToggle) {
       musicNodes.playToggle.addEventListener("click", togglePlayback);
     }
@@ -683,6 +740,9 @@
       musicNodes.next.addEventListener("click", () => {
         selectTrack(state.currentIndex + 1, true);
       });
+    }
+    if (musicNodes.loop) {
+      musicNodes.loop.addEventListener("click", toggleLoopCurrent);
     }
     if (musicNodes.listToggle) {
       musicNodes.listToggle.addEventListener("click", () => {
@@ -703,22 +763,39 @@
       });
     }
 
-    audio.addEventListener("play", updatePlaybackButtons);
-    audio.addEventListener("pause", updatePlaybackButtons);
-    audio.addEventListener("timeupdate", updateProgress);
-    audio.addEventListener("loadedmetadata", updateProgress);
+    audio.addEventListener("play", () => {
+      updatePlaybackButtons();
+      persistMusicState(state);
+    });
+    audio.addEventListener("pause", () => {
+      updatePlaybackButtons();
+      persistMusicState(state);
+    });
+    audio.addEventListener("timeupdate", () => {
+      updateProgress();
+      persistMusicState(state);
+    });
+    audio.addEventListener("loadedmetadata", () => {
+      updateProgress();
+      persistMusicState(state);
+    });
     audio.addEventListener("ended", () => {
       if (!state.tracks.length) {
         return;
       }
       selectTrack(state.currentIndex + 1, true);
     });
+    window.addEventListener("pagehide", () => persistMusicState(state));
 
     setMusicExpanded(state, state.isExpanded);
     updateTrackDetails();
 
     if (state.tracks.length) {
-      selectTrack(state.currentIndex, false);
+      const resumeTime = Number(restored && restored.currentTime) || 0;
+      const shouldAutoplay = restoredTracks.length
+        ? !Boolean(restored && restored.isPaused)
+        : true;
+      selectTrack(state.currentIndex, shouldAutoplay, resumeTime);
     }
   }
 

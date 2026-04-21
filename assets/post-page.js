@@ -1,5 +1,6 @@
 (function () {
   const DATA_URL = "/data/posts.json";
+  const MUSIC_STATE_KEY = "site_music_session_v3";
 
   function getPostKey() {
     const params = new URLSearchParams(window.location.search);
@@ -27,8 +28,22 @@
   const contentNode = document.getElementById("post-content");
   const pageTitleNode = document.getElementById("page-title");
   const tocNode = document.getElementById("post-toc");
+  const postMusicNodes = {
+    card: document.getElementById("post-music-card"),
+    title: document.getElementById("post-music-title"),
+    subtitle: document.getElementById("post-music-subtitle"),
+    position: document.getElementById("post-music-position"),
+    progress: document.getElementById("post-music-progress-bar"),
+    prev: document.getElementById("post-music-prev"),
+    play: document.getElementById("post-music-play"),
+    next: document.getElementById("post-music-next"),
+    loop: document.getElementById("post-music-loop"),
+    listToggle: document.getElementById("post-music-list-toggle"),
+    playlistInner: document.getElementById("post-music-playlist-inner")
+  };
 
   const tocShellNode = document.querySelector(".toc-shell");
+  const postMusicShellNode = document.querySelector(".post-music-shell");
 
   const patSubmit = document.getElementById("pat-submit");
   const patClear = document.getElementById("pat-clear");
@@ -55,6 +70,265 @@
     tocToggle.addEventListener("click", () => {
       tocCard.classList.toggle("is-collapsed");
     });
+  }
+
+  function restoreMusicState() {
+    try {
+      const raw = sessionStorage.getItem(MUSIC_STATE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function persistMusicState(state, audio) {
+    try {
+      sessionStorage.setItem(MUSIC_STATE_KEY, JSON.stringify({
+        tracks: state.tracks || [],
+        currentIndex: state.currentIndex || 0,
+        currentTime: audio && Number.isFinite(audio.currentTime) ? audio.currentTime : 0,
+        isPaused: audio ? audio.paused : true,
+        isExpanded: Boolean(state.isExpanded),
+        loopCurrent: Boolean(state.loopCurrent)
+      }));
+    } catch (error) {
+      // Ignore storage failures.
+    }
+  }
+
+  function resolveMusicUrl(value) {
+    if (!value) {
+      return "";
+    }
+
+    try {
+      return new URL(value, window.location.href).toString();
+    } catch (error) {
+      return "";
+    }
+  }
+
+  function setPostMusicPlayIcon(isPlaying) {
+    if (!postMusicNodes.play) {
+      return;
+    }
+
+    postMusicNodes.play.innerHTML = isPlaying
+      ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14"></path><path d="M15 5v14"></path></svg>'
+      : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"></path></svg>';
+    postMusicNodes.play.setAttribute("aria-label", isPlaying ? "Pause" : "Play");
+    postMusicNodes.play.setAttribute("title", isPlaying ? "Pause" : "Play");
+  }
+
+  function setPostMusicLoopState(isActive) {
+    if (!postMusicNodes.loop) {
+      return;
+    }
+
+    postMusicNodes.loop.classList.toggle("is-active", Boolean(isActive));
+    postMusicNodes.loop.setAttribute("aria-label", isActive ? "Disable loop current track" : "Loop current track");
+    postMusicNodes.loop.setAttribute("title", isActive ? "Disable loop current track" : "Loop current track");
+  }
+
+  function setPostMusicExpanded(isExpanded) {
+    if (postMusicNodes.card) {
+      postMusicNodes.card.classList.toggle("is-expanded", Boolean(isExpanded));
+    }
+    if (postMusicNodes.listToggle) {
+      postMusicNodes.listToggle.setAttribute("aria-expanded", String(Boolean(isExpanded)));
+      postMusicNodes.listToggle.setAttribute("aria-label", isExpanded ? "Hide playlist" : "Show playlist");
+      postMusicNodes.listToggle.setAttribute("title", isExpanded ? "Hide playlist" : "Show playlist");
+    }
+  }
+
+  function renderPostMusicPlaylist(state) {
+    if (!postMusicNodes.playlistInner) {
+      return;
+    }
+
+    if (!state || !Array.isArray(state.tracks) || !state.tracks.length) {
+      postMusicNodes.playlistInner.innerHTML = '<p class="toc-empty">No active playlist.</p>';
+      return;
+    }
+
+    postMusicNodes.playlistInner.innerHTML = state.tracks
+      .map((track, index) => [
+        `<button class="post-music-track${index === state.currentIndex ? " is-active" : ""}" type="button" data-track-index="${index}">`,
+        `  <span class="post-music-track-title">${String(track.title || "Untitled").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</span>`,
+        `  <span class="post-music-track-subtitle">${String(track.subtitle || "Local MP3").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</span>`,
+        "</button>"
+      ].join("\n"))
+      .join("\n");
+  }
+
+  function resumeBackgroundMusic() {
+    const state = restoreMusicState();
+    if (!postMusicNodes.card) {
+      return;
+    }
+
+    if (!state || !Array.isArray(state.tracks) || !state.tracks.length) {
+      setPostMusicExpanded(false);
+      renderPostMusicPlaylist(null);
+      return;
+    }
+
+    const audio = new Audio();
+    const clampIndex = Math.max(0, Math.min(Number(state.currentIndex) || 0, state.tracks.length - 1));
+    state.currentIndex = clampIndex;
+    audio.preload = "metadata";
+    audio.loop = Boolean(state.loopCurrent);
+
+    const updateUi = () => {
+      const track = state.tracks[state.currentIndex];
+      const hasTracks = state.tracks.length > 0;
+      const isPlaying = hasTracks && !audio.paused;
+
+      if (postMusicNodes.title) {
+        postMusicNodes.title.textContent = track && track.title ? track.title : "Not playing";
+      }
+      if (postMusicNodes.subtitle) {
+        postMusicNodes.subtitle.textContent = track && track.subtitle ? track.subtitle : "Open the main page to start a playlist.";
+      }
+      if (postMusicNodes.position) {
+        postMusicNodes.position.textContent = hasTracks ? `${state.currentIndex + 1} / ${state.tracks.length}` : "0 / 0";
+      }
+      if (postMusicNodes.progress) {
+        const percent = audio.duration ? Math.min(100, (audio.currentTime / audio.duration) * 100) : 0;
+        postMusicNodes.progress.style.width = `${percent}%`;
+      }
+      if (postMusicNodes.prev) {
+        postMusicNodes.prev.disabled = !hasTracks;
+      }
+      if (postMusicNodes.play) {
+        postMusicNodes.play.disabled = !hasTracks;
+      }
+      if (postMusicNodes.next) {
+        postMusicNodes.next.disabled = !hasTracks;
+      }
+      if (postMusicNodes.loop) {
+        postMusicNodes.loop.disabled = !hasTracks;
+      }
+      if (postMusicNodes.listToggle) {
+        postMusicNodes.listToggle.disabled = !hasTracks;
+      }
+      setPostMusicPlayIcon(isPlaying);
+      setPostMusicLoopState(hasTracks && state.loopCurrent);
+      setPostMusicExpanded(Boolean(state.isExpanded));
+      renderPostMusicPlaylist(state);
+    };
+
+    const playTrack = (index, startTime, shouldAutoplay) => {
+      state.currentIndex = (index + state.tracks.length) % state.tracks.length;
+      const track = state.tracks[state.currentIndex];
+      const audioUrl = resolveMusicUrl(track && track.audioUrl);
+      if (!audioUrl) {
+        return;
+      }
+
+      audio.src = audioUrl;
+      const resumeTime = Math.max(0, Number(startTime) || 0);
+      audio.addEventListener("loadedmetadata", () => {
+        if (resumeTime > 0) {
+          try {
+            audio.currentTime = resumeTime;
+          } catch (error) {
+            audio.currentTime = 0;
+          }
+        }
+      }, { once: true });
+
+      persistMusicState(state, audio);
+      updateUi();
+
+      if (shouldAutoplay) {
+        audio.play().catch(() => {
+          persistMusicState({ ...state, isPaused: true }, audio);
+          updateUi();
+        });
+      }
+    };
+
+    const togglePlayback = () => {
+      if (!state.tracks.length || !audio.src) {
+        return;
+      }
+
+      if (audio.paused) {
+        audio.play().catch(() => {
+          persistMusicState({ ...state, isPaused: true }, audio);
+          updateUi();
+        });
+      } else {
+        audio.pause();
+      }
+    };
+
+    const toggleLoop = () => {
+      state.loopCurrent = !state.loopCurrent;
+      audio.loop = state.loopCurrent;
+      persistMusicState(state, audio);
+      updateUi();
+    };
+
+    if (postMusicNodes.prev) {
+      postMusicNodes.prev.addEventListener("click", () => playTrack(state.currentIndex - 1, 0, true));
+    }
+    if (postMusicNodes.play) {
+      postMusicNodes.play.addEventListener("click", togglePlayback);
+    }
+    if (postMusicNodes.next) {
+      postMusicNodes.next.addEventListener("click", () => playTrack(state.currentIndex + 1, 0, true));
+    }
+    if (postMusicNodes.loop) {
+      postMusicNodes.loop.addEventListener("click", toggleLoop);
+    }
+    if (postMusicNodes.listToggle) {
+      postMusicNodes.listToggle.addEventListener("click", () => {
+        state.isExpanded = !state.isExpanded;
+        persistMusicState(state, audio);
+        updateUi();
+      });
+    }
+    if (postMusicNodes.playlistInner) {
+      postMusicNodes.playlistInner.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-track-index]");
+        if (!button) {
+          return;
+        }
+        const index = Number(button.getAttribute("data-track-index"));
+        if (Number.isInteger(index)) {
+          playTrack(index, 0, true);
+        }
+      });
+    }
+
+    audio.addEventListener("play", () => {
+      persistMusicState(state, audio);
+      updateUi();
+    });
+    audio.addEventListener("pause", () => {
+      persistMusicState(state, audio);
+      updateUi();
+    });
+    audio.addEventListener("timeupdate", () => {
+      persistMusicState(state, audio);
+      updateUi();
+    });
+    audio.addEventListener("loadedmetadata", () => {
+      persistMusicState(state, audio);
+      updateUi();
+    });
+    audio.addEventListener("ended", () => {
+      if (audio.loop || !state.tracks.length) {
+        return;
+      }
+      playTrack(state.currentIndex + 1, 0, true);
+    });
+    window.addEventListener("pagehide", () => persistMusicState(state, audio));
+
+    updateUi();
+    playTrack(state.currentIndex, Number(state.currentTime) || 0, !Boolean(state.isPaused));
   }
 
   function setupScrollNav() {
@@ -94,6 +368,11 @@
       tocShellNode.style.left = "";
       tocShellNode.style.top = "";
       tocShellNode.style.width = "";
+      if (postMusicShellNode) {
+        postMusicShellNode.style.left = "";
+        postMusicShellNode.style.top = "";
+        postMusicShellNode.style.width = "";
+      }
       return;
     }
 
@@ -104,6 +383,17 @@
     tocShellNode.style.left = `${shellLeft}px`;
     tocShellNode.style.top = "86px";
     tocShellNode.style.width = `${maxWidth}px`;
+
+    if (!postMusicShellNode) {
+      return;
+    }
+
+    const musicWidth = Math.max(240, Math.min(360, contentRect.left - 44));
+    const musicLeft = Math.max(22, contentRect.left - musicWidth - 22);
+
+    postMusicShellNode.style.left = `${musicLeft}px`;
+    postMusicShellNode.style.top = "86px";
+    postMusicShellNode.style.width = `${musicWidth}px`;
   }
 
   function slugify(value) {
@@ -360,6 +650,7 @@
   }
 
   setupScrollNav();
+  resumeBackgroundMusic();
   layoutTocRail();
   window.addEventListener("resize", layoutTocRail);
 
