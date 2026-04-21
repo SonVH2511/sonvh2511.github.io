@@ -2,7 +2,23 @@ const fs = require('fs');
 const path = require('path');
 
 const DATA_PATH = path.join(__dirname, '..', 'data', 'posts.json');
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const READING_WORDS_PER_MINUTE = 220;
+
+function parseCliArgs(argv) {
+  const options = {
+    token: process.env.GITHUB_TOKEN || ''
+  };
+
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index];
+    if (arg === '--token') {
+      options.token = argv[index + 1] || '';
+      index += 1;
+    }
+  }
+
+  return options;
+}
 
 async function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -26,11 +42,11 @@ async function fetchWithRetry(url, options = {}, retries = 3) {
   }
 }
 
-async function getLatestCommitDate(owner, repo, ref, filePath) {
+async function getLatestCommitDate(owner, repo, ref, filePath, githubToken) {
   const url = `https://api.github.com/repos/${owner}/${repo}/commits?path=${encodeURIComponent(filePath)}&sha=${ref}&per_page=1`;
   const headers = { 'User-Agent': 'NodeJS' };
-  if (GITHUB_TOKEN) {
-    headers['Authorization'] = `token ${GITHUB_TOKEN}`;
+  if (githubToken) {
+    headers['Authorization'] = `token ${githubToken}`;
   }
 
   const res = await fetchWithRetry(url, { headers });
@@ -42,7 +58,65 @@ async function getLatestCommitDate(owner, repo, ref, filePath) {
   return null;
 }
 
-async function processPosts() {
+async function fetchGitHubContent(owner, repo, ref, filePath, githubToken) {
+  if (!githubToken) {
+    return null;
+  }
+
+  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(filePath)}?ref=${encodeURIComponent(ref)}`;
+  const headers = {
+    'User-Agent': 'NodeJS',
+    'Authorization': `token ${githubToken}`,
+    'Accept': 'application/vnd.github.v3.raw'
+  };
+
+  const res = await fetchWithRetry(url, { headers });
+  if (!res || !res.ok) {
+    return null;
+  }
+
+  return res.text();
+}
+
+function stripMarkdownForReadingMetrics(markdown) {
+  return String(markdown || '')
+    .replace(/^\uFEFF/, '')
+    .replace(/^---[\t ]*\r?\n[\s\S]*?\r?\n---[\t ]*(?:\r?\n|$)/, '')
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/~~~[\s\S]*?~~~/g, ' ')
+    .replace(/`[^`\n]+`/g, ' ')
+    .replace(/!\[([^\]]*)\]\([^)]+\)/g, '$1 ')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1 ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/^\s{0,3}(#{1,6})\s+/gm, '')
+    .replace(/^\s{0,3}>\s?/gm, '')
+    .replace(/^\s*[-*+]\s+/gm, '')
+    .replace(/^\s*\d+\.\s+/gm, '')
+    .replace(/^\s*\|/gm, '')
+    .replace(/\|/g, ' ')
+    .replace(/[*_~]/g, '')
+    .replace(/\r?\n/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function countWords(text) {
+  const normalized = stripMarkdownForReadingMetrics(text);
+  if (!normalized) {
+    return 0;
+  }
+
+  const matches = normalized.match(/[\p{L}\p{N}][\p{L}\p{N}'’._-]*/gu);
+  return matches ? matches.length : 0;
+}
+
+function formatReadingTime(wordCount) {
+  const minutes = Math.max(1, Math.ceil(wordCount / READING_WORDS_PER_MINUTE));
+  return `${minutes} min`;
+}
+
+async function processPosts(githubToken) {
   console.log("Starting metadata update...");
   const fileContent = fs.readFileSync(DATA_PATH, 'utf-8');
   const data = JSON.parse(fileContent);
@@ -64,18 +138,20 @@ async function processPosts() {
       const [, owner, repo, ref, filePath] = match;
 
       // 1. Fetch Markdown content to count words
-      const contentRes = await fetchWithRetry(rawUrl);
-      if (!contentRes || !contentRes.ok) continue;
-
-      const text = await contentRes.text();
+      let text = await fetchGitHubContent(owner, repo, ref, filePath, githubToken);
+      if (!text) {
+        const contentRes = await fetchWithRetry(rawUrl);
+        if (!contentRes || !contentRes.ok) continue;
+        text = await contentRes.text();
+      }
       if (!text.trim()) continue;
 
-      const words = text.trim().split(/\s+/).length;
+      const words = countWords(text);
       post.wordCount = words;
-      post.readingTime = Math.ceil(words / 250) + " min";
+      post.readingTime = formatReadingTime(words);
 
       // 2. Fetch Commit Data for dates
-      const commitDate = await getLatestCommitDate(owner, repo, ref, filePath);
+      const commitDate = await getLatestCommitDate(owner, repo, ref, filePath, githubToken);
       if (commitDate) {
         const yyyy = commitDate.getFullYear();
         const mm = String(commitDate.getMonth() + 1).padStart(2, '0');
@@ -102,4 +178,5 @@ async function processPosts() {
   console.log("Finished updating posts.json");
 }
 
-processPosts().catch(console.error);
+const cliOptions = parseCliArgs(process.argv.slice(2));
+processPosts(cliOptions.token).catch(console.error);

@@ -4,10 +4,10 @@
     "heroTitle": "13rəs's blog",
     "homeBackground": "/assets/images/wallpaper.jpg",
     "defaultPostBackground": "/assets/images/wallpaper.jpg",
-    "heroSubtitle": "thiz' m l1f3 deObfuscator\n words iz opcode, Everyyy line i$ instruction~",
+    "heroSubtitle": "thiz' m l1f3 dis4ssembler\nEveryyy line i$ an instruction~",
     "profileBio": "Reverse · Malware · Writeup",
     "profileAvatar": "/assets/images/avatar.jpg",
-    "musicCover": "/assets/images/tuyam.png",
+    "musicCover": "/assets/images/wallpaper.jpg",
     "musicSampleSize": 10
   },
   "sections": {
@@ -66,9 +66,9 @@
       "cover": "/assets/images/wallpaper.jpg",
       "pinned": true,
       "publishedAt": "2026-04-20",
-      "updatedAt": "2026-04-20",
-      "wordCount": 1240,
-      "readingTime": "5 phút",
+      "updatedAt": "2024-11-27",
+      "wordCount": 21,
+      "readingTime": "1 min",
       "tags": [
         "CTF",
         "Writeup",
@@ -90,9 +90,9 @@
       "background": "/assets/images/wallpaper.jpg",
       "cover": "/assets/images/kmactf.jpg",
       "publishedAt": "2026-04-15",
-      "updatedAt": "2026-04-20",
-      "wordCount": 740,
-      "readingTime": "3 phút",
+      "updatedAt": "2026-04-21",
+      "wordCount": 1137,
+      "readingTime": "6 min",
       "tags": [
         "CTF",
         "Writeup",
@@ -115,10 +115,10 @@
       "cover": "/assets/images/cscv2025.jpg",
       "publishedAt": "2026-04-18",
       "updatedAt": "2026-04-20",
-      "wordCount": 520,
-      "readingTime": "2 phút",
+      "wordCount": 940,
+      "readingTime": "5 min",
       "tags": [
-        "Note",
+        "CTF",
         "Writeup"
       ],
       "candidates": [
@@ -137,11 +137,11 @@
       "background": "/assets/images/background.jpg",
       "cover": "/assets/images/kmactf.jpg",
       "publishedAt": "2026-04-18",
-      "updatedAt": "2026-04-20",
-      "wordCount": 520,
-      "readingTime": "2 phút",
+      "updatedAt": "2024-08-27",
+      "wordCount": 1240,
+      "readingTime": "6 min",
       "tags": [
-        "Note",
+        "CTF",
         "Writeup"
       ],
       "candidates": [
@@ -159,11 +159,11 @@
       "background": "/assets/images/background.jpg",
       "cover": "/assets/images/kma-kcsc.png",
       "publishedAt": "2026-04-18",
-      "updatedAt": "2026-04-20",
-      "wordCount": 520,
-      "readingTime": "2 phút",
+      "updatedAt": "2024-08-30",
+      "wordCount": 1605,
+      "readingTime": "8 min",
       "tags": [
-        "Note",
+        "CTF",
         "Writeup"
       ],
       "candidates": [
@@ -181,11 +181,11 @@
       "background": "/assets/images/background.jpg",
       "cover": "/assets/images/kcscctf2024.jpg",
       "publishedAt": "2026-04-18",
-      "updatedAt": "2026-04-20",
-      "wordCount": 520,
-      "readingTime": "2 phút",
+      "updatedAt": "2024-05-17",
+      "wordCount": 2133,
+      "readingTime": "10 min",
       "tags": [
-        "Note",
+        "CTF",
         "Writeup"
       ],
       "candidates": [
@@ -203,9 +203,9 @@
       "background": "/assets/images/wallpaper.jpg",
       "cover": "/assets/images/teleforward.png",
       "publishedAt": "2026-04-20",
-      "updatedAt": "2026-04-20",
-      "wordCount": 410,
-      "readingTime": "2 phút",
+      "updatedAt": "2026-04-16",
+      "wordCount": 54,
+      "readingTime": "1 min",
       "tags": [
         "Tool",
         "Telegram",
@@ -227,9 +227,9 @@
       "background": "/assets/images/wallpaper.jpg",
       "cover": "/assets/images/owo.png",
       "publishedAt": "2026-04-20",
-      "updatedAt": "2026-04-20",
-      "wordCount": 360,
-      "readingTime": "1 phút",
+      "updatedAt": "2025-09-20",
+      "wordCount": 73,
+      "readingTime": "1 min",
       "tags": [
         "Tool",
         "Script"
@@ -250,9 +250,9 @@
       "background": "/assets/images/wallpaper.jpg",
       "cover": "/assets/images/wallpaper.png",
       "publishedAt": "2026-04-20",
-      "updatedAt": "2026-04-20",
-      "wordCount": 360,
-      "readingTime": "1 phút",
+      "updatedAt": "2026-02-10",
+      "wordCount": 62,
+      "readingTime": "1 min",
       "tags": [
         "Tool",
         "IDA"
@@ -273,9 +273,9 @@
       "background": "/assets/images/wallpaper.jpg",
       "cover": "/assets/images/watcher.png",
       "publishedAt": "2026-04-20",
-      "updatedAt": "2026-04-20",
-      "wordCount": 360,
-      "readingTime": "1 phút",
+      "updatedAt": "2026-04-17",
+      "wordCount": 604,
+      "readingTime": "3 min",
       "tags": [
         "Tool",
         "Monitor"
@@ -296,9 +296,9 @@
       "background": "/assets/images/wallpaper.jpg",
       "cover": "/assets/images/idarenew.png",
       "publishedAt": "2026-04-17",
-      "updatedAt": "2026-04-20",
-      "wordCount": 290,
-      "readingTime": "1 phút",
+      "updatedAt": "2026-02-07",
+      "wordCount": 37,
+      "readingTime": "1 min",
       "tags": [
         "IDA",
         "Plugin",
@@ -320,9 +320,9 @@
       "background": "/assets/images/wallpaper.jpg",
       "cover": "/assets/images/idascyllahide.png",
       "publishedAt": "2026-04-15",
-      "updatedAt": "2026-04-20",
-      "wordCount": 740,
-      "readingTime": "3 phút",
+      "updatedAt": "2026-02-14",
+      "wordCount": 46,
+      "readingTime": "1 min",
       "tags": [
         "Tool",
         "IDA",
@@ -345,9 +345,9 @@
       "background": "/assets/images/wallpaper.jpg",
       "cover": "/assets/images/APT32.png",
       "publishedAt": "2026-04-15",
-      "updatedAt": "2026-04-20",
-      "wordCount": 740,
-      "readingTime": "3 phút",
+      "updatedAt": "2025-07-16",
+      "wordCount": 522,
+      "readingTime": "3 min",
       "tags": [
         "Malware",
         "Reverse"
@@ -369,9 +369,9 @@
       "background": "/assets/images/wallpaper.jpg",
       "cover": "/assets/images/ObfuscateCFF.png",
       "publishedAt": "2026-04-15",
-      "updatedAt": "2026-04-20",
-      "wordCount": 740,
-      "readingTime": "3 phút",
+      "updatedAt": "2026-04-21",
+      "wordCount": 844,
+      "readingTime": "4 min",
       "tags": [
         "Malware",
         "Reverse"
@@ -393,9 +393,9 @@
       "background": "/assets/images/wallpaper.jpg",
       "cover": "/assets/images/GuGuGaGa.jpg",
       "publishedAt": "2026-04-15",
-      "updatedAt": "2026-04-20",
-      "wordCount": 740,
-      "readingTime": "3 phút",
+      "updatedAt": "2026-04-21",
+      "wordCount": 1094,
+      "readingTime": "5 min",
       "tags": [
         "Malware",
         "Reverse",
@@ -418,9 +418,9 @@
       "background": "/assets/images/wallpaper.jpg",
       "cover": "/assets/images/WaitingThreadHijacking.png",
       "publishedAt": "2026-04-15",
-      "updatedAt": "2026-04-20",
-      "wordCount": 740,
-      "readingTime": "3 phút",
+      "updatedAt": "2025-10-03",
+      "wordCount": 1209,
+      "readingTime": "6 min",
       "tags": [
         "Coding",
         "Evasion Technique"
@@ -444,7 +444,7 @@
       "publishedAt": "2026-04-15",
       "updatedAt": "2026-04-20",
       "wordCount": 740,
-      "readingTime": "3 phút",
+      "readingTime": "3 min",
       "tags": [
         "Coding",
         "Evasion Technique"
