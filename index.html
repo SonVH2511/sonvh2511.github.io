@@ -164,11 +164,9 @@
     }
 
     .music-card {
-      padding: 14px;
-      min-height: 96px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      padding: 16px;
+      display: grid;
+      gap: 14px;
     }
 
     @keyframes spin {
@@ -181,31 +179,270 @@
       }
     }
 
+    .music-header {
+      display: grid;
+      grid-template-columns: 76px minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
+    }
+
+    .music-disc-button {
+      position: relative;
+      width: 76px;
+      height: 76px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .music-disc-button:disabled {
+      cursor: default;
+      opacity: 0.55;
+    }
+
     .music-cover {
-      width: 58px;
-      height: 58px;
+      width: 76px;
+      height: 76px;
       border-radius: 50%;
       background:
         linear-gradient(135deg, rgba(143, 211, 255, 0.18), rgba(193, 232, 255, 0.2)),
         var(--music-cover-image, var(--profile-avatar-image)) center center / cover no-repeat;
       flex: 0 0 auto;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+      box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.28),
+        inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+
+    .music-cover::after {
+      content: "";
+      position: absolute;
+      inset: 28px;
+      border-radius: 50%;
+      background: rgba(8, 17, 28, 0.82);
+      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.1);
     }
 
     .music-cover.playing {
       animation: spin 5s linear infinite;
     }
 
-    .music-card strong {
-      display: block;
-      color: #a8ddff;
-      font-size: 0.95rem;
+    .music-copy {
+      min-width: 0;
+      display: grid;
+      gap: 6px;
     }
 
-    .music-card p {
-      margin: 3px 0 0;
+    .music-overline {
+      color: rgba(168, 221, 255, 0.72);
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 800;
+    }
+
+    .music-title {
+      display: block;
+      color: #a8ddff;
+      font-size: 1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .music-subtitle {
+      margin: 0;
       color: var(--muted);
       font-size: 0.88rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .music-progress {
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .music-progress-bar {
+      display: block;
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, rgba(143, 211, 255, 0.95), rgba(255, 223, 167, 0.9));
+      transition: width 0.18s linear;
+    }
+
+    .music-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .music-position {
+      color: rgba(245, 247, 251, 0.7);
+      font-size: 0.8rem;
+    }
+
+    .music-list-toggle {
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      border: 1px solid rgba(143, 211, 255, 0.18);
+      background: rgba(255, 255, 255, 0.04);
+      color: #dff4ff;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .music-list-toggle:hover {
+      background: rgba(143, 211, 255, 0.12);
+      border-color: rgba(143, 211, 255, 0.32);
+    }
+
+    .music-list-toggle:disabled {
+      opacity: 0.45;
+      cursor: default;
+    }
+
+    .music-controls {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .music-btn {
+      min-height: 40px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.04);
+      color: #eef8ff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .music-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      background: rgba(143, 211, 255, 0.12);
+      border-color: rgba(143, 211, 255, 0.24);
+    }
+
+    .music-btn:disabled {
+      opacity: 0.45;
+      cursor: default;
+    }
+
+    .music-btn svg,
+    .music-list-toggle svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      pointer-events: none;
+    }
+
+    .music-list-toggle svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.2s ease;
+    }
+
+    .music-list-toggle[aria-expanded="true"] svg {
+      transform: rotate(180deg);
+    }
+
+    .music-playlist {
+      display: grid;
+      gap: 8px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.28s ease;
+    }
+
+    .music-card.is-expanded .music-playlist {
+      max-height: 320px;
+    }
+
+    .music-playlist-inner {
+      display: grid;
+      gap: 8px;
+      max-height: 260px;
+      overflow-y: auto;
+      padding-right: 4px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(143, 211, 255, 0.34) rgba(255, 255, 255, 0.04);
+    }
+
+    .music-playlist-inner::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .music-playlist-inner::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 999px;
+    }
+
+    .music-playlist-inner::-webkit-scrollbar-thumb {
+      background: rgba(143, 211, 255, 0.34);
+      border-radius: 999px;
+    }
+
+    .music-track {
+      width: 100%;
+      display: grid;
+      gap: 2px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .music-track:hover {
+      transform: translateX(2px);
+      background: rgba(143, 211, 255, 0.08);
+      border-color: rgba(143, 211, 255, 0.18);
+    }
+
+    .music-track.is-active {
+      background: rgba(143, 211, 255, 0.14);
+      border-color: rgba(143, 211, 255, 0.28);
+    }
+
+    .music-track-title,
+    .music-track-subtitle {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .music-track-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #dff4ff;
+    }
+
+    .music-track-subtitle {
+      color: rgba(213, 221, 236, 0.74);
+      font-size: 0.78rem;
     }
 
     .profile-card {
@@ -557,6 +794,10 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .music-card {
+        height: 100%;
+      }
+
       .profile-card {
         grid-column: 1 / -1;
       }
@@ -605,6 +846,20 @@
         grid-template-columns: 1fr;
       }
 
+      .music-header {
+        grid-template-columns: 64px minmax(0, 1fr);
+      }
+
+      .music-disc-button,
+      .music-cover {
+        width: 64px;
+        height: 64px;
+      }
+
+      .music-cover::after {
+        inset: 23px;
+      }
+
       .entry-content h3 {
         font-size: 1.45rem;
       }
@@ -626,15 +881,49 @@
     <section class="home-shell">
       <div class="container home-layout">
         <aside class="sidebar">
-          <div class="glass music-card" id="music-card" style="cursor: pointer; transition: background 0.2s ease;">
-            <div style="position: relative; width: 58px; height: 58px; flex: 0 0 auto;">
-              <div class="music-cover" id="music-cover"></div>
-              <span id="music-icon"
-                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 24px; text-shadow: 0 2px 5px rgba(0,0,0,0.5); display: none; pointer-events: none;">▶</span>
+          <div class="glass music-card" id="music-card">
+            <div class="music-header">
+              <button class="music-disc-button" id="music-play-toggle" type="button" aria-label="Play or pause music">
+                <div class="music-cover" id="music-cover"></div>
+              </button>
+              <div class="music-copy">
+                <span class="music-overline">Playlist</span>
+                <strong class="music-title" id="music-title">No track loaded</strong>
+                <p class="music-subtitle" id="music-subtitle">Add entries to data/posts.json -&gt; music</p>
+                <div class="music-progress" aria-hidden="true">
+                  <span class="music-progress-bar" id="music-progress-bar"></span>
+                </div>
+                <div class="music-meta-row">
+                  <span class="music-position" id="music-position">0 / 0</span>
+                  <button class="music-list-toggle" id="music-list-toggle" type="button" aria-expanded="false" aria-label="Toggle playlist" title="Toggle playlist">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="m6 9 6 6 6-6"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </div>
-            <div>
-              <strong id="music-title">Now playing</strong>
-              <p id="music-subtitle">Background / quote / short status</p>
+            <div class="music-controls">
+              <button class="music-btn" id="music-prev" type="button" aria-label="Previous track" title="Previous track">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19 20 9 12l10-8v16Z"></path>
+                  <path d="M5 19V5"></path>
+                </svg>
+              </button>
+              <button class="music-btn" id="music-toggle" type="button" aria-label="Play" title="Play">
+                <svg viewBox="0 0 24 24" aria-hidden="true" data-icon="play">
+                  <path d="m8 5 11 7-11 7V5Z"></path>
+                </svg>
+              </button>
+              <button class="music-btn" id="music-next" type="button" aria-label="Next track" title="Next track">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m5 4 10 8-10 8V4Z"></path>
+                  <path d="M19 5v14"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="music-playlist" id="music-playlist">
+              <div class="music-playlist-inner" id="music-playlist-inner"></div>
             </div>
           </div>
           <audio id="bg-audio" loop></audio>
@@ -661,9 +950,9 @@
 
             <div class="profile-links">
               <a class="profile-link is-active" href="#top">Main Page</a>
+              <a class="profile-link" href="#blog">Blog</a>
               <a class="profile-link" href="#writeup">Writeup</a>
               <a class="profile-link" href="#tools">Tools</a>
-              <a class="profile-link" href="#blog">Blog</a>
               <a class="profile-link" href="#malware">Malware</a>
 
             </div>

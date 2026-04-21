@@ -5,17 +5,15 @@
     "homeBackground": "/assets/images/wallpaper.jpg",
     "defaultPostBackground": "/assets/images/wallpaper.jpg",
     "heroSubtitle": "Writeup · Tools · Notes",
-    "musicTitle": "Túy Âm",
-    "musicSubtitle": "làm tí nhạc",
     "profileBio": "Reverse · Malware · Writeup",
     "profileAvatar": "/assets/images/avatar.jpg",
-    "audioUrl": "assets/music/Tuy-Am.mp3",
-    "musicCover": "/assets/images/tuyam.png"
+    "musicCover": "/assets/images/tuyam.png",
+    "musicSampleSize": 10
   },
   "sections": {
     "writeup": {
       "title": "Writeup",
-      "description": "",
+      "description": "wu vặt thời chưa có AI :(",
       "items": [
         "ctfs",
         "KMACTF2025",
@@ -26,7 +24,7 @@
     },
     "tools": {
       "title": "Tools",
-      "description": "",
+      "description": "vì lý tưởng automation~",
       "items": [
         "CTIP Watcher",
         "telemessageautoforward",
@@ -313,7 +311,7 @@
     },
     "Ida scyllahide": {
       "slug": "ida-scyllahide",
-      "tag": "Ida scyllahide",
+      "tag": "Ida plugin",
       "title": "Ida scyllahide",
       "summary": "Xem full source tại github",
       "description": "Plugin hỗ trợ inject scyllahide vào ida.",
@@ -337,7 +335,7 @@
     },
     "APT32": {
       "slug": "APT32",
-      "tag": "APT32",
+      "tag": "Malware",
       "title": "APT32",
       "private": false,
       "summary": "Phân tích APT32.",
@@ -361,8 +359,8 @@
     },
     "CFF mal": {
       "slug": "CFF mal",
-      "tag": "CFF mal",
-      "title": "CFF mal",
+      "tag": "Malware",
+      "title": "CFF/MBA obfuscate malware",
       "private": false,
       "summary": "Phân tích mã độc có CFF/MBA và deob.",
       "description": "Hồi làm còn gà mấy a xem thôi đừng chê, tha e.",
@@ -385,7 +383,7 @@
     },
     "Guloader": {
       "slug": "Guloader",
-      "tag": "Guloader",
+      "tag": "Malware",
       "title": "Guloader",
       "private": false,
       "summary": "Phân tích dòng mã độc Guloader, deobf Guloader, chôm chỉa shell của Guloader làm của riêng.",
@@ -410,7 +408,7 @@
     },
     "Waiting Thread Hijacking": {
       "slug": "Waiting Thread Hijacking",
-      "tag": "Waiting Thread Hijacking",
+      "tag": "Evasion Technique",
       "title": "Waiting Thread Hijacking",
       "private": false,
       "summary": "Nghiên cứu tech Waiting Thread Hijacking.",
@@ -424,8 +422,7 @@
       "wordCount": 740,
       "readingTime": "3 phút",
       "tags": [
-        "Malware",
-        "Reverse",
+        "Coding",
         "Evasion Technique"
       ],
       "candidates": [
@@ -435,7 +432,7 @@
     },
     "Reflective dll Injection": {
       "slug": "Reflective dll Injection",
-      "tag": "Reflective dll Injection",
+      "tag": "Evasion Technique",
       "title": "Reflective dll Injection",
       "private": false,
       "summary": "Nghiên cứu tech Reflective dll Injection.",
@@ -449,8 +446,7 @@
       "wordCount": 740,
       "readingTime": "3 phút",
       "tags": [
-        "Malware",
-        "Reverse",
+        "Coding",
         "Evasion Technique"
       ],
       "candidates": [
