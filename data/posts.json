@@ -1,6 +1,7 @@
 {
   "site": {
     "owner": "13rəs",
+    "heroTitle": "13rəs's blog",
     "homeBackground": "/assets/images/wallpaper.jpg",
     "defaultPostBackground": "/assets/images/wallpaper.jpg",
     "heroSubtitle": "Writeup · Tools · Notes",
