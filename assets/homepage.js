@@ -17,6 +17,11 @@
       title: document.getElementById("blog-title"),
       description: document.getElementById("blog-description"),
       list: document.getElementById("blog-list")
+    },
+    malware: {
+      title: document.getElementById("malware-title"),
+      description: document.getElementById("malware-description"),
+      list: document.getElementById("malware-list")
     }
   };
 
@@ -360,7 +365,7 @@
       hash = "recent";
     }
     
-    const allSections = ["recent", "writeup", "tools", "blog"];
+    const allSections = ["recent", "writeup", "tools", "blog", "malware"];
     
     allSections.forEach((id) => {
       const el = document.getElementById(id);
