@@ -729,15 +729,43 @@
     .entry-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px 16px;
+      align-items: center;
+      gap: 12px 20px;
       color: rgba(213, 221, 236, 0.76);
-      font-size: 0.9rem;
+      font-size: 0.98rem;
     }
 
     .entry-meta-item {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 9px;
+      color: rgba(213, 221, 236, 0.78);
+      white-space: nowrap;
+    }
+
+    .entry-meta-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      color: rgba(213, 221, 236, 0.68);
+      flex: 0 0 auto;
+    }
+
+    .entry-meta-icon svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .entry-meta-value {
+      color: rgba(213, 221, 236, 0.78);
+      font-weight: 500;
     }
 
     .entry-content h3 {
