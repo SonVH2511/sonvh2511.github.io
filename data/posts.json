@@ -114,8 +114,8 @@
       "cover": "/assets/images/blog1_thumbnail.png",
       "publishedAt": "2026-04-21",
       "updatedAt": "2026-04-21",
-      "wordCount": 1137,
-      "readingTime": "6 min",
+      "wordCount": 661,
+      "readingTime": "4 min",
       "tags": [
         "Blog",
         "IDA",
@@ -205,7 +205,7 @@
       "cover": "/assets/images/kcscctf2024.jpg",
       "publishedAt": "2026-04-18",
       "updatedAt": "2024-05-17",
-      "wordCount": 2133,
+      "wordCount": 2131,
       "readingTime": "10 min",
       "tags": [
         "CTF",
