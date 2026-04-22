@@ -11,13 +11,14 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/post.css" />
+  <link rel="stylesheet" href="../assets/post.css" data-page-asset="post-style" />
   <!-- Highlight.js theme -->
   <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" data-page-asset="post-highlight-style" />
 </head>
 
-<body>
+<body data-page="post">
+  <div id="site-shell" data-page="post">
   <header class="nav">
     <div class="shell nav-inner">
       <div class="nav-actions">
@@ -134,6 +135,9 @@
   <footer class="footer shell">
     <p>&copy; SonVH</p>
   </footer>
+  </div>
+  <script src="/assets/site-core.js"></script>
+  <script src="/assets/homepage.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
