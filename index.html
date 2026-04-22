@@ -11,7 +11,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
     rel="stylesheet" />
-  <style>
+  <style data-page-asset="home-style">
     :root {
       --bg: #08111c;
       --panel: rgba(7, 15, 25, 0.76);
@@ -874,9 +874,8 @@
   </style>
 </head>
 
-<body>
-
-
+<body data-page="home">
+  <div id="site-shell" data-page="home">
   <main id="top">
     <section class="hero-banner">
       <div class="hero-copy">
@@ -946,7 +945,6 @@
               <div class="music-playlist-inner" id="music-playlist-inner"></div>
             </div>
           </div>
-          <audio id="bg-audio"></audio>
 
           <div class="glass profile-card">
             <div class="profile-avatar"></div>
@@ -1039,8 +1037,13 @@
       <a href="https://github.com/SonVH2511" target="_blank" rel="noreferrer">GitHub</a>
     </p>
   </footer>
-
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+  <script src="/assets/site-core.js"></script>
   <script src="/assets/homepage.js"></script>
+  <script src="/assets/post-page.js"></script>
 </body>
 
 </html>
