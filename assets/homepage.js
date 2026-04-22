@@ -40,20 +40,29 @@
   function createMetaItems(entry) {
     const items = [];
 
-    if (entry.publishedAt) {
-      items.push(`<span class="entry-meta-item">Published <span>${escapeHtml(entry.publishedAt)}</span></span>`);
+    function createMetaItem(type, value, suffix) {
+      const icons = {
+        published: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v3"></path><path d="M17 3v3"></path><path d="M4 9h16"></path><rect x="4" y="5" width="16" height="15" rx="2"></rect></svg>',
+        words: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4l10-10-4-4L4 16v4Z"></path><path d="m12 8 4 4"></path><path d="M14 6l2-2 4 4-2 2"></path></svg>',
+        reading: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10"></path><path d="M9 4v4l3 3 3-3V4"></path><path d="M17 20H7"></path><path d="M15 20v-4l-3-3-3 3v4"></path></svg>'
+      };
+
+      return [
+        `<span class="entry-meta-item entry-meta-item-${type}">`,
+        `  <span class="entry-meta-icon">${icons[type] || ""}</span>`,
+        `  <span class="entry-meta-value">${escapeHtml(value)}${suffix ? ` ${escapeHtml(suffix)}` : ""}</span>`,
+        "</span>"
+      ].join("");
     }
-    if (entry.updatedAt) {
-      items.push(`<span class="entry-meta-item">Updated <span>${escapeHtml(entry.updatedAt)}</span></span>`);
+
+    if (entry.publishedAt) {
+      items.push(createMetaItem("published", entry.publishedAt, ""));
     }
     if (entry.wordCount) {
-      items.push(`<span class="entry-meta-item">Words <span>${escapeHtml(entry.wordCount)}</span></span>`);
+      items.push(createMetaItem("words", entry.wordCount, "words"));
     }
     if (entry.readingTime) {
-      items.push(`<span class="entry-meta-item">Read <span>${escapeHtml(entry.readingTime)}</span></span>`);
-    }
-    if (Number.isFinite(entry.viewCount)) {
-      items.push(`<span class="entry-meta-item">Views <span>${escapeHtml(entry.viewCount)}</span></span>`);
+      items.push(createMetaItem("reading", entry.readingTime, ""));
     }
 
     return items.join("");
