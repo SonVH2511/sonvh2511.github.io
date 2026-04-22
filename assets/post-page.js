@@ -381,6 +381,7 @@
     const postMusicShellNode = document.querySelector(".post-music-shell");
     const tocToggle = document.getElementById("toc-toggle");
     const tocCard = document.getElementById("toc-card");
+    const tocTitleNode = document.getElementById("toc-title");
     const patSubmit = document.getElementById("pat-submit");
     const patClear = document.getElementById("pat-clear");
     const patInput = document.getElementById("pat-input");
@@ -447,6 +448,9 @@
 
       const headings = Array.from(container.querySelectorAll("h2, h3, h4"));
       if (!headings.length) {
+        if (tocTitleNode) {
+          tocTitleNode.textContent = "Contents";
+        }
         tocNode.innerHTML = '<p class="toc-empty">This post has no headings for a table of contents.</p>';
         return function () {};
       }
@@ -471,11 +475,64 @@
         };
       });
 
-      tocNode.innerHTML = items
-        .map((item) => `<a class="toc-link depth-${item.depth}" href="#${item.id}">${escapeHtml(item.text)}</a>`)
-        .join("");
+      const minDepth = items.reduce((currentMin, item) => Math.min(currentMin, item.depth), items[0].depth);
+      const treeRoot = [];
+      const stack = [{ children: treeRoot, level: 0 }];
 
-      const links = Array.from(tocNode.querySelectorAll(".toc-link"));
+      items.forEach((item) => {
+        const level = Math.max(1, item.depth - minDepth + 1);
+        const node = {
+          id: item.id,
+          text: item.text,
+          level,
+          children: []
+        };
+
+        while (stack.length > 1 && stack[stack.length - 1].level >= level) {
+          stack.pop();
+        }
+
+        const parent = stack[stack.length - 1];
+        parent.children.push(node);
+        stack.push(node);
+      });
+
+      function renderTocList(nodes, isRoot) {
+        const className = isRoot ? "toc-list toc-list-root" : "toc-child";
+        return [
+          `<ol class="${className}">`,
+          ...nodes.map((node) => [
+            `<li class="toc-item toc-level-${node.level}" data-toc-item="${node.id}">`,
+            `  <a class="toc-link" href="#${node.id}" data-toc-link="${node.id}"><span class="toc-text">${escapeHtml(node.text)}</span></a>`,
+            node.children.length ? renderTocList(node.children, false) : "",
+            "</li>"
+          ].join("\n")),
+          "</ol>"
+        ].join("\n");
+      }
+
+      if (tocTitleNode) {
+        tocTitleNode.textContent = "Contents";
+      }
+      tocNode.innerHTML = renderTocList(treeRoot, true);
+
+      const itemNodes = Array.from(tocNode.querySelectorAll("[data-toc-item]"));
+      const linkNodes = Array.from(tocNode.querySelectorAll("[data-toc-link]"));
+      const itemById = new Map(itemNodes.map((node) => [node.getAttribute("data-toc-item"), node]));
+
+      const applyActiveState = (activeId) => {
+        itemNodes.forEach((itemNode) => itemNode.classList.remove("is-current"));
+        linkNodes.forEach((linkNode) => {
+          linkNode.classList.toggle("is-active", linkNode.getAttribute("data-toc-link") === activeId);
+        });
+
+        let currentNode = itemById.get(activeId) || null;
+        while (currentNode) {
+          currentNode.classList.add("is-current");
+          currentNode = currentNode.parentElement ? currentNode.parentElement.closest("[data-toc-item]") : null;
+        }
+      };
+
       const updateActiveLink = () => {
         let activeId = items[0].id;
         const offset = 120;
@@ -486,14 +543,40 @@
           }
         });
 
-        links.forEach((link) => {
-          link.classList.toggle("is-active", link.getAttribute("href") === `#${activeId}`);
+        applyActiveState(activeId);
+      };
+
+      const handleTocClick = (event) => {
+        const link = event.target.closest("[data-toc-link]");
+        if (!link) {
+          return;
+        }
+
+        const targetId = link.getAttribute("data-toc-link");
+        const targetHeading = targetId ? document.getElementById(targetId) : null;
+        if (!targetHeading) {
+          return;
+        }
+
+        event.preventDefault();
+        applyActiveState(targetId);
+
+        const targetUrl = new URL(window.location.href);
+        targetUrl.hash = targetId;
+        history.replaceState(history.state, "", targetUrl.toString());
+
+        const top = Math.max(0, window.scrollY + targetHeading.getBoundingClientRect().top - 96);
+        window.scrollTo({
+          top,
+          behavior: "smooth"
         });
       };
 
       updateActiveLink();
+      tocNode.addEventListener("click", handleTocClick);
       window.addEventListener("scroll", updateActiveLink, { passive: true });
       return function () {
+        tocNode.removeEventListener("click", handleTocClick);
         window.removeEventListener("scroll", updateActiveLink);
       };
     }
@@ -538,7 +621,10 @@
     cleanups.push(() => window.removeEventListener("resize", handleResize));
 
     if (tocToggle && tocCard) {
-      const handleTocToggle = () => tocCard.classList.toggle("is-collapsed");
+      const handleTocToggle = () => {
+        tocCard.classList.toggle("is-collapsed");
+        tocToggle.setAttribute("aria-expanded", String(!tocCard.classList.contains("is-collapsed")));
+      };
       tocToggle.addEventListener("click", handleTocToggle);
       cleanups.push(() => tocToggle.removeEventListener("click", handleTocToggle));
     }

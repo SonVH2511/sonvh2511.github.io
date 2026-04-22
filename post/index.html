@@ -12,129 +12,130 @@
     href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="../assets/post.css" data-page-asset="post-style" />
-  <!-- Highlight.js theme -->
   <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" data-page-asset="post-highlight-style" />
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"
+    data-page-asset="post-highlight-style" />
 </head>
 
 <body data-page="post">
   <div id="site-shell" data-page="post">
-  <header class="nav">
-    <div class="shell nav-inner">
-      <div class="nav-actions">
-        <a class="btn" href="/" aria-label="Main page" title="Back to main page" style="padding: 12px; border-radius: 50%;">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-        </a>
-        <a class="btn" id="post-source" href="#" target="_blank" rel="noreferrer" aria-label="GitHub" title="Go to repo" style="padding: 12px; border-radius: 50%;">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.02c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A4.8 4.8 0 0 0 9 18v4"></path></svg>
-        </a>
-      </div>
-    </div>
-  </header>
-  <main>
-    <section class="hero">
-      <div class="shell panel">
-        <div class="tag" id="post-tag">Post</div>
-        <h1 class="title" id="post-title">Loading post...</h1>
-        <p class="description" id="post-description">Preparing content...</p>
-        <div class="status is-hidden" id="post-status" aria-live="polite"></div>
-      </div>
-    </section>
-    <section class="content-wrap">
-      <div class="shell post-layout">
-        <article class="content" id="post-content">
-          <p>Loading content...</p>
-        </article>
-        <div id="private-auth-form"
-          style="display: none; padding: 24px; background: rgba(0,0,0,0.2); border-radius: 12px; margin-top: 24px; text-align: center; border: 1px solid rgba(255,255,255,0.05);">
-          <h3 style="margin-top: 0; color: #ffeb3b;">Protected Repository</h3>
-          <p style="color: #ccc; margin-bottom: 16px; font-size: 0.9em; line-height: 1.5;">This content is inside a
-            private repository. Enter your GitHub Personal Access Token (PAT) to authorize.<br><a
-              href="https://github.com/settings/tokens/new" target="_blank"
-              style="color: #a8ddff; text-decoration: underline;" rel="noreferrer">Get your token here</a> (Settings
-            &gt; Developer settings &gt; Tokens (classic)). Remember to check the <strong>repo</strong> scope.</p>
-          <input type="password" id="pat-input" placeholder="ghp_xxxx..."
-            style="padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: white; width: 100%; max-width: 300px; margin-bottom: 16px; display: block; margin-left: auto; margin-right: auto;">
-          <div style="display: flex; gap: 12px; justify-content: center;">
-            <button id="pat-submit" class="btn btn-primary" style="cursor: pointer;">Unlock</button>
-            <button id="pat-clear" class="btn" style="cursor: pointer; display: none;">Clear Token</button>
-          </div>
+    <header class="nav">
+      <div class="shell nav-inner">
+        <div class="nav-actions">
+          <a class="btn" href="/" aria-label="Main page" title="Back to main page" style="padding: 12px; border-radius: 50%;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          </a>
+          <a class="btn" id="post-source" href="#" target="_blank" rel="noreferrer" aria-label="GitHub" title="Go to repo" style="padding: 12px; border-radius: 50%;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.02c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A4.8 4.8 0 0 0 9 18v4"></path></svg>
+          </a>
         </div>
-        <aside class="toc-shell" aria-labelledby="toc-title">
-          <div class="toc-card" id="toc-card">
-            <div class="toc-eyebrow" id="toc-toggle"
-              style="cursor: pointer; display: flex; align-items: center; justify-content: space-between; user-select: none;">
-              <span>Overview</span>
-              <span class="toc-icon" style="transition: transform 0.2s ease; font-size: 10px; opacity: 0.7;">▼</span>
-            </div>
-            <h2 class="toc-title" id="toc-title"></h2>
-            <!-- <p class="toc-description" id="toc-description">Analyzing headings...</p> -->
-            <nav class="toc-nav" id="post-toc" aria-label="Table of contents">
-              <p class="toc-empty">Table of contents will appear here.</p>
-
-            </nav>
-          </div>
-        </aside>
-        <aside class="post-music-shell" aria-labelledby="post-music-title">
-          <div class="post-music-card" id="post-music-card">
-            <div class="post-music-top">
-              <div>
-                <div class="post-music-eyebrow">Music</div>
-                <h2 class="post-music-title" id="post-music-title">Not playing</h2>
-                <p class="post-music-subtitle" id="post-music-subtitle">Open the main page to start a playlist.</p>
-              </div>
-              <button class="post-music-toggle" id="post-music-list-toggle" type="button" aria-expanded="false" aria-label="Toggle playlist" title="Toggle playlist">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="m6 9 6 6 6-6"></path>
-                </svg>
-              </button>
-            </div>
-            <div class="post-music-progress" aria-hidden="true">
-              <span class="post-music-progress-bar" id="post-music-progress-bar"></span>
-            </div>
-            <div class="post-music-meta">
-              <span id="post-music-position">0 / 0</span>
-            </div>
-            <div class="post-music-controls">
-              <button class="post-music-btn" id="post-music-prev" type="button" aria-label="Previous track" title="Previous track">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M19 20 9 12l10-8v16Z"></path>
-                  <path d="M5 19V5"></path>
-                </svg>
-              </button>
-              <button class="post-music-btn" id="post-music-play" type="button" aria-label="Play" title="Play">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="m8 5 11 7-11 7V5Z"></path>
-                </svg>
-              </button>
-              <button class="post-music-btn" id="post-music-next" type="button" aria-label="Next track" title="Next track">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="m5 4 10 8-10 8V4Z"></path>
-                  <path d="M19 5v14"></path>
-                </svg>
-              </button>
-              <button class="post-music-btn" id="post-music-loop" type="button" aria-label="Loop current track" title="Loop current track">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M17 17h2a2 2 0 0 0 2-2v-2"></path>
-                  <path d="M3 9V7a2 2 0 0 1 2-2h14"></path>
-                  <path d="m7 17-4-4 4-4"></path>
-                  <path d="m17 3 4 4-4 4"></path>
-                  <path d="M7 13h7a2 2 0 0 1 2 2v2"></path>
-                  <path d="M12 9h1v6"></path>
-                </svg>
-              </button>
-            </div>
-            <div class="post-music-playlist" id="post-music-playlist">
-              <div class="post-music-playlist-inner" id="post-music-playlist-inner"></div>
-            </div>
-          </div>
-        </aside>
       </div>
-    </section>
-  </main>
-  <footer class="footer shell">
-    <p>&copy; SonVH</p>
-  </footer>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="shell panel">
+          <div class="tag" id="post-tag">Post</div>
+          <h1 class="title" id="post-title">Loading post...</h1>
+          <p class="description" id="post-description">Preparing content...</p>
+          <div class="status is-hidden" id="post-status" aria-live="polite"></div>
+        </div>
+      </section>
+      <section class="content-wrap">
+        <div class="shell post-layout">
+          <article class="content" id="post-content">
+            <p>Loading content...</p>
+          </article>
+          <div id="private-auth-form"
+            style="display: none; padding: 24px; background: rgba(0,0,0,0.2); border-radius: 12px; margin-top: 24px; text-align: center; border: 1px solid rgba(255,255,255,0.05);">
+            <h3 style="margin-top: 0; color: #ffeb3b;">Protected Repository</h3>
+            <p style="color: #ccc; margin-bottom: 16px; font-size: 0.9em; line-height: 1.5;">This content is inside a
+              private repository. Enter your GitHub Personal Access Token (PAT) to authorize.<br><a
+                href="https://github.com/settings/tokens/new" target="_blank"
+                style="color: #a8ddff; text-decoration: underline;" rel="noreferrer">Get your token here</a> (Settings
+              &gt; Developer settings &gt; Tokens (classic)). Remember to check the <strong>repo</strong> scope.</p>
+            <input type="password" id="pat-input" placeholder="ghp_xxxx..."
+              style="padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: white; width: 100%; max-width: 300px; margin-bottom: 16px; display: block; margin-left: auto; margin-right: auto;">
+            <div style="display: flex; gap: 12px; justify-content: center;">
+              <button id="pat-submit" class="btn btn-primary" style="cursor: pointer;">Unlock</button>
+              <button id="pat-clear" class="btn" style="cursor: pointer; display: none;">Clear Token</button>
+            </div>
+          </div>
+          <aside class="toc-shell" aria-labelledby="toc-title">
+            <div class="toc-card" id="toc-card">
+              <button class="toc-eyebrow" id="toc-toggle" type="button" aria-expanded="true">
+                <span class="toc-eyebrow-label">Overview</span>
+                <span class="toc-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="m6 9 6 6 6-6"></path>
+                  </svg>
+                </span>
+              </button>
+              <h2 class="toc-title" id="toc-title">Contents</h2>
+              <nav class="toc-nav" id="post-toc" aria-label="Table of contents">
+                <p class="toc-empty">Table of contents will appear here.</p>
+              </nav>
+            </div>
+          </aside>
+          <aside class="post-music-shell" aria-labelledby="post-music-title">
+            <div class="post-music-card" id="post-music-card">
+              <div class="post-music-top">
+                <div>
+                  <div class="post-music-eyebrow">Music</div>
+                  <h2 class="post-music-title" id="post-music-title">Not playing</h2>
+                  <p class="post-music-subtitle" id="post-music-subtitle">Open the main page to start a playlist.</p>
+                </div>
+                <button class="post-music-toggle" id="post-music-list-toggle" type="button" aria-expanded="false" aria-label="Toggle playlist" title="Toggle playlist">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m6 9 6 6 6-6"></path>
+                  </svg>
+                </button>
+              </div>
+              <div class="post-music-progress" aria-hidden="true">
+                <span class="post-music-progress-bar" id="post-music-progress-bar"></span>
+              </div>
+              <div class="post-music-meta">
+                <span id="post-music-position">0 / 0</span>
+              </div>
+              <div class="post-music-controls">
+                <button class="post-music-btn" id="post-music-prev" type="button" aria-label="Previous track" title="Previous track">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M19 20 9 12l10-8v16Z"></path>
+                    <path d="M5 19V5"></path>
+                  </svg>
+                </button>
+                <button class="post-music-btn" id="post-music-play" type="button" aria-label="Play" title="Play">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m8 5 11 7-11 7V5Z"></path>
+                  </svg>
+                </button>
+                <button class="post-music-btn" id="post-music-next" type="button" aria-label="Next track" title="Next track">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m5 4 10 8-10 8V4Z"></path>
+                    <path d="M19 5v14"></path>
+                  </svg>
+                </button>
+                <button class="post-music-btn" id="post-music-loop" type="button" aria-label="Loop current track" title="Loop current track">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M17 17h2a2 2 0 0 0 2-2v-2"></path>
+                    <path d="M3 9V7a2 2 0 0 1 2-2h14"></path>
+                    <path d="m7 17-4-4 4-4"></path>
+                    <path d="m17 3 4 4-4 4"></path>
+                    <path d="M7 13h7a2 2 0 0 1 2 2v2"></path>
+                    <path d="M12 9h1v6"></path>
+                  </svg>
+                </button>
+              </div>
+              <div class="post-music-playlist" id="post-music-playlist">
+                <div class="post-music-playlist-inner" id="post-music-playlist-inner"></div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+    <footer class="footer shell">
+      <p>&copy; SonVH</p>
+    </footer>
   </div>
   <script src="/assets/site-core.js"></script>
   <script src="/assets/homepage.js"></script>
