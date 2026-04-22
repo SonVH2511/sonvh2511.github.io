@@ -498,36 +498,73 @@ pre {
 }
 
 .toc-card {
-  padding: 20px 18px;
+  padding: 18px 18px 20px;
   border-radius: 24px;
-  background: rgba(7, 15, 25, 0.82);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 32%),
+    rgba(7, 15, 25, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: var(--shadow);
   backdrop-filter: blur(18px);
 }
 
 .toc-eyebrow {
-  font-size: 0.78rem;
+  width: 100%;
+  padding: 0;
+  margin: 0 0 12px;
+  border: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.72rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.18em;
+  font-family: inherit;
+  text-align: left;
   text-transform: uppercase;
-  color: rgba(137, 214, 255, 0.78);
+  color: rgba(137, 214, 255, 0.72);
+  cursor: pointer;
+  user-select: none;
+}
+
+.toc-eyebrow-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toc-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(213, 221, 236, 0.62);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.toc-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .toc-title {
-  margin: 8px 0 8px;
-  font-size: 1.2rem;
-  line-height: 1.15;
-}
-
-.toc-description {
   margin: 0 0 14px;
-  color: rgba(213, 221, 236, 0.82);
-  font-size: 0.92rem;
+  font-size: 1rem;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(245, 247, 251, 0.92);
 }
 
 .toc-card.is-collapsed .toc-title,
-.toc-card.is-collapsed .toc-description,
 .toc-card.is-collapsed .toc-nav {
   display: none;
 }
@@ -537,8 +574,7 @@ pre {
 }
 
 .toc-nav {
-  display: grid;
-  gap: 8px;
+  display: block;
   max-height: calc(100vh - 180px);
   overflow-y: auto;
   overflow-x: hidden;
@@ -568,37 +604,86 @@ pre {
   font-size: 0.92rem;
 }
 
+.toc-list,
+.toc-child {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.toc-child {
+  margin-top: 6px;
+  margin-left: 20px;
+}
+
+.toc-item {
+  position: relative;
+  margin: 8px 0;
+  padding-left: 18px;
+  list-style: none;
+}
+
+.toc-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 5px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 211, 138, 0.52);
+  box-shadow: 0 0 12px rgba(255, 211, 138, 0.16);
+  opacity: 0.6;
+  transition: transform 0.22s ease, border-radius 0.22s ease, opacity 0.22s ease, background 0.22s ease, height 0.22s ease;
+}
+
+.toc-item:hover::before,
+.toc-item.is-current::before {
+  height: 6px;
+  border-radius: 50%;
+  transform: translateY(1px);
+  opacity: 1;
+  background: rgba(137, 214, 255, 0.88);
+}
+
 .toc-link {
   display: block;
-  padding: 9px 12px;
-  border-radius: 14px;
-  color: rgba(245, 247, 251, 0.88);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+  color: rgba(213, 221, 236, 0.76);
+  line-height: 1.45;
+  opacity: 0.84;
+  transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
   overflow-wrap: break-word;
   word-break: break-word;
 }
 
+.toc-text {
+  display: inline;
+}
+
 .toc-link:hover {
   transform: translateX(2px);
-  background: rgba(137, 214, 255, 0.08);
-  border-color: rgba(137, 214, 255, 0.18);
   color: #ffffff;
+  opacity: 1;
 }
 
-.toc-link.depth-3 {
-  margin-left: 14px;
+.toc-level-1 > .toc-link {
+  font-weight: 700;
+  color: rgba(245, 247, 251, 0.9);
 }
 
-.toc-link.depth-4 {
-  margin-left: 28px;
+.toc-level-2 > .toc-link,
+.toc-level-3 > .toc-link {
+  font-size: 0.92rem;
 }
 
+.toc-item.is-current > .toc-link,
 .toc-link.is-active {
-  background: rgba(137, 214, 255, 0.12);
-  border-color: rgba(137, 214, 255, 0.26);
   color: #ffffff;
+  opacity: 1;
+}
+
+.toc-item.is-current > .toc-link .toc-text {
+  text-shadow: 0 0 18px rgba(137, 214, 255, 0.12);
 }
 
 .content [id] {
