@@ -5,7 +5,7 @@
     "homeBackground": "/assets/images/wallpaper.jpg",
     "defaultPostBackground": "/assets/images/wallpaper.jpg",
     "heroSubtitle": "thiz m l1f3' dis4ssembler\nEveryyy line i$ an instruction~",
-    "profileBio": "Reverse · Malware · Blog . 36",
+    "profileBio": "Reverse · Blog . 36",
     "profileAvatar": "/assets/images/avatar.jpg",
     "musicCover": "/assets/images/wallpaper.jpg",
     "musicSampleSize": 20
@@ -13,7 +13,7 @@
   "sections": {
     "writeup": {
       "title": "Writeup",
-      "description": "wu vặt thời chưa có AI :(",
+      "description": "wu vặt thời AI còn đểu :v",
       "items": [
         "ctfs",
         "KMACTF2025",

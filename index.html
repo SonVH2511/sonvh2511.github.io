@@ -15,15 +15,20 @@
     :root {
       --bg: #08111c;
       --panel: rgba(7, 15, 25, 0.76);
+      --panel-strong: rgba(6, 12, 22, 0.9);
       --panel-soft: rgba(255, 255, 255, 0.08);
       --surface: rgba(9, 18, 30, 0.94);
+      --surface-raise: rgba(13, 25, 40, 0.92);
       --text: #f5f7fb;
       --muted: #d5ddec;
       --accent: #8fd3ff;
+      --accent-bright: #eef8ff;
+      --accent-warm: #ffd28f;
       --accent-soft: rgba(143, 211, 255, 0.14);
       --accent-border: rgba(143, 211, 255, 0.26);
+      --signal: rgba(255, 255, 255, 0.58);
       --line: rgba(255, 255, 255, 0.12);
-      --shadow: 0 22px 60px rgba(0, 0, 0, 0.28);
+      --shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
       --max: 1220px;
       --radius: 28px;
       --site-background-image: url("/assets/images/wallpaper.jpg");
@@ -54,7 +59,7 @@
       position: fixed;
       inset: 0;
       background-image:
-        linear-gradient(180deg, rgba(8, 17, 28, 0.28), rgba(8, 17, 28, 0.52)),
+        linear-gradient(180deg, rgba(8, 17, 28, 0.18), rgba(8, 17, 28, 0.44)),
         var(--site-background-image);
       background-position: center, center;
       background-size: auto, cover;
@@ -67,8 +72,9 @@
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(circle at top left, rgba(143, 211, 255, 0.12), transparent 30%),
-        linear-gradient(180deg, rgba(8, 17, 28, 0.16), rgba(8, 17, 28, 0.34) 42%, rgba(8, 17, 28, 0.46));
+        radial-gradient(circle at top left, rgba(143, 211, 255, 0.14), transparent 30%),
+        radial-gradient(circle at top right, rgba(255, 210, 143, 0.1), transparent 18%),
+        linear-gradient(180deg, rgba(8, 17, 28, 0.08), rgba(8, 17, 28, 0.34) 42%, rgba(8, 17, 28, 0.5));
       z-index: -1;
     }
 
@@ -88,7 +94,6 @@
 
     .glass {
       background: var(--panel);
-      border: 1px solid var(--line);
       box-shadow: var(--shadow);
       backdrop-filter: blur(18px);
     }
@@ -143,32 +148,44 @@
       z-index: 3;
       margin-top: 0;
       padding-top: 12px;
-      padding-bottom: 56px;
+      padding-bottom: 72px;
     }
 
     .home-layout {
       display: grid;
-      grid-template-columns: 240px minmax(0, 1fr);
-      gap: 24px;
+      grid-template-columns: 290px minmax(0, 1fr);
+      gap: 30px;
       align-items: start;
     }
 
     .sidebar {
       display: grid;
-      gap: 18px;
+      gap: 22px;
       position: sticky;
-      top: 24px;
+      top: 28px;
     }
 
     .music-card,
     .profile-card {
-      border-radius: 26px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 30px;
+    }
+
+    .music-card::before,
+    .profile-card::before {
+      display: none;
+    }
+
+    .music-card::after,
+    .profile-card::after {
+      display: none;
     }
 
     .music-card {
-      padding: 16px;
+      padding: 20px;
       display: grid;
-      gap: 14px;
+      gap: 16px;
     }
 
     @keyframes spin {
@@ -178,6 +195,30 @@
 
       to {
         transform: rotate(360deg);
+      }
+    }
+
+    @keyframes reveal-up {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes section-enter {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
 
@@ -212,9 +253,7 @@
         linear-gradient(135deg, rgba(143, 211, 255, 0.18), rgba(193, 232, 255, 0.2)),
         var(--music-cover-image, var(--profile-avatar-image)) center center / cover no-repeat;
       flex: 0 0 auto;
-      box-shadow:
-        0 8px 20px rgba(0, 0, 0, 0.28),
-        inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
       position: relative;
     }
 
@@ -224,7 +263,6 @@
       inset: 28px;
       border-radius: 50%;
       background: rgba(8, 17, 28, 0.82);
-      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.1);
     }
 
     .music-cover.playing {
@@ -299,16 +337,15 @@
       align-items: center;
       justify-content: center;
       border-radius: 999px;
-      border: 1px solid rgba(143, 211, 255, 0.18);
+      border: 0;
       background: rgba(255, 255, 255, 0.04);
       color: #dff4ff;
       cursor: pointer;
-      transition: background 0.2s ease, border-color 0.2s ease;
+      transition: background 0.2s ease;
     }
 
     .music-list-toggle:hover {
       background: rgba(143, 211, 255, 0.12);
-      border-color: rgba(143, 211, 255, 0.32);
     }
 
     .music-list-toggle:disabled {
@@ -325,20 +362,19 @@
     .music-btn {
       min-height: 40px;
       border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 0;
       background: rgba(255, 255, 255, 0.04);
       color: #eef8ff;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      transition: transform 0.2s ease, background 0.2s ease;
     }
 
     .music-btn:hover:not(:disabled) {
       transform: translateY(-1px);
       background: rgba(143, 211, 255, 0.12);
-      border-color: rgba(143, 211, 255, 0.24);
     }
 
     .music-btn:disabled {
@@ -348,7 +384,6 @@
 
     .music-btn.is-active {
       background: rgba(143, 211, 255, 0.16);
-      border-color: rgba(143, 211, 255, 0.34);
       color: #dff4ff;
     }
 
@@ -416,23 +451,21 @@
       gap: 2px;
       padding: 10px 12px;
       border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 0;
       background: rgba(255, 255, 255, 0.03);
       color: var(--text);
       text-align: left;
       cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      transition: transform 0.2s ease, background 0.2s ease;
     }
 
     .music-track:hover {
       transform: translateX(2px);
       background: rgba(143, 211, 255, 0.08);
-      border-color: rgba(143, 211, 255, 0.18);
     }
 
     .music-track.is-active {
       background: rgba(143, 211, 255, 0.14);
-      border-color: rgba(143, 211, 255, 0.28);
     }
 
     .music-track-title,
@@ -454,32 +487,44 @@
     }
 
     .profile-card {
-      padding: 26px 22px;
-      text-align: center;
+      padding: 22px;
+      display: grid;
+      gap: 18px;
+      text-align: left;
+    }
+
+    .profile-head {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 16px;
+      align-items: center;
     }
 
     .profile-avatar {
       width: 92px;
       height: 92px;
       border-radius: 999px;
-      margin: 0 auto 16px;
+      margin: 0;
       background:
         linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.08)),
         var(--profile-avatar-image) center center / cover no-repeat;
-      box-shadow:
-        0 10px 26px rgba(143, 211, 255, 0.18),
-        inset 0 0 0 3px rgba(255, 255, 255, 0.88);
+      box-shadow: 0 10px 26px rgba(143, 211, 255, 0.18);
+    }
+
+    .profile-identity {
+      display: grid;
+      gap: 8px;
     }
 
     .profile-name {
       margin: 0;
-      font-size: 1.5rem;
+      font-size: 1.54rem;
       letter-spacing: -0.03em;
-      color: #a8ddff;
+      color: var(--accent-bright);
     }
 
     .profile-bio {
-      margin: 8px 0 0;
+      margin: 0;
       color: var(--muted);
       font-size: 0.95rem;
     }
@@ -487,8 +532,15 @@
     .profile-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin: 24px 0 18px;
+      gap: 18px;
+      margin: 0;
+    }
+
+    .profile-stat {
+      display: grid;
+      gap: 4px;
+      justify-items: center;
+      text-align: center;
     }
 
     .profile-stat strong,
@@ -497,53 +549,134 @@
     }
 
     .profile-stat strong {
-      font-size: 1.3rem;
+      font-size: 1.8rem;
+      line-height: 1;
       color: #a8ddff;
     }
 
     .profile-stat span {
       color: var(--muted);
-      font-size: 0.82rem;
+      font-size: 0.84rem;
     }
 
-    .profile-links {
+    .profile-notes {
       display: grid;
       gap: 10px;
     }
 
-    .profile-link {
+    .profile-note {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding-top: 10px;
+    }
+
+    .profile-note span {
+      color: rgba(255, 255, 255, 0.58);
+      font: 700 0.7rem "JetBrains Mono", Consolas, monospace;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .profile-note strong {
+      color: var(--accent-bright);
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .profile-note-logos {
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 44px;
-      border-radius: 14px;
-      border: 2px solid rgba(143, 211, 255, 0.18);
-      background: rgba(255, 255, 255, 0.02);
-      color: #a8ddff;
+      gap: 10px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+
+    .profile-note-logo {
+      width: 42px;
+      height: 42px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
+      display: block;
+    }
+
+    .section-rail {
+      position: sticky;
+      top: 18px;
+      z-index: 14;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      border-radius: 26px;
+      overflow: hidden;
+    }
+
+    .section-rail::before {
+      display: none;
+    }
+
+    .section-rail-label {
+      color: rgba(255, 255, 255, 0.62);
+      font: 700 0.76rem "JetBrains Mono", Consolas, monospace;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      flex: 0 0 auto;
+    }
+
+    .profile-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .profile-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 999px;
+      border: 0;
+      background: rgba(255, 255, 255, 0.03);
+      color: #d9eeff;
+      font-size: 0.92rem;
       font-weight: 700;
-      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      transition: transform 0.2s ease, background 0.2s ease;
     }
 
     .profile-link:hover,
     .profile-link.is-active {
       transform: translateY(-1px);
       background: rgba(143, 211, 255, 0.22);
-      border-color: rgba(143, 211, 255, 0.38);
       color: #dff4ff;
     }
 
     .content-column {
       display: grid;
-      gap: 34px;
+      gap: 38px;
     }
 
     .section {
       display: none;
-      gap: 18px;
+      gap: 22px;
+      scroll-margin-top: 110px;
     }
 
     .section.is-active {
       display: grid;
+      animation: section-enter 0.5s ease both;
+    }
+
+    .section-head {
+      padding: 0;
     }
 
     .section-head h2 {
@@ -569,7 +702,7 @@
 
     .list-stack {
       display: grid;
-      gap: 28px;
+      gap: 30px;
     }
 
     .recent-controls {
@@ -588,17 +721,16 @@
       min-width: 42px;
       height: 42px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 0;
       background: rgba(7, 15, 25, 0.72);
       color: #eef8ff;
       font: inherit;
       cursor: pointer;
-      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+      transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
     }
 
     .recent-btn:hover:not(:disabled) {
       background: rgba(143, 211, 255, 0.12);
-      border-color: rgba(143, 211, 255, 0.24);
       transform: translateY(-1px);
     }
 
@@ -608,13 +740,20 @@
     }
 
     .entry-card {
+      --entry-cut: 46px;
       position: relative;
-      border-radius: 26px;
-      transition: transform 0.22s ease;
+      border-radius: 30px;
+      transition: filter 0.34s ease;
+      animation: reveal-up 0.76s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: calc(var(--card-index, 0) * 70ms);
+    }
+
+    .entry-card::before {
+      display: none;
     }
 
     .entry-card:hover {
-      transform: translateY(-2px);
+      filter: saturate(1.04);
     }
 
     .entry-card-link {
@@ -631,9 +770,22 @@
       min-height: 248px;
       border-radius: 26px;
       overflow: hidden;
-      background: linear-gradient(180deg, #0b1624, #08111c);
-      border: none;
+      background: linear-gradient(120deg, #091320 0%, #08111c 42%, #0b1522 100%);
       box-shadow: var(--shadow);
+      position: relative;
+      z-index: 1;
+      transition: box-shadow 0.34s ease, transform 0.34s ease;
+      will-change: transform, box-shadow;
+    }
+
+    .entry-shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(110deg, rgba(255, 255, 255, 0.03), transparent 26%, rgba(143, 211, 255, 0.05) 62%, rgba(255, 255, 255, 0.02));
+      z-index: 1;
+      pointer-events: none;
     }
 
     .entry-card.is-reversed .entry-shell {
@@ -644,48 +796,59 @@
       grid-row: 1;
       min-height: 248px;
       background:
-        linear-gradient(135deg, rgba(11, 32, 52, 0.08), rgba(11, 32, 52, 0.28)),
+        linear-gradient(135deg, rgba(11, 32, 52, 0.02), rgba(11, 32, 52, 0.12)),
         var(--card-cover-image, var(--card-background-image, none)) center center / cover no-repeat;
-      clip-path: polygon(0 0, 100% 0, 88% 100%, 0 100%);
+      clip-path: polygon(0 0, 100% 0, calc(100% - var(--entry-cut)) 100%, 0 100%);
       z-index: 2;
-      transition: filter 0.25s ease, opacity 0.25s ease;
+      transition: filter 0.34s ease, opacity 0.34s ease, transform 0.34s ease;
+      position: relative;
+      filter: saturate(1.08) brightness(1.08);
+    }
+
+    .entry-cover::after {
+      display: none;
     }
 
     .entry-card.is-reversed .entry-cover {
       grid-column: 2;
-      clip-path: polygon(12% 0, 100% 0, 100% 100%, 0 100%);
+      clip-path: polygon(var(--entry-cut) 0, 100% 0, 100% 100%, 0 100%);
     }
 
     .entry-card:hover .entry-cover {
-      filter: saturate(1.06) brightness(1.02);
+      filter: saturate(1.12) brightness(1.12);
     }
 
     .entry-panel {
       grid-row: 1;
       position: relative;
       min-height: 248px;
-      padding: 24px 28px 22px 58px;
+      margin-left: calc(var(--entry-cut) * -1);
+      padding: 24px 28px 22px calc(28px + var(--entry-cut));
       overflow: hidden;
       z-index: 3;
+      background: linear-gradient(180deg, #091320 0%, #08111c 58%, #0a1320 100%);
+      clip-path: polygon(var(--entry-cut) 0, 100% 0, 100% 100%, 0 100%);
     }
 
     .entry-card.is-reversed .entry-panel {
       grid-column: 1;
-      padding: 24px 58px 22px 28px;
+      margin-left: 0;
+      margin-right: calc(var(--entry-cut) * -1);
+      padding: 24px calc(28px + var(--entry-cut)) 22px 28px;
+      clip-path: polygon(0 0, 100% 0, calc(100% - var(--entry-cut)) 100%, 0 100%);
     }
 
     .entry-panel::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 0 -54px;
-      background: linear-gradient(180deg, #0b1624, #08111c);
-      clip-path: polygon(54px 0, 100% 0, 100% 100%, 0 100%);
-      z-index: 0;
+      display: none;
     }
 
     .entry-card.is-reversed .entry-panel::before {
-      inset: 0 -54px 0 0;
-      clip-path: polygon(0 0, 100% 0, calc(100% - 54px) 100%, 0 100%);
+      display: none;
+    }
+
+    .entry-card:hover .entry-shell {
+      transform: translateY(-8px);
+      box-shadow: 0 40px 104px rgba(0, 0, 0, 0.44);
     }
 
     .entry-content {
@@ -696,6 +859,18 @@
       gap: 14px;
       min-height: 192px;
       justify-content: space-between;
+      transition: transform 0.34s ease;
+    }
+
+    .entry-card:hover .entry-content {
+      transform: translateY(-2px);
+    }
+
+    .entry-header-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 12px;
     }
 
     .entry-labels {
@@ -717,7 +892,6 @@
     .entry-badge {
       padding: 6px 10px;
       background: var(--accent-soft);
-      border: 1px solid var(--accent-border);
       color: var(--accent);
       font-size: 0.8rem;
       font-weight: 800;
@@ -726,7 +900,6 @@
     .entry-tag {
       padding: 6px 10px;
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
       color: rgba(213, 221, 236, 0.84);
       font-size: 0.8rem;
     }
@@ -778,7 +951,7 @@
       font-size: clamp(1.7rem, 3vw, 2.2rem);
       line-height: 1.08;
       letter-spacing: -0.04em;
-      color: var(--accent);
+      color: var(--accent-bright);
     }
 
     .entry-summary {
@@ -791,8 +964,9 @@
     .entry-footer {
       display: flex;
       justify-content: flex-start;
-      align-items: end;
+      align-items: center;
       gap: 14px;
+      flex-wrap: wrap;
     }
 
     .entry-tags {
@@ -801,14 +975,9 @@
       gap: 8px;
     }
 
-    .entry-tags-empty {
-      min-height: 1px;
-    }
-
     .entry-chip {
       padding: 6px 10px;
       background: rgba(143, 211, 255, 0.1);
-      border: 1px solid rgba(143, 211, 255, 0.22);
       color: #a8ddff;
       font-size: 0.82rem;
     }
@@ -816,7 +985,7 @@
     .footer {
       padding: 0 0 42px;
       text-align: center;
-      color: #9b808b;
+      color: rgba(229, 239, 250, 0.56);
     }
 
     .footer a {
@@ -839,11 +1008,23 @@
       }
 
       .profile-card {
-        grid-column: 1 / -1;
+        height: 100%;
+      }
+
+      .section-rail {
+        position: static;
       }
     }
 
     @media (max-width: 900px) {
+      .section-rail {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .profile-links {
+        justify-content: flex-start;
+      }
 
       .entry-shell,
       .entry-card.is-reversed .entry-shell {
@@ -858,22 +1039,19 @@
 
       .entry-panel,
       .entry-card.is-reversed .entry-panel {
+        margin-left: 0;
+        margin-right: 0;
         padding: 34px 22px 22px;
+        clip-path: none;
       }
 
       .entry-panel::before,
       .entry-card.is-reversed .entry-panel::before {
-        inset: 0;
-        clip-path: none;
+        display: none;
       }
     }
 
     @media (max-width: 720px) {
-      .nav-inner {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
       .hero-banner {
         min-height: 300px;
       }
@@ -884,6 +1062,15 @@
 
       .sidebar {
         grid-template-columns: 1fr;
+      }
+
+      .profile-head {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
       }
 
       .music-header {
@@ -903,174 +1090,209 @@
       .entry-content h3 {
         font-size: 1.45rem;
       }
+
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
     }
   </style>
 </head>
 
 <body data-page="home">
   <div id="site-shell" data-page="home">
-  <main id="top">
-    <section class="hero-banner">
-      <div class="hero-copy">
-        <h1 class="hero-title" id="hero-title">13rəs'$ v1rtu4L w0rld</h1>
-        <p class="hero-subtitle" id="hero-subtitle">thiz m l1f3' dis4ssembler
-Everyyy line i$ an instruction~</p>
-      </div>
-    </section>
-
-    <section class="home-shell">
-      <div class="container home-layout">
-        <aside class="sidebar">
-          <div class="glass music-card" id="music-card">
-            <div class="music-header">
-              <button class="music-disc-button" id="music-play-toggle" type="button" aria-label="Play or pause music">
-                <div class="music-cover" id="music-cover"></div>
-              </button>
-              <div class="music-copy">
-                <span class="music-overline">Playlist</span>
-                <strong class="music-title" id="music-title">Loading playlist...</strong>
-                <p class="music-subtitle" id="music-subtitle">Preparing local tracks...</p>
-                <div class="music-progress" aria-hidden="true">
-                  <span class="music-progress-bar" id="music-progress-bar"></span>
-                </div>
-                <div class="music-meta-row">
-                  <span class="music-position" id="music-position">0 / 0</span>
-                  <button class="music-list-toggle" id="music-list-toggle" type="button" aria-expanded="false"
-                    aria-label="Toggle playlist" title="Toggle playlist">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="m6 9 6 6 6-6"></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="music-controls">
-              <button class="music-btn" id="music-prev" type="button" aria-label="Previous track"
-                title="Previous track">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M19 20 9 12l10-8v16Z"></path>
-                  <path d="M5 19V5"></path>
-                </svg>
-              </button>
-              <button class="music-btn" id="music-toggle" type="button" aria-label="Play" title="Play">
-                <svg viewBox="0 0 24 24" aria-hidden="true" data-icon="play">
-                  <path d="m8 5 11 7-11 7V5Z"></path>
-                </svg>
-              </button>
-              <button class="music-btn" id="music-next" type="button" aria-label="Next track" title="Next track">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="m5 4 10 8-10 8V4Z"></path>
-                  <path d="M19 5v14"></path>
-                </svg>
-              </button>
-              <button class="music-btn" id="music-loop" type="button" aria-label="Loop current track"
-                title="Loop current track">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M17 17h2a2 2 0 0 0 2-2v-2"></path>
-                  <path d="M3 9V7a2 2 0 0 1 2-2h14"></path>
-                  <path d="m7 17-4-4 4-4"></path>
-                  <path d="m17 3 4 4-4 4"></path>
-                  <path d="M7 13h7a2 2 0 0 1 2 2v2"></path>
-                  <path d="M12 9h1v6"></path>
-                </svg>
-              </button>
-            </div>
-            <div class="music-playlist" id="music-playlist">
-              <div class="music-playlist-inner" id="music-playlist-inner"></div>
-            </div>
-          </div>
-
-          <div class="glass profile-card">
-            <div class="profile-avatar"></div>
-            <h2 class="profile-name" id="profile-name">13rəs</h2>
-            <p class="profile-bio" id="profile-bio">Reverse · Malware · Blog . 36</p>
-
-            <div class="profile-stats">
-              <div class="profile-stat">
-                <strong id="stat-posts">18</strong>
-                <span>Posts</span>
-              </div>
-              <div class="profile-stat">
-                <strong id="stat-sections">4</strong>
-                <span>Categories</span>
-              </div>
-              <div class="profile-stat">
-                <strong id="stat-tags">17</strong>
-                <span>Tags</span>
-              </div>
-            </div>
-
-            <div class="profile-links">
-              <a class="profile-link is-active" href="#top">Main Page</a>
-              <a class="profile-link" href="#blog">Blog</a>
-              <a class="profile-link" href="#writeup">Writeup</a>
-              <a class="profile-link" href="#tools">Tools</a>
-              <a class="profile-link" href="#malware">Malware</a>
-
-            </div>
-          </div>
-        </aside>
-
-        <div class="content-column">
-          <section id="recent" class="section is-active">
-            <div class="section-head">
-              <div class="section-head-row">
-                <div>
-                  <h2 id="recent-title">Recent</h2>
-                  <p id="recent-description">Latest published posts, 4 posts per page.</p>
-                </div>
-              </div>
-            </div>
-            <div class="list-stack" id="recent-list"></div>
-            <div class="recent-controls" style="justify-content: center; margin-top: 24px;">
-              <button class="recent-btn" id="recent-prev" type="button" aria-label="Previous">←</button>
-              <span class="recent-page" id="recent-page">1 / 1</span>
-              <button class="recent-btn" id="recent-next" type="button" aria-label="Next">→</button>
-            </div>
-          </section>
-
-          <section id="writeup" class="section">
-            <div class="section-head">
-              <h2 id="writeup-title">Writeup</h2>
-              <p id="writeup-description">wu vặt thời chưa có AI :(</p>
-            </div>
-            <div class="list-stack" id="writeup-list"></div>
-          </section>
-
-          <section id="tools" class="section">
-            <div class="section-head">
-              <h2 id="tools-title">Tools</h2>
-              <p id="tools-description">vì lý tưởng automation~</p>
-            </div>
-            <div class="list-stack" id="tools-list"></div>
-          </section>
-
-          <section id="blog" class="section">
-            <div class="section-head">
-              <h2 id="blog-title">Blog</h2>
-              <p id="blog-description">Sharing vo van linh tinh :v</p>
-            </div>
-            <div class="list-stack" id="blog-list"></div>
-          </section>
-
-          <section id="malware" class="section">
-            <div class="section-head">
-              <h2 id="malware-title">Malware</h2>
-              <p id="malware-description">Malware analysis + tech</p>
-            </div>
-            <div class="list-stack" id="malware-list"></div>
-          </section>
+    <main id="top">
+      <section class="hero-banner">
+        <div class="hero-copy">
+          <h1 class="hero-title" id="hero-title">13rəs'$ v1rtu4L w0rld</h1>
+          <p class="hero-subtitle" id="hero-subtitle">thiz m l1f3' dis4ssembler
+            Everyyy line i$ an instruction~</p>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
 
-  <footer class="footer container">
-    <p>
-      © 2026 SonVH · Data source: <code>data/posts.json</code> ·
-      <a href="https://github.com/SonVH2511" target="_blank" rel="noreferrer">GitHub</a>
-    </p>
-  </footer>
+      <section class="home-shell">
+        <div class="container home-layout">
+          <aside class="sidebar">
+            <div class="glass music-card" id="music-card">
+              <div class="music-header">
+                <button class="music-disc-button" id="music-play-toggle" type="button" aria-label="Play or pause music">
+                  <div class="music-cover" id="music-cover"></div>
+                </button>
+                <div class="music-copy">
+                  <span class="music-overline">Playlist</span>
+                  <strong class="music-title" id="music-title">Loading playlist...</strong>
+                  <p class="music-subtitle" id="music-subtitle">Preparing local tracks...</p>
+                  <div class="music-progress" aria-hidden="true">
+                    <span class="music-progress-bar" id="music-progress-bar"></span>
+                  </div>
+                  <div class="music-meta-row">
+                    <span class="music-position" id="music-position">0 / 0</span>
+                    <button class="music-list-toggle" id="music-list-toggle" type="button" aria-expanded="false"
+                      aria-label="Toggle playlist" title="Toggle playlist">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="m6 9 6 6 6-6"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="music-controls">
+                <button class="music-btn" id="music-prev" type="button" aria-label="Previous track"
+                  title="Previous track">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M19 20 9 12l10-8v16Z"></path>
+                    <path d="M5 19V5"></path>
+                  </svg>
+                </button>
+                <button class="music-btn" id="music-toggle" type="button" aria-label="Play" title="Play">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" data-icon="play">
+                    <path d="m8 5 11 7-11 7V5Z"></path>
+                  </svg>
+                </button>
+                <button class="music-btn" id="music-next" type="button" aria-label="Next track" title="Next track">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m5 4 10 8-10 8V4Z"></path>
+                    <path d="M19 5v14"></path>
+                  </svg>
+                </button>
+                <button class="music-btn" id="music-loop" type="button" aria-label="Loop current track"
+                  title="Loop current track">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M17 17h2a2 2 0 0 0 2-2v-2"></path>
+                    <path d="M3 9V7a2 2 0 0 1 2-2h14"></path>
+                    <path d="m7 17-4-4 4-4"></path>
+                    <path d="m17 3 4 4-4 4"></path>
+                    <path d="M7 13h7a2 2 0 0 1 2 2v2"></path>
+                    <path d="M12 9h1v6"></path>
+                  </svg>
+                </button>
+              </div>
+              <div class="music-playlist" id="music-playlist">
+                <div class="music-playlist-inner" id="music-playlist-inner"></div>
+              </div>
+            </div>
+
+            <div class="glass profile-card">
+              <div class="profile-head">
+                <div class="profile-avatar"></div>
+                <div class="profile-identity">
+                  <h2 class="profile-name" id="profile-name">13rəs</h2>
+                  <p class="profile-bio" id="profile-bio">Reverse · Blog . 36</p>
+                </div>
+              </div>
+
+              <div class="profile-stats">
+                <div class="profile-stat">
+                  <strong id="stat-posts">18</strong>
+                  <span>Posts</span>
+                </div>
+                <div class="profile-stat">
+                  <strong id="stat-sections">4</strong>
+                  <span>Categories</span>
+                </div>
+                <div class="profile-stat">
+                  <strong id="stat-tags">17</strong>
+                  <span>Tags</span>
+                </div>
+              </div>
+
+              <div class="profile-notes">
+                <!-- <div class="profile-note">
+                  <span>Base</span>
+                  <strong>VN / Remote Desk</strong>
+                </div> -->
+                <!-- <div class="profile-note">
+                  <span>From</span>
+                  <div class="profile-note-logos" aria-label="Status">
+                    <img class="profile-note-logo" src="/assets/images/kcsc.jpg" alt="KCSC">
+                    <img class="profile-note-logo" src="/assets/images/vnpt.jpg" alt="VNPT">
+                  </div>
+                </div> -->
+                <!-- <div class="profile-note">
+                  <span>Bias</span>
+                  <strong>joke phanbietvungmien</strong>
+                </div> -->
+              </div>
+            </div>
+          </aside>
+
+          <div class="content-column">
+            <nav class="section-rail glass" aria-label="Site navigation">
+              <span class="section-rail-label">Menu</span>
+              <div class="profile-links">
+                <a class="profile-link is-active" href="#top">Main Page</a>
+                <a class="profile-link" href="#blog">Blog</a>
+                <a class="profile-link" href="#writeup">Writeup</a>
+                <a class="profile-link" href="#tools">Tools</a>
+                <a class="profile-link" href="#malware">Malware</a>
+              </div>
+            </nav>
+            <section id="recent" class="section is-active">
+              <div class="section-head">
+                <div class="section-head-row">
+                  <div>
+                    <h2 id="recent-title">Recent</h2>
+                    <p id="recent-description">Latest published posts, 4 posts per page.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="list-stack" id="recent-list"></div>
+              <div class="recent-controls">
+                <button class="recent-btn" id="recent-prev" type="button" aria-label="Previous">←</button>
+                <span class="recent-page" id="recent-page">1 / 1</span>
+                <button class="recent-btn" id="recent-next" type="button" aria-label="Next">→</button>
+              </div>
+            </section>
+
+            <section id="writeup" class="section">
+              <div class="section-head">
+                <h2 id="writeup-title">Writeup</h2>
+                <p id="writeup-description">wu vặt thời chưa có AI :(</p>
+              </div>
+              <div class="list-stack" id="writeup-list"></div>
+            </section>
+
+            <section id="tools" class="section">
+              <div class="section-head">
+                <h2 id="tools-title">Tools</h2>
+                <p id="tools-description">vì lý tưởng automation~</p>
+              </div>
+              <div class="list-stack" id="tools-list"></div>
+            </section>
+
+            <section id="blog" class="section">
+              <div class="section-head">
+                <h2 id="blog-title">Blog</h2>
+                <p id="blog-description">Sharing vo van linh tinh :v</p>
+              </div>
+              <div class="list-stack" id="blog-list"></div>
+            </section>
+
+            <section id="malware" class="section">
+              <div class="section-head">
+                <h2 id="malware-title">Malware</h2>
+                <p id="malware-description">Malware analysis + tech</p>
+              </div>
+              <div class="list-stack" id="malware-list"></div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer container">
+      <p>
+        © 2026 SonVH · Data source: <code>data/posts.json</code> ·
+        <a href="https://github.com/SonVH2511" target="_blank" rel="noreferrer">GitHub</a>
+      </p>
+    </footer>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
