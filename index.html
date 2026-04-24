@@ -622,12 +622,164 @@
       display: none;
     }
 
-    .section-rail-label {
-      color: rgba(255, 255, 255, 0.62);
-      font: 700 0.76rem "JetBrains Mono", Consolas, monospace;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
+    .section-rail-terminal {
+      min-width: 0;
+      width: min(100%, 320px);
+      flex: 0 1 320px;
+      cursor: text;
+    }
+
+    .terminal-prompt {
+      color: rgba(143, 211, 255, 0.82);
+      font: 700 0.84rem "JetBrains Mono", Consolas, monospace;
+      line-height: 1;
       flex: 0 0 auto;
+    }
+
+    .terminal-form {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      cursor: text;
+      min-width: 0;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .terminal-form:focus-within {
+      background: rgba(143, 211, 255, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .terminal-form.is-showing-result .terminal-input {
+      display: none;
+    }
+
+    .terminal-form.is-showing-result .terminal-editor {
+      display: none;
+    }
+
+    .terminal-form.is-showing-result .terminal-output {
+      display: flex;
+      align-items: center;
+    }
+
+    .terminal-form.is-error .terminal-output {
+      color: rgba(255, 181, 181, 0.92);
+    }
+
+    .terminal-input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      outline: none;
+      background: transparent;
+      color: transparent;
+      font: 700 0.74rem "JetBrains Mono", Consolas, monospace;
+      letter-spacing: 0.02em;
+      cursor: text;
+      caret-color: transparent;
+      opacity: 0;
+    }
+
+    .terminal-editor {
+      position: relative;
+      display: flex;
+      align-items: center;
+      flex: 1 1 auto;
+      min-width: 0;
+      cursor: text;
+    }
+
+    .terminal-ghost {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      max-width: 100%;
+      color: var(--accent-bright);
+      font: 700 0.74rem "JetBrains Mono", Consolas, monospace;
+      letter-spacing: 0.02em;
+      pointer-events: none;
+    }
+
+    .terminal-mirror {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    @keyframes terminal-cursor-blink {
+
+      0%,
+      48% {
+        opacity: 1;
+      }
+
+      50%,
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .terminal-cursor {
+      width: 0.72ch;
+      height: 1.12em;
+      margin-left: 1px;
+      background: currentColor;
+      flex: 0 0 auto;
+      animation: terminal-cursor-blink 1.05s steps(1, end) infinite;
+    }
+
+    .terminal-form:not(:focus-within) .terminal-cursor {
+      opacity: 0;
+      animation: none;
+    }
+
+    .terminal-output {
+      display: none;
+      min-width: 0;
+      color: rgba(213, 221, 236, 0.8);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font: 700 0.72rem "JetBrains Mono", Consolas, monospace;
+      letter-spacing: 0.01em;
+    }
+
+    .terminal-output.is-bright {
+      color: var(--accent-bright);
+    }
+
+    .terminal-output.is-list {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: visible;
+    }
+
+    .terminal-flag,
+    .terminal-logo {
+      object-fit: cover;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+      display: block;
+    }
+
+    .terminal-logo {
+      width: 22px;
+      height: 22px;
+    }
+
+    .terminal-flag {
+      width: 28px;
+      height: 20px;
     }
 
     .profile-links {
@@ -1022,6 +1174,11 @@
         align-items: flex-start;
       }
 
+      .section-rail-terminal {
+        width: 100%;
+        flex-basis: auto;
+      }
+
       .profile-links {
         justify-content: flex-start;
       }
@@ -1113,7 +1270,7 @@
         <div class="hero-copy">
           <h1 class="hero-title" id="hero-title">13rəs'$ v1rtu4L w0rld</h1>
           <p class="hero-subtitle" id="hero-subtitle">thiz m l1f3' dis4ssembler
-            Everyyy line i$ an instruction~</p>
+            Everyyy line i$ an instrvction~</p>
         </div>
       </section>
 
@@ -1206,7 +1363,7 @@
               <div class="profile-notes">
                 <!-- <div class="profile-note">
                   <span>Base</span>
-                  <strong>VN / Remote Desk</strong>
+                  <strong>363636</strong>
                 </div> -->
                 <!-- <div class="profile-note">
                   <span>From</span>
@@ -1225,7 +1382,20 @@
 
           <div class="content-column">
             <nav class="section-rail glass" aria-label="Site navigation">
-              <span class="section-rail-label">Menu</span>
+              <div class="section-rail-terminal" aria-label="Quick terminal">
+                <form class="terminal-form" id="terminal-form" autocomplete="off">
+                  <span class="terminal-prompt" aria-hidden="true">&gt;</span>
+                  <span class="terminal-editor">
+                    <span class="terminal-ghost" aria-hidden="true">
+                      <span class="terminal-mirror" id="terminal-mirror"></span>
+                      <span class="terminal-cursor"></span>
+                    </span>
+                    <input class="terminal-input" id="terminal-input" type="text" name="command" spellcheck="false"
+                      autocomplete="off" aria-label="Terminal command">
+                  </span>
+                  <span class="terminal-output" id="terminal-output" aria-live="polite"></span>
+                </form>
+              </div>
               <div class="profile-links">
                 <a class="profile-link is-active" href="#top">Main Page</a>
                 <a class="profile-link" href="#blog">Blog</a>

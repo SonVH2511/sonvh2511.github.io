@@ -366,6 +366,365 @@
     });
   }
 
+  function bindRailTerminal(site) {
+    const terminal = document.querySelector(".section-rail-terminal");
+    const form = document.getElementById("terminal-form");
+    const input = document.getElementById("terminal-input");
+    const mirror = document.getElementById("terminal-mirror");
+    const output = document.getElementById("terminal-output");
+    const prompt = form ? form.querySelector(".terminal-prompt") : null;
+    if (!terminal || !form || !input || !mirror || !output || !prompt) {
+      return function () {};
+    }
+
+    const aliases = ["SonVH"];
+    const owner = String(site && site.owner || "").trim();
+    if (owner && !aliases.some((value) => value.toLowerCase() === owner.toLowerCase())) {
+      aliases.push(owner);
+    }
+    const createSvgDataUrl = (svg) => `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+    const decodeTerminalText = (token) => {
+      const bytes = Uint8Array.from(
+        atob(token.split("").reverse().join("")),
+        (char) => char.charCodeAt(0)
+      );
+      const scrambled = new TextDecoder().decode(bytes);
+      return Array.from(scrambled, (char) => String.fromCharCode(char.charCodeAt(0) ^ 11)).join("");
+    };
+    const terminalText = {
+      cmd36: decodeTerminalText("=0DO"),
+      cmdHehe: decodeTerminalText("==gbj52Y"),
+      cmdMmb: decodeTerminalText("pZmZ"),
+      cmdVc: decodeTerminalText("=gWf"),
+      cmdDm: decodeTerminalText("=Y2b"),
+      help: decodeTerminalText("==gf4tCvCvSP4sCvCvybulnf/Vmb99marwrwrYGZ512K8K8KiZmakNGf"),
+      callme: decodeTerminalText("=sibmtyZnpGS"),
+      msg36: decodeTerminalText("0MGYrk3P9tyYoJ2Y/tiZ"),
+      su: decodeTerminalText("==gf4tCZ/tibsp2erUGfktSe+Rmcr4GYqZ2KngGar4He"),
+      hehe: decodeTerminalText("iISMr42YltCaotibj52Y"),
+      mmb: decodeTerminalText("=Y2KuZ2KsVmaptSZqx2Kk5Wa"),
+      vcDm: decodeTerminalText("==ANrO8Ki97wj93KvVmamZGZotivDz2KIub4aS8KCub4jh2Kyl6waS8Kkt6w9tiZ"),
+      unknown: decodeTerminalText("==QJps3ZuNWKrIXeftSJvVmamZGZotSZ8RWZgVmX"),
+      bof: decodeTerminalText("=IiIxsib552Yrwman12KkV2K/5Xar0EZJtiboJWZ"),
+      fmt: decodeTerminalText("l8mbgpmbntCblJ2Y/RWZr8nfptyJv52f/R2e4tCblJWe/h3K/pmZ5RWb"),
+      path: decodeTerminalText("=Uic593KuhmYltyJv5mYl52brcma4lnb9pWe/tyY/p2e"),
+      xss: decodeTerminalText("=UCeu1nY9lnf4tibsp2er42Y/tSJv5Weu93Zi12K4h3c"),
+      sqli: decodeTerminalText("l4HZytSek12K7ZmfvtCZltSJv52fo52fu92KvpGZnJna7tiYnpHe")
+    };
+    const whoamiValue = `${terminalText.callme}${aliases.join("/")}`;
+    const flagAssets = {
+      vn: createSvgDataUrl('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48"><rect width="64" height="48" rx="6" fill="#da251d"/><path d="m32 10.5 4.2 12.6h13.2l-10.7 7.8 4.1 12.6L32 35.7l-10.8 7.8 4.1-12.6-10.7-7.8H27.8Z" fill="#ffde00"/></svg>'),
+      sg: createSvgDataUrl('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48"><rect width="64" height="24" rx="6" fill="#ef3340"/><rect y="24" width="64" height="24" rx="6" fill="#ffffff"/><path d="M17.8 10.2a9.3 9.3 0 1 0 0 17.6 10 10 0 1 1 0-17.6Z" fill="#ffffff"/><g fill="#ffffff"><circle cx="25.5" cy="13.6" r="1.4"/><circle cx="29.4" cy="17.1" r="1.4"/><circle cx="27.9" cy="22" r="1.4"/><circle cx="23.1" cy="22" r="1.4"/><circle cx="21.6" cy="17.1" r="1.4"/></g></svg>'),
+      cn: createSvgDataUrl('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48"><rect width="64" height="48" rx="6" fill="#de2910"/><path d="m14 9 2.3 6.8h7.2l-5.8 4.2 2.2 6.8-5.9-4.3-5.8 4.3 2.2-6.8-5.8-4.2h7.2Z" fill="#ffde00"/><g fill="#ffde00"><circle cx="28.5" cy="9.5" r="2.1"/><circle cx="34" cy="15.2" r="2.1"/><circle cx="33.2" cy="23.4" r="2.1"/><circle cx="26.6" cy="28.2" r="2.1"/></g></svg>'),
+      kr: createSvgDataUrl('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48"><rect width="64" height="48" rx="6" fill="#ffffff"/><g transform="translate(32 24)"><path d="M0-8a8 8 0 0 1 0 16 8 8 0 0 1 0-16Z" fill="#cd2e3a"/><path d="M0 8a8 8 0 0 1 0-16 4 4 0 0 1 0 8 4 4 0 0 0 0 8Z" fill="#0047a0"/></g><g fill="#111111"><rect x="10" y="11" width="9" height="2" rx="1" transform="rotate(-28 14.5 12)"/><rect x="10" y="15" width="9" height="2" rx="1" transform="rotate(-28 14.5 16)"/><rect x="10" y="19" width="9" height="2" rx="1" transform="rotate(-28 14.5 20)"/><rect x="45" y="27" width="9" height="2" rx="1" transform="rotate(-28 49.5 28)"/><rect x="45" y="31" width="9" height="2" rx="1" transform="rotate(-28 49.5 32)"/><rect x="45" y="35" width="9" height="2" rx="1" transform="rotate(-28 49.5 36)"/><rect x="45" y="11" width="9" height="2" rx="1" transform="rotate(28 49.5 12)"/><rect x="45" y="15" width="9" height="2" rx="1" transform="rotate(28 49.5 16)"/><rect x="10" y="27" width="9" height="2" rx="1" transform="rotate(28 14.5 28)"/><rect x="10" y="35" width="9" height="2" rx="1" transform="rotate(28 14.5 36)"/></g></svg>')
+    };
+    const promptCycle = [">", "#", "$"];
+    const spamThreshold = 8;
+    let resetTimer = 0;
+    let promptRollTimer = 0;
+    let promptShuffleTimer = 0;
+    let promptSettleTimer = 0;
+    let commandCount = 0;
+    let shouldRefocus = false;
+
+    const commandMap = {
+      help() {
+        return {
+          mode: "text",
+          value: terminalText.help
+        };
+      },
+      whoami() {
+        return {
+          mode: "text",
+          value: whoamiValue,
+          highlight: true
+        };
+      },
+      from() {
+        return {
+          mode: "logos",
+          items: [
+            { src: "/assets/images/vnpt.jpg", alt: "VNPT" },
+            { src: "/assets/images/kcsc.jpg", alt: "KCSC" }
+          ]
+        };
+      },
+      adventured() {
+        return {
+          mode: "flags",
+          items: [
+            { src: flagAssets.vn, alt: "Vietnam" },
+            { src: flagAssets.sg, alt: "Singapore" },
+            { src: flagAssets.cn, alt: "China" },
+            { src: flagAssets.kr, alt: "Korea" }
+          ]
+        };
+      },
+      "36"() {
+        return {
+          mode: "text",
+          value: terminalText.msg36
+        };
+      },
+      su() {
+        return {
+          mode: "text",
+          value: terminalText.su
+        };
+      },
+      hehe() {
+        return {
+          mode: "text",
+          value: terminalText.hehe
+        };
+      },
+      mmb() {
+        return {
+          mode: "text",
+          value: terminalText.mmb
+        };
+      },
+      clear() {
+        return {
+          mode: "clear"
+        };
+      }
+    };
+    const easterEggMatchers = [
+      {
+        test(value) {
+          return /^A{8,}$/i.test(value);
+        },
+        value: terminalText.bof
+      },
+      {
+        test(value) {
+          return /(%x){2,}|%p|%n/i.test(value);
+        },
+        value: terminalText.fmt
+      },
+      {
+        test(value) {
+          return /\.\.\//.test(value) || /\.\.\\/.test(value);
+        },
+        value: terminalText.path
+      },
+      {
+        test(value) {
+          return /<script|onerror=|alert\s*\(/i.test(value);
+        },
+        value: terminalText.xss
+      },
+      {
+        test(value) {
+          return /('|")?\s*or\s+1=1|union\s+select|select\*from|--/i.test(value);
+        },
+        value: terminalText.sqli
+      }
+    ];
+
+    const resetPrompt = () => {
+      window.clearTimeout(resetTimer);
+      form.classList.remove("is-showing-result", "is-error");
+      output.className = "terminal-output";
+      output.textContent = "";
+      input.value = "";
+      mirror.textContent = "";
+      if (shouldRefocus && document.visibilityState === "visible") {
+        shouldRefocus = false;
+        window.requestAnimationFrame(() => {
+          input.focus({ preventScroll: true });
+        });
+      }
+    };
+    const syncMirror = () => {
+      mirror.textContent = input.value;
+    };
+    const rollPrompt = () => {
+      window.clearInterval(promptShuffleTimer);
+      window.clearTimeout(promptSettleTimer);
+
+      let shuffleIndex = 0;
+      promptShuffleTimer = window.setInterval(() => {
+        prompt.textContent = promptCycle[shuffleIndex % promptCycle.length];
+        shuffleIndex += 1;
+      }, 90);
+
+      promptSettleTimer = window.setTimeout(() => {
+        window.clearInterval(promptShuffleTimer);
+        prompt.textContent = promptCycle[Math.floor(Math.random() * promptCycle.length)];
+      }, 1000);
+    };
+
+    const scheduleReset = (delay) => {
+      window.clearTimeout(resetTimer);
+      resetTimer = window.setTimeout(() => {
+        resetPrompt();
+      }, delay);
+    };
+
+    const showResult = (payload, isError) => {
+      output.className = "terminal-output";
+      output.innerHTML = "";
+
+      if (payload.highlight) {
+        output.classList.add("is-bright");
+      }
+
+      if (payload.mode === "logos") {
+        output.classList.add("is-list");
+        payload.items.forEach((item) => {
+          const image = document.createElement("img");
+          image.className = "terminal-logo";
+          image.src = item.src;
+          image.alt = item.alt;
+          output.appendChild(image);
+        });
+      } else if (payload.mode === "flags") {
+        output.classList.add("is-list");
+        payload.items.forEach((item) => {
+          const flag = document.createElement("img");
+          flag.className = "terminal-flag";
+          flag.src = item.src;
+          flag.alt = item.alt;
+          flag.title = item.alt;
+          output.appendChild(flag);
+        });
+      } else {
+        output.textContent = payload.value || "";
+      }
+
+      form.classList.toggle("is-error", Boolean(isError));
+      form.classList.add("is-showing-result");
+      input.blur();
+      scheduleReset(payload.mode === "logos" || payload.mode === "flags" ? 2600 : 2200);
+    };
+
+    const executeCommand = (rawValue) => {
+      const commandLine = String(rawValue || "").trim();
+      if (!commandLine) {
+        return;
+      }
+      commandCount += 1;
+      if (commandCount > spamThreshold) {
+        showResult({
+          mode: "text",
+          value: terminalText.vcDm
+        }, false);
+        return;
+      }
+
+      const command = commandLine.split(/\s+/)[0].toLowerCase();
+      const compactCommand = commandLine.replace(/\s+/g, "").toLowerCase();
+      let normalizedCommand = command === "adventure" ? "adventured" : command;
+      if (!commandMap[normalizedCommand]) {
+        const fuzzyCommands = [terminalText.cmd36, terminalText.cmdHehe, terminalText.cmdMmb];
+        const matchedFuzzyCommand = fuzzyCommands.find((token) => compactCommand.includes(token));
+        if (matchedFuzzyCommand) {
+          normalizedCommand = matchedFuzzyCommand;
+        }
+      }
+      const handler = commandMap[normalizedCommand];
+      if (!handler) {
+        if (compactCommand.includes(terminalText.cmdVc) || compactCommand.includes(terminalText.cmdDm)) {
+          showResult({
+            mode: "text",
+            value: terminalText.vcDm
+          }, false);
+          return;
+        }
+        const matchedEasterEgg = easterEggMatchers.find((entry) => entry.test(commandLine));
+        if (matchedEasterEgg) {
+          showResult({
+            mode: "text",
+            value: matchedEasterEgg.value
+          }, false);
+          return;
+        }
+        showResult({
+          mode: "text",
+          value: terminalText.unknown
+        }, true);
+        return;
+      }
+
+      const payload = handler(commandLine);
+      if (payload.mode === "clear") {
+        resetPrompt();
+        return;
+      }
+      showResult(payload, false);
+    };
+
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      const value = input.value;
+      shouldRefocus = true;
+      executeCommand(value);
+      input.value = "";
+      syncMirror();
+    };
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        input.value = "";
+        syncMirror();
+        resetPrompt();
+      }
+    };
+    const handleInput = () => {
+      syncMirror();
+    };
+    const handleTerminalClick = (event) => {
+      if (event.target !== input) {
+        if (form.classList.contains("is-showing-result")) {
+          resetPrompt();
+        }
+        shouldRefocus = true;
+        input.focus();
+      }
+    };
+    const handleDocumentPointerDown = (event) => {
+      if (!terminal.contains(event.target)) {
+        shouldRefocus = false;
+      }
+    };
+    const handleArticleLinkClick = (event) => {
+      const link = event.target.closest(".entry-card-link");
+      if (!link) {
+        return;
+      }
+      commandCount = 0;
+      shouldRefocus = false;
+    };
+
+    form.addEventListener("submit", handleSubmit);
+    input.addEventListener("keydown", handleKeyDown);
+    input.addEventListener("input", handleInput);
+    terminal.addEventListener("click", handleTerminalClick);
+    document.addEventListener("pointerdown", handleDocumentPointerDown, true);
+    document.addEventListener("click", handleArticleLinkClick, true);
+    rollPrompt();
+    promptRollTimer = window.setInterval(rollPrompt, 2000);
+
+    return function () {
+      commandCount = 0;
+      shouldRefocus = false;
+      resetPrompt();
+      form.removeEventListener("submit", handleSubmit);
+      input.removeEventListener("keydown", handleKeyDown);
+      input.removeEventListener("input", handleInput);
+      terminal.removeEventListener("click", handleTerminalClick);
+      document.removeEventListener("pointerdown", handleDocumentPointerDown, true);
+      document.removeEventListener("click", handleArticleLinkClick, true);
+      window.clearInterval(promptRollTimer);
+      window.clearInterval(promptShuffleTimer);
+      window.clearTimeout(promptSettleTimer);
+      prompt.textContent = ">";
+    };
+  }
+
   window.SiteApp.registerPage("home", async function () {
     const recentList = document.getElementById("recent-list");
     if (!recentList) {
@@ -554,9 +913,11 @@
     window.addEventListener("hashchange", handleHashChange);
     handleRouting();
 
+    const cleanupTerminal = bindRailTerminal(site);
     const cleanupPlayer = bindHomepagePlayer(site, musicLibrary);
 
     return function () {
+      cleanupTerminal();
       cleanupPlayer();
       window.removeEventListener("hashchange", handleHashChange);
       if (recentPrev) {
