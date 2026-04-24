@@ -349,7 +349,7 @@
     ["recent", "writeup", "tools", "blog", "malware"].forEach((id) => {
       const element = document.getElementById(id);
       if (element) {
-        element.style.display = id === hash ? "" : "none";
+        element.classList.toggle("is-active", id === hash);
       }
     });
 
@@ -366,6 +366,8 @@
     if (!recentList) {
       return null;
     }
+
+    handleRouting();
 
     const [data, musicLibrary] = await Promise.all([
       window.SiteApp.getJson(DATA_URL),
