@@ -27,7 +27,8 @@
       --max: 1220px;
       --radius: 28px;
       --site-background-image: url("/assets/images/wallpaper.jpg");
-      --profile-avatar-image: url("/assets/images/cscv2025.jpg");
+      --profile-avatar-image: url("/assets/images/avatar.jpg");
+      --music-cover-image: url("/assets/images/wallpaper.jpg");
     }
 
     * {
@@ -537,8 +538,12 @@
     }
 
     .section {
-      display: grid;
+      display: none;
       gap: 18px;
+    }
+
+    .section.is-active {
+      display: grid;
     }
 
     .section-head h2 {
@@ -907,8 +912,9 @@
   <main id="top">
     <section class="hero-banner">
       <div class="hero-copy">
-        <h1 class="hero-title" id="hero-title">13rəs's blog</h1>
-        <p class="hero-subtitle" id="hero-subtitle">Writeup · Tools · Notes</p>
+        <h1 class="hero-title" id="hero-title">13rəs'$ v1rtu4L w0rld</h1>
+        <p class="hero-subtitle" id="hero-subtitle">thiz m l1f3' dis4ssembler
+Everyyy line i$ an instruction~</p>
       </div>
     </section>
 
@@ -922,8 +928,8 @@
               </button>
               <div class="music-copy">
                 <span class="music-overline">Playlist</span>
-                <strong class="music-title" id="music-title">No track loaded</strong>
-                <p class="music-subtitle" id="music-subtitle">Add entries to data/posts.json -&gt; music</p>
+                <strong class="music-title" id="music-title">Loading playlist...</strong>
+                <p class="music-subtitle" id="music-subtitle">Preparing local tracks...</p>
                 <div class="music-progress" aria-hidden="true">
                   <span class="music-progress-bar" id="music-progress-bar"></span>
                 </div>
@@ -976,20 +982,20 @@
 
           <div class="glass profile-card">
             <div class="profile-avatar"></div>
-            <h2 class="profile-name" id="profile-name">SonVH</h2>
-            <p class="profile-bio" id="profile-bio">Reverse · Malware · Writeup</p>
+            <h2 class="profile-name" id="profile-name">13rəs</h2>
+            <p class="profile-bio" id="profile-bio">Reverse · Malware · Blog . 36</p>
 
             <div class="profile-stats">
               <div class="profile-stat">
-                <strong id="stat-posts">0</strong>
+                <strong id="stat-posts">18</strong>
                 <span>Posts</span>
               </div>
               <div class="profile-stat">
-                <strong id="stat-sections">0</strong>
+                <strong id="stat-sections">4</strong>
                 <span>Categories</span>
               </div>
               <div class="profile-stat">
-                <strong id="stat-tags">0</strong>
+                <strong id="stat-tags">17</strong>
                 <span>Tags</span>
               </div>
             </div>
@@ -1006,12 +1012,12 @@
         </aside>
 
         <div class="content-column">
-          <section id="recent" class="section">
+          <section id="recent" class="section is-active">
             <div class="section-head">
               <div class="section-head-row">
                 <div>
                   <h2 id="recent-title">Recent</h2>
-                  <p id="recent-description">Loading recently updated posts...</p>
+                  <p id="recent-description">Latest published posts, 4 posts per page.</p>
                 </div>
               </div>
             </div>
@@ -1026,7 +1032,7 @@
           <section id="writeup" class="section">
             <div class="section-head">
               <h2 id="writeup-title">Writeup</h2>
-              <p id="writeup-description">Loading data from JSON...</p>
+              <p id="writeup-description">wu vặt thời chưa có AI :(</p>
             </div>
             <div class="list-stack" id="writeup-list"></div>
           </section>
@@ -1034,7 +1040,7 @@
           <section id="tools" class="section">
             <div class="section-head">
               <h2 id="tools-title">Tools</h2>
-              <p id="tools-description">Loading data from JSON...</p>
+              <p id="tools-description">vì lý tưởng automation~</p>
             </div>
             <div class="list-stack" id="tools-list"></div>
           </section>
@@ -1042,7 +1048,7 @@
           <section id="blog" class="section">
             <div class="section-head">
               <h2 id="blog-title">Blog</h2>
-              <p id="blog-description">Loading data from JSON...</p>
+              <p id="blog-description">Sharing vo van linh tinh :v</p>
             </div>
             <div class="list-stack" id="blog-list"></div>
           </section>
@@ -1050,7 +1056,7 @@
           <section id="malware" class="section">
             <div class="section-head">
               <h2 id="malware-title">Malware</h2>
-              <p id="malware-description">Loading data from JSON...</p>
+              <p id="malware-description">Malware analysis + tech</p>
             </div>
             <div class="list-stack" id="malware-list"></div>
           </section>

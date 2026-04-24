@@ -375,7 +375,6 @@
     const sourceNode = document.getElementById("post-source");
     const statusNode = document.getElementById("post-status");
     const contentNode = document.getElementById("post-content");
-    const pageTitleNode = document.getElementById("page-title");
     const tocNode = document.getElementById("post-toc");
     const tocShellNode = document.querySelector(".toc-shell");
     const postMusicShellNode = document.querySelector(".post-music-shell");
@@ -398,6 +397,10 @@
       if (type === "error") {
         statusNode.classList.add("is-error");
       }
+    }
+
+    function setPageTitle(value) {
+      document.title = value || "Post | SonVH";
     }
 
     function applyPostBackground(url, fallback) {
@@ -658,7 +661,7 @@
     applyPostBackground(site.defaultPostBackground || site.homeBackground);
 
     if (!entry) {
-      pageTitleNode.textContent = "Post Not Found";
+      setPageTitle("Post Not Found");
       titleNode.textContent = "Post Not Found";
       descNode.textContent = "This slug is not declared in data/posts.json.";
       sourceNode.removeAttribute("href");
@@ -669,7 +672,7 @@
       };
     }
 
-    pageTitleNode.textContent = `${entry.title} | ${site.owner || "Site"}`;
+    setPageTitle(`${entry.title} | ${site.owner || "Site"}`);
     tagNode.textContent = entry.tag || "Post";
     titleNode.textContent = entry.title || "";
     descNode.textContent = entry.description || "";

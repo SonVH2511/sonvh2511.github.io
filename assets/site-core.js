@@ -766,11 +766,85 @@
     return document.querySelector(PAGE_SHELL_SELECTOR);
   }
 
-  function swapPageAssets(nextDocument) {
-    document.querySelectorAll(PAGE_ASSET_SELECTOR).forEach((node) => node.remove());
-    nextDocument.querySelectorAll(PAGE_ASSET_SELECTOR).forEach((node) => {
-      document.head.appendChild(node.cloneNode(true));
+  function getPageAssetKey(node) {
+    return node && node.getAttribute ? node.getAttribute("data-page-asset") || "" : "";
+  }
+
+  function isEquivalentPageAsset(currentNode, nextNode) {
+    if (!currentNode || !nextNode || currentNode.tagName !== nextNode.tagName) {
+      return false;
+    }
+
+    const currentHref = currentNode.getAttribute && currentNode.getAttribute("href");
+    const nextHref = nextNode.getAttribute && nextNode.getAttribute("href");
+    if (currentHref || nextHref) {
+      return resolveUrl(currentHref) === resolveUrl(nextHref);
+    }
+
+    return currentNode.textContent === nextNode.textContent;
+  }
+
+  function waitForPageAsset(node) {
+    if (!node || node.tagName !== "LINK") {
+      return Promise.resolve();
+    }
+
+    const rel = String(node.getAttribute("rel") || "").toLowerCase();
+    if (rel !== "stylesheet" || node.sheet) {
+      return Promise.resolve();
+    }
+
+    return new Promise((resolve) => {
+      let settled = false;
+      const done = () => {
+        if (settled) {
+          return;
+        }
+        settled = true;
+        node.removeEventListener("load", done);
+        node.removeEventListener("error", done);
+        resolve();
+      };
+
+      node.addEventListener("load", done, { once: true });
+      node.addEventListener("error", done, { once: true });
+      window.setTimeout(done, 3000);
     });
+  }
+
+  async function swapPageAssets(nextDocument) {
+    const currentNodes = Array.from(document.querySelectorAll(PAGE_ASSET_SELECTOR));
+    const currentByKey = new Map(
+      currentNodes.map((node) => [getPageAssetKey(node), node])
+    );
+    const nodesToRemove = [];
+    const waiters = [];
+
+    nextDocument.querySelectorAll(PAGE_ASSET_SELECTOR).forEach((nextNode) => {
+      const key = getPageAssetKey(nextNode);
+      const currentNode = currentByKey.get(key);
+
+      if (currentNode && isEquivalentPageAsset(currentNode, nextNode)) {
+        currentByKey.delete(key);
+        return;
+      }
+
+      const clone = nextNode.cloneNode(true);
+      document.head.appendChild(clone);
+      waiters.push(waitForPageAsset(clone));
+
+      if (currentNode) {
+        nodesToRemove.push(currentNode);
+        currentByKey.delete(key);
+      }
+    });
+
+    currentByKey.forEach((node) => {
+      nodesToRemove.push(node);
+    });
+
+    await Promise.all(waiters);
+    nodesToRemove.forEach((node) => node.remove());
   }
 
   function parseHtml(text) {
@@ -919,7 +993,7 @@
 
       cleanupCurrentPage();
 
-      swapPageAssets(nextDocument);
+      await swapPageAssets(nextDocument);
       const currentShell = getCurrentShell();
       currentShell.replaceWith(document.importNode(nextShell, true));
       document.title = nextDocument.title || document.title;
