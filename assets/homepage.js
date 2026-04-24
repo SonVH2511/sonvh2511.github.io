@@ -82,11 +82,14 @@
 
   function createPostCard(entry, index) {
     const summary = entry.summary || entry.description || "";
-    const cardBackground = entry.background ? `--card-background-image: url('${escapeHtml(entry.background)}');` : "";
-    const coverImage = (entry.cover || entry.background)
-      ? `--card-cover-image: url('${escapeHtml(entry.cover || entry.background)}');`
-      : "";
-    const cardStyle = cardBackground || coverImage ? ` style="${cardBackground}${coverImage}"` : "";
+    const styleParts = [`--card-index:${index};`];
+    if (entry.background) {
+      styleParts.push(`--card-background-image: url('${escapeHtml(entry.background)}');`);
+    }
+    if (entry.cover || entry.background) {
+      styleParts.push(`--card-cover-image: url('${escapeHtml(entry.cover || entry.background)}');`);
+    }
+    const cardStyle = styleParts.length ? ` style="${styleParts.join("")}"` : "";
     const metaItems = createMetaItems(entry);
     const tags = createTags(entry.tags);
     const route = entry.external ? (entry.route || "#") : `/post/?slug=${encodeURIComponent(entry.slug || "")}`;
@@ -102,15 +105,17 @@
       '    <div class="entry-panel">',
       '      <div class="entry-content">',
       '        <div class="entry-header">',
-      '          <div class="entry-labels">',
+      '          <div class="entry-header-top">',
+      '            <div class="entry-labels">',
       entry.pinned ? '            <span class="entry-badge">Pinned</span>' : "",
       `            <span class="entry-tag">${escapeHtml(entry.tag || "")}</span>`,
+      '            </div>',
       '          </div>',
       metaItems ? `          <div class="entry-meta">${metaItems}</div>` : "",
       '        </div>',
       `        <h3>${escapeHtml(entry.title || "")}</h3>`,
       `        <p class="entry-summary">${escapeHtml(summary)}</p>`,
-      `        <div class="entry-footer">${tags || '<div class="entry-tags entry-tags-empty"></div>'}</div>`,
+      tags ? `        <div class="entry-footer">${tags}</div>` : "",
       '      </div>',
       '    </div>',
       '  </div>',
@@ -367,6 +372,10 @@
       return null;
     }
 
+    const prefersReducedMotion = window.matchMedia
+      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      : false;
+
     handleRouting();
 
     const [data, musicLibrary] = await Promise.all([
@@ -446,6 +455,14 @@
 
     let currentPage = 0;
     const totalPages = Math.max(1, Math.ceil(recentPosts.length / RECENT_PAGE_SIZE));
+    const scrollRecentListToTop = () => {
+      const top = Math.max(0, window.scrollY + recentList.getBoundingClientRect().top - 20);
+      window.scrollTo({
+        top,
+        behavior: prefersReducedMotion ? "auto" : "smooth"
+      });
+    };
+
     const renderRecentPage = () => {
       const start = currentPage * RECENT_PAGE_SIZE;
       recentList.innerHTML = recentPosts
@@ -468,12 +485,14 @@
       if (currentPage > 0) {
         currentPage -= 1;
         renderRecentPage();
+        scrollRecentListToTop();
       }
     };
     const handleRecentNext = () => {
       if (currentPage < totalPages - 1) {
         currentPage += 1;
         renderRecentPage();
+        scrollRecentListToTop();
       }
     };
     if (recentPrev) {
