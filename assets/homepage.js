@@ -3,6 +3,30 @@
   const MUSIC_LIBRARY_URL = "/data/music-library.json";
   const RECENT_PAGE_SIZE = 4;
   const MUSIC_SAMPLE_SIZE = 10;
+  const DAY_WALLPAPER_URL = "/assets/images/wallpaper.jpg";
+  const NIGHT_WALLPAPER_URL = "/assets/images/wallpaper_night.jpg";
+
+  function isNightWallpaperTime(date = new Date()) {
+    const hour = date.getHours();
+    return hour >= 18 || hour < 6;
+  }
+
+  function resolveWallpaperByTime(value) {
+    const normalized = String(value || "").trim();
+    if (!normalized) {
+      return normalized;
+    }
+
+    if (/\/assets\/images\/wallpaper(?:_night)?\.jpg$/i.test(normalized)) {
+      return isNightWallpaperTime() ? NIGHT_WALLPAPER_URL : DAY_WALLPAPER_URL;
+    }
+
+    return normalized;
+  }
+
+  function applyWallpaperModeFlag() {
+    document.documentElement.dataset.wallpaperMode = isNightWallpaperTime() ? "night" : "day";
+  }
 
   function escapeHtml(value) {
     return String(value || "")
@@ -397,7 +421,7 @@
       cmdMmb: decodeTerminalText("pZmZ"),
       cmdVc: decodeTerminalText("=gWf"),
       cmdDm: decodeTerminalText("=Y2b"),
-      help: decodeTerminalText("==gf4tCvCvSP4sCvCvybulnf/Vmb99marwrwrYGZ512K8K8KiZmakNGf"),
+      help: decodeTerminalText("==gZklXbr8mb553fl5Wfvp2KiZmakNGf"),
       callme: decodeTerminalText("=sibmtyZnpGS"),
       msg36: decodeTerminalText("0MGYrk3P9tyYoJ2Y/tiZ"),
       su: decodeTerminalText("==gf4tCZ/tibsp2erUGfktSe+Rmcr4GYqZ2KngGar4He"),
@@ -753,14 +777,22 @@
       }
     });
 
+    applyWallpaperModeFlag();
+
     if (site.homeBackground) {
-      document.documentElement.style.setProperty("--site-background-image", `url("${site.homeBackground}")`);
+      document.documentElement.style.setProperty(
+        "--site-background-image",
+        `url("${resolveWallpaperByTime(site.homeBackground)}")`
+      );
     }
     if (site.profileAvatar) {
       document.documentElement.style.setProperty("--profile-avatar-image", `url("${site.profileAvatar}")`);
     }
     if (site.musicCover) {
-      document.documentElement.style.setProperty("--music-cover-image", `url("${site.musicCover}")`);
+      document.documentElement.style.setProperty(
+        "--music-cover-image",
+        `url("${resolveWallpaperByTime(site.musicCover)}")`
+      );
     }
 
     const owner = site.owner || "Site";

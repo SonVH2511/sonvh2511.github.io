@@ -11,6 +11,12 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
     rel="stylesheet" />
+  <script>
+    (function () {
+      const hour = new Date().getHours();
+      document.documentElement.dataset.wallpaperMode = hour >= 18 || hour < 6 ? "night" : "day";
+    })();
+  </script>
   <style data-page-asset="home-style">
     :root {
       --bg: #08111c;
@@ -34,6 +40,11 @@
       --site-background-image: url("/assets/images/wallpaper.jpg");
       --profile-avatar-image: url("/assets/images/avatar.jpg");
       --music-cover-image: url("/assets/images/wallpaper.jpg");
+    }
+
+    html[data-wallpaper-mode="night"] {
+      --site-background-image: url("/assets/images/wallpaper_night.jpg");
+      --music-cover-image: url("/assets/images/wallpaper_night.jpg");
     }
 
     * {
