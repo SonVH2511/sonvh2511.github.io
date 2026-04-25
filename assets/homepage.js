@@ -8,6 +8,18 @@
     : ["/assets/images/background/wallpaper.jpg"];
   const LEGACY_WALLPAPER_PATTERN = /\/assets\/images\/wallpaper(?:_night)?\.jpg$/i;
 
+  function normalizeAssetUrl(value) {
+    return String(value || "").trim();
+  }
+
+  function isDailyWallpaperReference(value) {
+    const normalized = normalizeAssetUrl(value);
+    return Boolean(normalized) && (
+      LEGACY_WALLPAPER_PATTERN.test(normalized) ||
+      DAILY_WALLPAPER_URLS.includes(normalized)
+    );
+  }
+
   function getDailyWallpaperIndex(date = new Date()) {
     const startOfYear = Date.UTC(date.getFullYear(), 0, 1);
     const startOfToday = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
@@ -20,12 +32,12 @@
   }
 
   function resolveWallpaperByDay(value) {
-    const normalized = String(value || "").trim();
+    const normalized = normalizeAssetUrl(value);
     if (!normalized) {
       return getDailyWallpaperUrl();
     }
 
-    if (LEGACY_WALLPAPER_PATTERN.test(normalized)) {
+    if (isDailyWallpaperReference(normalized)) {
       return getDailyWallpaperUrl();
     }
 
@@ -121,11 +133,13 @@
   function createPostCard(entry, index) {
     const summary = entry.summary || entry.description || "";
     const styleParts = [`--card-index:${index};`];
-    if (entry.background) {
-      styleParts.push(`--card-background-image: url('${escapeHtml(entry.background)}');`);
+    const resolvedBackground = resolveWallpaperByDay(entry.background);
+    const resolvedCover = resolveWallpaperByDay(entry.cover || entry.background);
+    if (resolvedBackground) {
+      styleParts.push(`--card-background-image: url('${escapeHtml(resolvedBackground)}');`);
     }
-    if (entry.cover || entry.background) {
-      styleParts.push(`--card-cover-image: url('${escapeHtml(entry.cover || entry.background)}');`);
+    if (resolvedCover) {
+      styleParts.push(`--card-cover-image: url('${escapeHtml(resolvedCover)}');`);
     }
     const cardStyle = styleParts.length ? ` style="${styleParts.join("")}"` : "";
     const metaItems = createMetaItems(entry);
