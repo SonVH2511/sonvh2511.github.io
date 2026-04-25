@@ -3,29 +3,43 @@
   const MUSIC_LIBRARY_URL = "/data/music-library.json";
   const RECENT_PAGE_SIZE = 4;
   const MUSIC_SAMPLE_SIZE = 10;
-  const DAY_WALLPAPER_URL = "/assets/images/wallpaper.jpg";
-  const NIGHT_WALLPAPER_URL = "/assets/images/wallpaper_night.jpg";
+  const DAILY_WALLPAPER_URLS = Array.isArray(window.__SITE_DAILY_WALLPAPERS__) && window.__SITE_DAILY_WALLPAPERS__.length
+    ? window.__SITE_DAILY_WALLPAPERS__.slice()
+    : ["/assets/images/background/wallpaper.jpg"];
+  const LEGACY_WALLPAPER_PATTERN = /\/assets\/images\/wallpaper(?:_night)?\.jpg$/i;
 
-  function isNightWallpaperTime(date = new Date()) {
-    const hour = date.getHours();
-    return hour >= 18 || hour < 6;
+  function getDailyWallpaperIndex(date = new Date()) {
+    const startOfYear = Date.UTC(date.getFullYear(), 0, 1);
+    const startOfToday = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+    const dayOffset = Math.floor((startOfToday - startOfYear) / 86400000);
+    return dayOffset % DAILY_WALLPAPER_URLS.length;
   }
 
-  function resolveWallpaperByTime(value) {
+  function getDailyWallpaperUrl(date = new Date()) {
+    return DAILY_WALLPAPER_URLS[getDailyWallpaperIndex(date)] || DAILY_WALLPAPER_URLS[0] || "";
+  }
+
+  function resolveWallpaperByDay(value) {
     const normalized = String(value || "").trim();
     if (!normalized) {
-      return normalized;
+      return getDailyWallpaperUrl();
     }
 
-    if (/\/assets\/images\/wallpaper(?:_night)?\.jpg$/i.test(normalized)) {
-      return isNightWallpaperTime() ? NIGHT_WALLPAPER_URL : DAY_WALLPAPER_URL;
+    if (LEGACY_WALLPAPER_PATTERN.test(normalized)) {
+      return getDailyWallpaperUrl();
     }
 
     return normalized;
   }
 
-  function applyWallpaperModeFlag() {
-    document.documentElement.dataset.wallpaperMode = isNightWallpaperTime() ? "night" : "day";
+  function applyDailyWallpaper() {
+    const wallpaperUrl = getDailyWallpaperUrl();
+    if (!wallpaperUrl) {
+      return;
+    }
+
+    document.documentElement.style.setProperty("--site-background-image", `url("${wallpaperUrl}")`);
+    document.documentElement.style.setProperty("--music-cover-image", `url("${wallpaperUrl}")`);
   }
 
   function escapeHtml(value) {
@@ -777,12 +791,12 @@
       }
     });
 
-    applyWallpaperModeFlag();
+    applyDailyWallpaper();
 
     if (site.homeBackground) {
       document.documentElement.style.setProperty(
         "--site-background-image",
-        `url("${resolveWallpaperByTime(site.homeBackground)}")`
+        `url("${resolveWallpaperByDay(site.homeBackground)}")`
       );
     }
     if (site.profileAvatar) {
@@ -791,7 +805,7 @@
     if (site.musicCover) {
       document.documentElement.style.setProperty(
         "--music-cover-image",
-        `url("${resolveWallpaperByTime(site.musicCover)}")`
+        `url("${resolveWallpaperByDay(site.musicCover)}")`
       );
     }
 

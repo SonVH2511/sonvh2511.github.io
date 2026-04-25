@@ -12,9 +12,31 @@
     href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
     rel="stylesheet" />
   <script>
+    window.__SITE_DAILY_WALLPAPERS__ = [
+      "/assets/images/background/wallpaper.jpg",
+      "/assets/images/background/wallpaper2.jpg"
+    ];
+
     (function () {
-      const hour = new Date().getHours();
-      document.documentElement.dataset.wallpaperMode = hour >= 18 || hour < 6 ? "night" : "day";
+      const wallpapers = Array.isArray(window.__SITE_DAILY_WALLPAPERS__)
+        ? window.__SITE_DAILY_WALLPAPERS__.filter(Boolean)
+        : [];
+      if (!wallpapers.length) {
+        return;
+      }
+
+      const today = new Date();
+      const startOfYear = Date.UTC(today.getFullYear(), 0, 1);
+      const startOfToday = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+      const dayOffset = Math.floor((startOfToday - startOfYear) / 86400000);
+      const wallpaperUrl = wallpapers[dayOffset % wallpapers.length];
+
+      if (!wallpaperUrl) {
+        return;
+      }
+
+      document.documentElement.style.setProperty("--site-background-image", `url("${wallpaperUrl}")`);
+      document.documentElement.style.setProperty("--music-cover-image", `url("${wallpaperUrl}")`);
     })();
   </script>
   <style data-page-asset="home-style">
@@ -37,14 +59,9 @@
       --shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
       --max: 1220px;
       --radius: 28px;
-      --site-background-image: url("/assets/images/wallpaper.jpg");
+      --site-background-image: url("/assets/images/background/wallpaper.jpg");
       --profile-avatar-image: url("/assets/images/avatar.jpg");
-      --music-cover-image: url("/assets/images/wallpaper.jpg");
-    }
-
-    html[data-wallpaper-mode="night"] {
-      --site-background-image: url("/assets/images/wallpaper_night.jpg");
-      --music-cover-image: url("/assets/images/wallpaper_night.jpg");
+      --music-cover-image: url("/assets/images/background/wallpaper.jpg");
     }
 
     * {
