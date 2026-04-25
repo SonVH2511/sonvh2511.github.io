@@ -1,5 +1,45 @@
 (function () {
   const DATA_URL = "/data/posts.json";
+  const DAILY_WALLPAPER_URLS = Array.isArray(window.__SITE_DAILY_WALLPAPERS__) && window.__SITE_DAILY_WALLPAPERS__.length
+    ? window.__SITE_DAILY_WALLPAPERS__.slice()
+    : ["/assets/images/background/wallpaper.jpg"];
+  const LEGACY_WALLPAPER_PATTERN = /\/assets\/images\/wallpaper(?:_night)?\.jpg$/i;
+
+  function normalizeAssetUrl(value) {
+    return String(value || "").trim();
+  }
+
+  function getDailyWallpaperIndex(date = new Date()) {
+    const startOfYear = Date.UTC(date.getFullYear(), 0, 1);
+    const startOfToday = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+    const dayOffset = Math.floor((startOfToday - startOfYear) / 86400000);
+    return dayOffset % DAILY_WALLPAPER_URLS.length;
+  }
+
+  function getDailyWallpaperUrl(date = new Date()) {
+    return DAILY_WALLPAPER_URLS[getDailyWallpaperIndex(date)] || DAILY_WALLPAPER_URLS[0] || "";
+  }
+
+  function isDailyWallpaperReference(value) {
+    const normalized = normalizeAssetUrl(value);
+    return Boolean(normalized) && (
+      LEGACY_WALLPAPER_PATTERN.test(normalized) ||
+      DAILY_WALLPAPER_URLS.includes(normalized)
+    );
+  }
+
+  function resolveWallpaperByDay(value) {
+    const normalized = normalizeAssetUrl(value);
+    if (!normalized) {
+      return getDailyWallpaperUrl();
+    }
+
+    if (isDailyWallpaperReference(normalized)) {
+      return getDailyWallpaperUrl();
+    }
+
+    return normalized;
+  }
 
   function getPostKey() {
     const params = new URLSearchParams(window.location.search);
@@ -82,7 +122,7 @@
 
     const player = window.SiteApp.musicPlayer;
     player.boot({
-      fallbackCover: site.musicCover || site.profileAvatar || ""
+      fallbackCover: resolveWallpaperByDay(site.musicCover || site.profileAvatar || "")
     });
 
     const render = (snapshot) => {
@@ -404,7 +444,7 @@
     }
 
     function applyPostBackground(url, fallback) {
-      const imageUrl = url || fallback;
+      const imageUrl = resolveWallpaperByDay(url || fallback);
       if (imageUrl) {
         document.documentElement.style.setProperty("--page-background-image", `url("${imageUrl}")`);
       }

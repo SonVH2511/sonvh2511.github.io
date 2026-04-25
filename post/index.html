@@ -11,6 +11,33 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
     rel="stylesheet" />
+  <script>
+    window.__SITE_DAILY_WALLPAPERS__ = window.__SITE_DAILY_WALLPAPERS__ || [
+      "/assets/images/background/wallpaper.jpg",
+      "/assets/images/background/wallpaper2.jpg"
+    ];
+
+    (function () {
+      const wallpapers = Array.isArray(window.__SITE_DAILY_WALLPAPERS__)
+        ? window.__SITE_DAILY_WALLPAPERS__.filter(Boolean)
+        : [];
+      if (!wallpapers.length) {
+        return;
+      }
+
+      const today = new Date();
+      const startOfYear = Date.UTC(today.getFullYear(), 0, 1);
+      const startOfToday = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+      const dayOffset = Math.floor((startOfToday - startOfYear) / 86400000);
+      const wallpaperUrl = wallpapers[dayOffset % wallpapers.length];
+
+      if (!wallpaperUrl) {
+        return;
+      }
+
+      document.documentElement.style.setProperty("--page-background-image", `url("${wallpaperUrl}")`);
+    })();
+  </script>
   <link rel="stylesheet" href="../assets/post.css" data-page-asset="post-style" />
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"
