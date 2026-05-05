@@ -93,6 +93,7 @@
     function createMetaItem(type, value, suffix) {
       const icons = {
         published: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v3"></path><path d="M17 3v3"></path><path d="M4 9h16"></path><rect x="4" y="5" width="16" height="15" rx="2"></rect></svg>',
+        updated: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7v5l3 3"></path><circle cx="12" cy="12" r="9"></circle></svg>',
         words: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4l10-10-4-4L4 16v4Z"></path><path d="m12 8 4 4"></path><path d="M14 6l2-2 4 4-2 2"></path></svg>',
         reading: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10"></path><path d="M9 4v4l3 3 3-3V4"></path><path d="M17 20H7"></path><path d="M15 20v-4l-3-3-3 3v4"></path></svg>'
       };
@@ -107,6 +108,9 @@
 
     if (entry.publishedAt) {
       items.push(createMetaItem("published", entry.publishedAt, ""));
+    }
+    if (entry.updatedAt && entry.updatedAt !== entry.publishedAt) {
+      items.push(createMetaItem("updated", `Updated ${entry.updatedAt}`, ""));
     }
     if (entry.wordCount) {
       items.push(createMetaItem("words", entry.wordCount, "words"));
