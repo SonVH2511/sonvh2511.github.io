@@ -47,6 +47,7 @@
       "items": [
         "APT32",
         "Guloader",
+        "CoffeeLoader",
         "CFF mal",
         "Waiting Thread Hijacking",
         "Reflective dll Injection"
@@ -377,6 +378,30 @@
       "candidates": [
         "https://raw.githubusercontent.com/SonVH2511/malware/main/APT32/report.md",
         "https://raw.githubusercontent.com/SonVH2511/malware/master/APT32/report.md"
+      ]
+    },
+    "CoffeeLoader": {
+      "slug": "CoffeeLoader",
+      "tag": "Malware",
+      "title": "CoffeeLoader",
+      "summary": "Phân tích/deobf CoffeeLoader.",
+      "description": "deobf CoffeeLoader",
+      "route": "/post/CoffeeLoader/",
+      "source": "https://github.com/SonVH2511/malware/blob/main/CoffeeLoader",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/Coffee.png",
+      "publishedAt": "2026-05-05",
+      "updatedAt": "2026-05-05",
+      "wordCount": 266,
+      "readingTime": "2 min",
+      "tags": [
+        "Malware",
+        "Reverse",
+        "Deobfuscate"
+      ],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/malware/main/CoffeeLoader/readme.md",
+        "https://raw.githubusercontent.com/SonVH2511/malware/master/CoffeeLoader/readme.md"
       ]
     },
     "CFF mal": {
