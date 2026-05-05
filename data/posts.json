@@ -428,12 +428,12 @@
       ]
     },
     "Guloader": {
-      "slug": "Guloader",
+      "slug": "GuLoader",
       "tag": "Malware",
-      "title": "Guloader",
+      "title": "GuLoader",
       "summary": "Phân tích dòng mã độc Guloader, deobf Guloader, chôm chỉa shell của Guloader làm của riêng.",
       "description": "gugugaga",
-      "route": "/post/Guloader/",
+      "route": "/post/GuLoader/",
       "source": "https://github.com/SonVH2511/malware/blob/main/Guloader",
       "background": "/assets/images/wallpaper.jpg",
       "cover": "/assets/images/GuGuGaGa.jpg",
