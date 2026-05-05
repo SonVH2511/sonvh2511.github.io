@@ -71,14 +71,18 @@
     return Number.isNaN(time) ? 0 : time;
   }
 
-  function sortEntriesByPublishedDate(entries) {
+  function getEntrySortDate(entry) {
+    return parseDate(entry && (entry.updatedAt || entry.publishedAt));
+  }
+
+  function sortEntriesByUpdatedDate(entries) {
     return entries.slice().sort((left, right) => {
       if (Boolean(left && left.pinned) !== Boolean(right && right.pinned)) {
         return left && left.pinned ? -1 : 1;
       }
 
-      const rightDate = parseDate(right && (right.publishedAt || right.updatedAt));
-      const leftDate = parseDate(left && (left.publishedAt || left.updatedAt));
+      const rightDate = getEntrySortDate(right);
+      const leftDate = getEntrySortDate(left);
       if (rightDate !== leftDate) {
         return rightDate - leftDate;
       }
@@ -861,8 +865,8 @@
           return left && left.pinned ? -1 : 1;
         }
 
-        const rightDate = parseDate(right.publishedAt || right.updatedAt);
-        const leftDate = parseDate(left.publishedAt || left.updatedAt);
+        const rightDate = getEntrySortDate(right);
+        const leftDate = getEntrySortDate(left);
         if (rightDate !== leftDate) {
           return rightDate - leftDate;
         }
@@ -873,7 +877,7 @@
       recentTitle.textContent = "Recent";
     }
     if (recentDescription) {
-      recentDescription.textContent = "Latest published posts, 4 posts per page.";
+      recentDescription.textContent = "Latest updated posts, 4 posts per page.";
     }
 
     let currentPage = 0;
@@ -962,7 +966,7 @@
         nodes.description.textContent = section.description || "";
       }
 
-      const entries = sortEntriesByPublishedDate(
+      const entries = sortEntriesByUpdatedDate(
         (section.items || [])
           .map((slug) => posts[slug])
           .filter(Boolean)
