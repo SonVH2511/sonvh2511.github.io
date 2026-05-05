@@ -21,9 +21,12 @@ jobs:
           node-version: '20'
 
       - name: Run script to update metadata
-        run: node scripts/update_meta.js
+        run: |
+          TOKEN_TO_USE="${METADATA_GITHUB_TOKEN:-$GITHUB_TOKEN}"
+          node scripts/update_meta.js --token "$TOKEN_TO_USE"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          METADATA_GITHUB_TOKEN: ${{ secrets.METADATA_GITHUB_TOKEN }}
 
       - name: Check for changes
         id: git-check
