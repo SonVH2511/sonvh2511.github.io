@@ -249,6 +249,49 @@
     const sourceBase = sourceUrl.endsWith("/") ? sourceUrl : sourceUrl + "/";
     const loadedBase = loadedUrl.slice(0, loadedUrl.lastIndexOf("/") + 1);
     const pat = localStorage.getItem("github_pat");
+    const applyMediaSource = (node, src) => {
+      node.setAttribute("src", src);
+      if ("src" in node) {
+        node.src = src;
+      }
+
+      const media = node.matches("video, audio")
+        ? node
+        : node.closest("video, audio");
+      if (media && typeof media.load === "function") {
+        media.load();
+      }
+    };
+    const resolveGitHubMedia = (node, absoluteUrl, failureMessage) => {
+      const match = absoluteUrl.match(/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.+)/);
+      if (!match) {
+        applyMediaSource(node, absoluteUrl);
+        return;
+      }
+
+      const owner = match[1];
+      const repo = match[2];
+      const ref = match[3];
+      const filePath = match[4];
+      const encodedPath = filePath.split("/").map(encodeURIComponent).join("/");
+      const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${encodedPath}?ref=${ref}`;
+
+      fetch(apiUrl, {
+        headers: {
+          Authorization: `Bearer ${pat}`,
+          Accept: "application/vnd.github.v3.raw"
+        }
+      }).then((response) => {
+        if (!response.ok) {
+          throw new Error(failureMessage);
+        }
+        return response.blob();
+      }).then((blob) => {
+        applyMediaSource(node, URL.createObjectURL(blob));
+      }).catch(() => {
+        applyMediaSource(node, absoluteUrl);
+      });
+    };
 
     container.querySelectorAll("a[href]").forEach((anchor) => {
       const href = anchor.getAttribute("href");
@@ -343,6 +386,27 @@
 
       image.loading = "lazy";
       image.src = absoluteUrl;
+    });
+
+    container.querySelectorAll("video[src], audio[src], source[src]").forEach((mediaNode) => {
+      const src = mediaNode.getAttribute("src");
+      if (!src || src.startsWith("data:")) {
+        return;
+      }
+
+      let absoluteUrl = "";
+      try {
+        absoluteUrl = new URL(src, loadedBase).toString();
+      } catch (error) {
+        return;
+      }
+
+      if (pat && absoluteUrl.includes("raw.githubusercontent.com")) {
+        resolveGitHubMedia(mediaNode, absoluteUrl, "Media fetch failed");
+        return;
+      }
+
+      applyMediaSource(mediaNode, absoluteUrl);
     });
   }
 
