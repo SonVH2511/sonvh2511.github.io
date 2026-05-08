@@ -62,6 +62,12 @@ img {
   display: block;
 }
 
+video,
+audio {
+  max-width: 100%;
+  display: block;
+}
+
 code,
 pre {
   font-family: "JetBrains Mono", Consolas, monospace;
