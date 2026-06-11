@@ -76,6 +76,10 @@ pre {
   margin: 0 auto;
 }
 
+body.is-article-view main.shell {
+  width: min(980px, calc(100% - 32px));
+}
+
 .nav {
   position: sticky;
   top: 0;
@@ -136,6 +140,10 @@ pre {
 
 .hero {
   padding: 34px 0 18px;
+}
+
+body.is-article-view .hero {
+  display: none;
 }
 
 .hero-card,
@@ -299,23 +307,68 @@ pre {
 }
 
 .tmp-toc-eyebrow {
-  font-size: 0.78rem;
+  width: 100%;
+  padding: 0;
+  margin: 0 0 12px;
+  border: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.72rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.18em;
+  font-family: inherit;
+  text-align: left;
   text-transform: uppercase;
   color: rgba(143, 211, 255, 0.78);
+  cursor: pointer;
+  user-select: none;
+}
+
+.tmp-toc-eyebrow-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tmp-toc-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(213, 221, 236, 0.62);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.tmp-toc-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .tmp-toc-title {
-  margin: 8px 0 10px;
-  font-size: 1.1rem;
-  line-height: 1.15;
+  margin: 0 0 14px;
+  font-size: 1rem;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(245, 247, 251, 0.92);
 }
 
-.tmp-toc-description {
-  margin: 0 0 16px;
-  color: rgba(213, 221, 236, 0.76);
-  font-size: 0.88rem;
+.tmp-toc-card.is-collapsed .tmp-toc-title,
+.tmp-toc-card.is-collapsed .tmp-toc-nav {
+  display: none;
+}
+
+.tmp-toc-card.is-collapsed .tmp-toc-icon {
+  transform: rotate(-90deg);
 }
 
 .tmp-toc-nav {

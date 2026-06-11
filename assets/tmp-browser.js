@@ -13,8 +13,10 @@
   const articleBodyNode = document.getElementById("tmp-article-body");
   const articleLayoutNode = document.getElementById("tmp-article-layout");
   const tocShellNode = document.getElementById("tmp-toc-shell");
+  const tocCardNode = document.getElementById("tmp-toc-card");
+  const tocToggleNode = document.getElementById("tmp-toc-toggle");
   const tocNavNode = document.getElementById("tmp-toc-nav");
-  const tocDescriptionNode = document.getElementById("tmp-toc-description");
+  const tocTitleNode = document.getElementById("tmp-toc-title");
 
   function escapeHtml(value) {
     return String(value || "")
@@ -225,10 +227,10 @@
 
     const headings = Array.from(container.querySelectorAll("h2, h3, h4"));
     if (!headings.length) {
-      tocNavNode.innerHTML = '<p class="tmp-empty tmp-toc-empty">Muc luc se hien khi bai viet co heading.</p>';
-      if (tocDescriptionNode) {
-        tocDescriptionNode.textContent = "Khong tim thay dau muc de lap overview cho bai viet nay.";
+      if (tocTitleNode) {
+        tocTitleNode.textContent = "Contents";
       }
+      tocNavNode.innerHTML = '<p class="tmp-empty tmp-toc-empty">Muc luc se hien khi bai viet co heading.</p>';
       return;
     }
 
@@ -292,11 +294,10 @@
       ].join("\n");
     }
 
-    tocNavNode.innerHTML = renderTocList(treeRoot, true);
-
-    if (tocDescriptionNode) {
-      tocDescriptionNode.textContent = `${items.length} dau muc de ban nhay nhanh trong bai viet.`;
+    if (tocTitleNode) {
+      tocTitleNode.textContent = "Contents";
     }
+    tocNavNode.innerHTML = renderTocList(treeRoot, true);
 
     const itemNodes = Array.from(tocNavNode.querySelectorAll("[data-toc-item]"));
     const linkNodes = Array.from(tocNavNode.querySelectorAll("[data-toc-link]"));
@@ -440,6 +441,13 @@
       homeNode.innerHTML = '<div class="tmp-empty">Manifest hien khong doc duoc.</div>';
       showHomeMode();
     });
+
+  if (tocToggleNode && tocCardNode) {
+    tocToggleNode.addEventListener("click", () => {
+      tocCardNode.classList.toggle("is-collapsed");
+      tocToggleNode.setAttribute("aria-expanded", String(!tocCardNode.classList.contains("is-collapsed")));
+    });
+  }
 
   window.addEventListener("resize", layoutTocRail);
 })();
