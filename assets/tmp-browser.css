@@ -254,6 +254,10 @@ pre {
   padding: 28px;
 }
 
+.tmp-article-layout {
+  position: relative;
+}
+
 .tmp-article-actions {
   display: flex;
   flex-wrap: wrap;
@@ -264,6 +268,84 @@ pre {
 .tmp-article-body {
   margin-top: 18px;
   padding: 24px;
+}
+
+.tmp-toc-shell {
+  position: fixed;
+  top: 86px;
+  left: 0;
+  width: 280px;
+  z-index: 20;
+}
+
+.tmp-toc-card {
+  padding: 20px 18px;
+  border-radius: 24px;
+  background: rgba(7, 15, 25, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.tmp-toc-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(143, 211, 255, 0.78);
+}
+
+.tmp-toc-title {
+  margin: 8px 0 8px;
+  font-size: 1.2rem;
+  line-height: 1.15;
+}
+
+.tmp-toc-description {
+  margin: 0 0 14px;
+  color: rgba(213, 221, 236, 0.82);
+  font-size: 0.92rem;
+}
+
+.tmp-toc-nav {
+  display: grid;
+  gap: 8px;
+}
+
+.tmp-toc-empty {
+  padding: 0;
+  text-align: left;
+}
+
+.tmp-toc-link {
+  display: block;
+  padding: 9px 12px;
+  border-radius: 14px;
+  color: rgba(245, 247, 251, 0.88);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.tmp-toc-link:hover {
+  transform: translateX(2px);
+  background: rgba(143, 211, 255, 0.08);
+  border-color: rgba(143, 211, 255, 0.18);
+  color: #ffffff;
+}
+
+.tmp-toc-link.depth-3 {
+  margin-left: 14px;
+}
+
+.tmp-toc-link.depth-4 {
+  margin-left: 28px;
+}
+
+.tmp-toc-link.is-active {
+  background: rgba(143, 211, 255, 0.12);
+  border-color: rgba(143, 211, 255, 0.26);
+  color: #ffffff;
 }
 
 .tmp-article-content h1,
@@ -359,6 +441,10 @@ pre {
   overflow-x: auto;
 }
 
+.tmp-article-content [id] {
+  scroll-margin-top: 92px;
+}
+
 .tmp-empty {
   padding: 26px 16px;
   text-align: center;
@@ -380,5 +466,13 @@ pre {
   .tmp-article-hero,
   .tmp-article-body {
     padding: 18px;
+  }
+}
+
+@media (max-width: 1320px) {
+  .tmp-toc-shell {
+    position: static;
+    width: auto;
+    margin-top: 18px;
   }
 }

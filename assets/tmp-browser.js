@@ -11,6 +11,10 @@
   const articleOpenNode = document.getElementById("tmp-article-open");
   const articleBackNode = document.getElementById("tmp-article-back");
   const articleBodyNode = document.getElementById("tmp-article-body");
+  const articleLayoutNode = document.getElementById("tmp-article-layout");
+  const tocShellNode = document.getElementById("tmp-toc-shell");
+  const tocNavNode = document.getElementById("tmp-toc-nav");
+  const tocDescriptionNode = document.getElementById("tmp-toc-description");
 
   function escapeHtml(value) {
     return String(value || "")
@@ -50,6 +54,17 @@
     document.body.classList.add("is-article-view");
     homeNode.hidden = true;
     articleNode.hidden = false;
+  }
+
+  function slugify(value) {
+    return String(value || "")
+      .normalize("NFKD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .trim()
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-");
   }
 
   function renderMarkdown(markdownText) {
@@ -116,6 +131,149 @@
       throw new Error("Failed to load markdown");
     }
     return response.text();
+  }
+
+  function layoutTocRail() {
+    if (!tocShellNode || !articleBodyNode) {
+      return;
+    }
+
+    if (window.innerWidth <= 1320) {
+      tocShellNode.style.left = "";
+      tocShellNode.style.top = "";
+      tocShellNode.style.width = "";
+      return;
+    }
+
+    const bodyRect = articleBodyNode.getBoundingClientRect();
+    const left = bodyRect.right + 22;
+    const width = Math.max(240, Math.min(280, window.innerWidth - left - 16));
+    tocShellNode.style.left = `${left}px`;
+    tocShellNode.style.top = "86px";
+    tocShellNode.style.width = `${width}px`;
+  }
+
+  function removeInlineToc(container) {
+    if (!container) {
+      return;
+    }
+
+    const tocHeading = Array.from(container.querySelectorAll("h1, h2, h3")).find((heading) => {
+      const slug = slugify(heading.textContent);
+      return slug === "muc-luc" || slug === "table-of-contents";
+    });
+
+    if (!tocHeading) {
+      return;
+    }
+
+    const removable = [tocHeading];
+    let cursor = tocHeading.nextElementSibling;
+
+    while (cursor) {
+      const tagName = cursor.tagName;
+      if (/^H[1-6]$/.test(tagName)) {
+        break;
+      }
+      if (tagName === "OL" || tagName === "UL" || tagName === "P" || tagName === "HR") {
+        removable.push(cursor);
+        cursor = cursor.nextElementSibling;
+        continue;
+      }
+      break;
+    }
+
+    removable.forEach((node) => node.remove());
+  }
+
+  function rewriteInlineTocLinks(container, headingMap) {
+    if (!container) {
+      return;
+    }
+
+    container.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      const rawHref = anchor.getAttribute("href") || "";
+      if (!rawHref || rawHref === "#") {
+        return;
+      }
+
+      const decodedHash = decodeURIComponent(rawHref.slice(1));
+      const targetId = slugify(decodedHash);
+      if (!targetId) {
+        return;
+      }
+
+      if (headingMap.has(targetId)) {
+        anchor.setAttribute("href", `#${targetId}`);
+      }
+    });
+  }
+
+  function buildArticleToc(container) {
+    if (!container || !tocNavNode) {
+      return;
+    }
+
+    const headings = Array.from(container.querySelectorAll("h2, h3, h4"));
+    if (!headings.length) {
+      tocNavNode.innerHTML = '<p class="tmp-empty tmp-toc-empty">Muc luc se hien khi bai viet co heading.</p>';
+      if (tocDescriptionNode) {
+        tocDescriptionNode.textContent = "Khong tim thay dau muc de lap overview cho bai viet nay.";
+      }
+      return;
+    }
+
+    const usedIds = new Set();
+    const items = headings.map((heading, index) => {
+      const baseId = slugify(heading.textContent) || `section-${index + 1}`;
+      let finalId = baseId;
+      let suffix = 2;
+
+      while (usedIds.has(finalId) || document.getElementById(finalId)) {
+        finalId = `${baseId}-${suffix}`;
+        suffix += 1;
+      }
+
+      usedIds.add(finalId);
+      heading.id = finalId;
+
+      return {
+        id: finalId,
+        text: heading.textContent || `Section ${index + 1}`,
+        depth: Number(heading.tagName.slice(1))
+      };
+    });
+
+    const headingMap = new Map(items.map((item) => [item.id, item]));
+    rewriteInlineTocLinks(container, headingMap);
+
+    tocNavNode.innerHTML = items
+      .map((item) => `<a class="tmp-toc-link depth-${item.depth}" href="#${item.id}">${escapeHtml(item.text)}</a>`)
+      .join("");
+
+    if (tocDescriptionNode) {
+      tocDescriptionNode.textContent = `${items.length} dau muc de ban nhay nhanh trong bai viet.`;
+    }
+
+    const links = Array.from(tocNavNode.querySelectorAll(".tmp-toc-link"));
+
+    const updateActiveLink = () => {
+      let activeId = items[0].id;
+      const offset = 120;
+
+      headings.forEach((heading) => {
+        if (heading.getBoundingClientRect().top - offset <= 0) {
+          activeId = heading.id;
+        }
+      });
+
+      links.forEach((link) => {
+        link.classList.toggle("is-active", link.getAttribute("href") === `#${activeId}`);
+      });
+    };
+
+    updateActiveLink();
+    window.addEventListener("scroll", updateActiveLink, { passive: true });
   }
 
   function createHomeCard(group, item) {
@@ -189,7 +347,11 @@
     try {
       const markdownText = await fetchMarkdown(entry.path);
       articleBodyNode.innerHTML = `<article class="tmp-article-content">${renderMarkdown(markdownText)}</article>`;
+      const contentNode = articleBodyNode.querySelector(".tmp-article-content");
+      removeInlineToc(contentNode);
       await hydrateMermaid(articleBodyNode);
+      buildArticleToc(contentNode);
+      layoutTocRail();
     } catch (error) {
       articleBodyNode.innerHTML = '<div class="tmp-empty">Khong tai duoc file markdown nay.</div>';
     }
@@ -222,4 +384,6 @@
       homeNode.innerHTML = '<div class="tmp-empty">Manifest hien khong doc duoc.</div>';
       showHomeMode();
     });
+
+  window.addEventListener("resize", layoutTocRail);
 })();
