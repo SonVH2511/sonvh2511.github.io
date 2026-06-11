@@ -533,7 +533,7 @@
       const track = state.tracks[normalizedIndex];
       const audioUrl = resolveUrl(track.audioUrl);
       const startTime = options && options.startTime ? options.startTime : 0;
-      const shouldAutoplay = options ? options.autoplay !== false : true;
+      const shouldAutoplay = options ? options.autoplay === true : false;
 
       state.currentIndex = normalizedIndex;
       persist();
@@ -607,8 +607,7 @@
 
         if (state.tracks.length) {
           const resumeTime = Number(restored && restored.currentTime) || 0;
-          const shouldAutoplay = restoredTracks.length ? !Boolean(restored && restored.isPaused) : true;
-          selectTrack(state.currentIndex, { autoplay: shouldAutoplay, startTime: resumeTime });
+          selectTrack(state.currentIndex, { autoplay: false, startTime: resumeTime });
         } else {
           notify();
         }
@@ -619,7 +618,7 @@
         state.tracks = incomingTracks;
         state.currentIndex = 0;
         notify();
-        selectTrack(0, { autoplay: true });
+        selectTrack(0, { autoplay: false });
         return;
       }
 
@@ -696,31 +695,6 @@
     buildRandomMusicPlaylist
   };
   SiteApp.musicPlayer = SiteApp.musicPlayer || createMusicPlayer();
-
-  function setupAutoplayUnlock() {
-    if (SiteApp.__autoplayUnlockBound) {
-      return;
-    }
-    SiteApp.__autoplayUnlockBound = true;
-
-    const unlock = () => {
-      const player = SiteApp.musicPlayer;
-      const snapshot = player && player.getSnapshot ? player.getSnapshot() : null;
-      if (!player || !snapshot || !snapshot.hasTracks || !snapshot.currentTrack) {
-        return;
-      }
-      if (!snapshot.awaitingUserGesture) {
-        return;
-      }
-      player.resumeAfterGesture();
-    };
-
-    ["pointerdown", "keydown", "touchstart"].forEach((eventName) => {
-      window.addEventListener(eventName, unlock, { passive: true });
-    });
-  }
-
-  setupAutoplayUnlock();
 
   SiteApp.registerPage = function (name, init) {
     controllers.set(name, init);

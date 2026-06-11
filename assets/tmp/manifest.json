@@ -1,0 +1,34 @@
+{
+  "title": "Tmp Browser",
+  "description": "Preview nhanh cac file html va markdown dang dat trong assets/tmp.",
+  "groups": [
+    {
+      "id": "demo-watcher",
+      "title": "Demo Watcher",
+      "description": "Bo demo giao dien watcher va tai lieu mo ta tinh nang.",
+      "items": [
+        {
+          "id": "admin-dashboard",
+          "title": "Admin Dashboard",
+          "type": "html",
+          "path": "/assets/tmp/demo_watcher/demo_admin_dashboard.html",
+          "description": "Ban demo giao dien quan tri cho watcher."
+        },
+        {
+          "id": "customer-portal",
+          "title": "Customer Portal",
+          "type": "html",
+          "path": "/assets/tmp/demo_watcher/demo_customer_portal.html",
+          "description": "Ban demo giao dien khach hang CTIP."
+        },
+        {
+          "id": "feature-specification",
+          "title": "Feature Specification",
+          "type": "markdown",
+          "path": "/assets/tmp/demo_watcher/feature_specification.md",
+          "description": "Tai lieu markdown tong hop yeu cau va kien truc."
+        }
+      ]
+    }
+  ]
+}
