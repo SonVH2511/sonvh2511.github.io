@@ -134,7 +134,7 @@
   }
 
   function layoutTocRail() {
-    if (!tocShellNode || !articleBodyNode) {
+    if (!tocShellNode || !articleLayoutNode) {
       return;
     }
 
@@ -145,9 +145,18 @@
       return;
     }
 
-    const bodyRect = articleBodyNode.getBoundingClientRect();
-    const left = bodyRect.right + 22;
-    const width = Math.max(240, Math.min(280, window.innerWidth - left - 16));
+    const layoutRect = articleLayoutNode.getBoundingClientRect();
+    const left = layoutRect.right + 22;
+    const availableWidth = window.innerWidth - left - 22;
+
+    if (availableWidth < 210) {
+      tocShellNode.style.left = "";
+      tocShellNode.style.top = "";
+      tocShellNode.style.width = "";
+      return;
+    }
+
+    const width = Math.min(290, availableWidth);
     tocShellNode.style.left = `${left}px`;
     tocShellNode.style.top = "86px";
     tocShellNode.style.width = `${width}px`;
@@ -247,15 +256,64 @@
     const headingMap = new Map(items.map((item) => [item.id, item]));
     rewriteInlineTocLinks(container, headingMap);
 
-    tocNavNode.innerHTML = items
-      .map((item) => `<a class="tmp-toc-link depth-${item.depth}" href="#${item.id}">${escapeHtml(item.text)}</a>`)
-      .join("");
+    const minDepth = items.reduce((currentMin, item) => Math.min(currentMin, item.depth), items[0].depth);
+    const treeRoot = [];
+    const stack = [{ children: treeRoot, level: 0 }];
+
+    items.forEach((item) => {
+      const level = Math.max(1, item.depth - minDepth + 1);
+      const node = {
+        id: item.id,
+        text: item.text,
+        level,
+        children: []
+      };
+
+      while (stack.length > 1 && stack[stack.length - 1].level >= level) {
+        stack.pop();
+      }
+
+      const parent = stack[stack.length - 1];
+      parent.children.push(node);
+      stack.push(node);
+    });
+
+    function renderTocList(nodes, isRoot) {
+      const className = isRoot ? "tmp-toc-list tmp-toc-list-root" : "tmp-toc-child";
+      return [
+        `<ol class="${className}">`,
+        ...nodes.map((node) => [
+          `<li class="tmp-toc-item tmp-toc-level-${node.level}" data-toc-item="${node.id}">`,
+          `  <a class="tmp-toc-link" href="#${node.id}" data-toc-link="${node.id}"><span class="tmp-toc-text">${escapeHtml(node.text)}</span></a>`,
+          node.children.length ? renderTocList(node.children, false) : "",
+          "</li>"
+        ].join("\n")),
+        "</ol>"
+      ].join("\n");
+    }
+
+    tocNavNode.innerHTML = renderTocList(treeRoot, true);
 
     if (tocDescriptionNode) {
       tocDescriptionNode.textContent = `${items.length} dau muc de ban nhay nhanh trong bai viet.`;
     }
 
-    const links = Array.from(tocNavNode.querySelectorAll(".tmp-toc-link"));
+    const itemNodes = Array.from(tocNavNode.querySelectorAll("[data-toc-item]"));
+    const linkNodes = Array.from(tocNavNode.querySelectorAll("[data-toc-link]"));
+    const itemById = new Map(itemNodes.map((node) => [node.getAttribute("data-toc-item"), node]));
+
+    const applyActiveState = (activeId) => {
+      itemNodes.forEach((itemNode) => itemNode.classList.remove("is-current"));
+      linkNodes.forEach((linkNode) => {
+        linkNode.classList.toggle("is-active", linkNode.getAttribute("data-toc-link") === activeId);
+      });
+
+      let currentNode = itemById.get(activeId) || null;
+      while (currentNode) {
+        currentNode.classList.add("is-current");
+        currentNode = currentNode.parentElement ? currentNode.parentElement.closest("[data-toc-item]") : null;
+      }
+    };
 
     const updateActiveLink = () => {
       let activeId = items[0].id;
@@ -267,9 +325,7 @@
         }
       });
 
-      links.forEach((link) => {
-        link.classList.toggle("is-active", link.getAttribute("href") === `#${activeId}`);
-      });
+      applyActiveState(activeId);
     };
 
     updateActiveLink();

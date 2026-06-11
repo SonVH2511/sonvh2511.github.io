@@ -254,6 +254,13 @@ pre {
   padding: 28px;
 }
 
+.tmp-article-hero,
+.tmp-article-layout {
+  width: min(980px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .tmp-article-layout {
   position: relative;
 }
@@ -274,17 +281,21 @@ pre {
   position: fixed;
   top: 86px;
   left: 0;
-  width: 280px;
+  width: 290px;
+  font-size: 0.78rem;
   z-index: 20;
 }
 
 .tmp-toc-card {
-  padding: 20px 18px;
+  padding: 18px 18px 20px;
   border-radius: 24px;
-  background: rgba(7, 15, 25, 0.82);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 32%),
+    rgba(7, 15, 25, 0.86);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: var(--shadow);
   backdrop-filter: blur(18px);
+  color: rgba(245, 247, 251, 0.92);
 }
 
 .tmp-toc-eyebrow {
@@ -296,56 +307,132 @@ pre {
 }
 
 .tmp-toc-title {
-  margin: 8px 0 8px;
-  font-size: 1.2rem;
+  margin: 8px 0 10px;
+  font-size: 1.1rem;
   line-height: 1.15;
 }
 
 .tmp-toc-description {
-  margin: 0 0 14px;
-  color: rgba(213, 221, 236, 0.82);
-  font-size: 0.92rem;
+  margin: 0 0 16px;
+  color: rgba(213, 221, 236, 0.76);
+  font-size: 0.88rem;
 }
 
 .tmp-toc-nav {
-  display: grid;
-  gap: 8px;
+  display: block;
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(137, 214, 255, 0.3) rgba(255, 255, 255, 0.02);
+}
+
+.tmp-toc-nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tmp-toc-nav::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+}
+
+.tmp-toc-nav::-webkit-scrollbar-thumb {
+  background: rgba(137, 214, 255, 0.3);
+  border-radius: 4px;
+}
+
+.tmp-toc-nav::-webkit-scrollbar-thumb:hover {
+  background: rgba(137, 214, 255, 0.5);
 }
 
 .tmp-toc-empty {
-  padding: 0;
+  margin: 0;
   text-align: left;
+  color: rgba(213, 221, 236, 0.72);
+  font-size: 0.92rem;
+}
+
+.tmp-toc-list,
+.tmp-toc-child {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tmp-toc-child {
+  margin-top: 6px;
+  margin-left: 20px;
+}
+
+.tmp-toc-item {
+  position: relative;
+  margin: 8px 0;
+  padding-left: 18px;
+  list-style: none;
+}
+
+.tmp-toc-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 5px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 211, 138, 0.52);
+  box-shadow: 0 0 12px rgba(255, 211, 138, 0.16);
+  opacity: 0.6;
+  transition: transform 0.22s ease, border-radius 0.22s ease, opacity 0.22s ease, background 0.22s ease, height 0.22s ease;
+}
+
+.tmp-toc-item:hover::before,
+.tmp-toc-item.is-current::before {
+  height: 6px;
+  border-radius: 50%;
+  transform: translateY(1px);
+  opacity: 1;
+  background: rgba(137, 214, 255, 0.88);
 }
 
 .tmp-toc-link {
   display: block;
-  padding: 9px 12px;
-  border-radius: 14px;
-  color: rgba(245, 247, 251, 0.88);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+  color: rgba(213, 221, 236, 0.76);
+  line-height: 1.45;
+  opacity: 0.84;
+  transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.tmp-toc-text {
+  display: inline;
 }
 
 .tmp-toc-link:hover {
   transform: translateX(2px);
-  background: rgba(143, 211, 255, 0.08);
-  border-color: rgba(143, 211, 255, 0.18);
   color: #ffffff;
+  opacity: 1;
 }
 
-.tmp-toc-link.depth-3 {
-  margin-left: 14px;
+.tmp-toc-level-1 > .tmp-toc-link {
+  font-weight: 700;
+  color: rgba(245, 247, 251, 0.9);
 }
 
-.tmp-toc-link.depth-4 {
-  margin-left: 28px;
+.tmp-toc-level-2 > .tmp-toc-link,
+.tmp-toc-level-3 > .tmp-toc-link {
+  font-size: 0.92rem;
 }
 
+.tmp-toc-item.is-current > .tmp-toc-link,
 .tmp-toc-link.is-active {
-  background: rgba(143, 211, 255, 0.12);
-  border-color: rgba(143, 211, 255, 0.26);
   color: #ffffff;
+  opacity: 1;
+}
+
+.tmp-toc-item.is-current > .tmp-toc-link .tmp-toc-text {
+  text-shadow: 0 0 18px rgba(137, 214, 255, 0.12);
 }
 
 .tmp-article-content h1,
