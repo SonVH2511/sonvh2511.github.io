@@ -8,3 +8,4 @@ Thumbs.db
 .idea/
 .codex
 assets/tmp/demo_watcher/
+/tmp/
