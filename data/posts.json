@@ -38,7 +38,8 @@
       "title": "Blog",
       "description": "Sharing vo van linh tinh :v",
       "items": [
-        "blog1"
+        "blog1",
+        "blog3"
       ]
     },
     "malware": {
@@ -125,6 +126,31 @@
       "candidates": [
         "https://raw.githubusercontent.com/SonVH2511/blog/main/blog1.md",
         "https://raw.githubusercontent.com/SonVH2511/blog/master/blog1.md"
+      ]
+    },
+    "blog3": {
+      "slug": "blog3",
+      "tag": "Blog",
+      "title": "Deobfuscate indirect jump",
+      "summary": "Blog chia sẻ những plugin hữu ích trong quá trình sử dụng IDA",
+      "description": "blog 3",
+      "route": "/post/blog3/",
+      "source": "https://github.com/SonVH2511/blog",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/blog3_thumbnail.jpg",
+      "publishedAt": "2026-07-21",
+      "updatedAt": "2026-06-20",
+      "wordCount": 1892,
+      "readingTime": "10 min",
+      "tags": [
+        "Blog",
+        "IDA",
+        "Sharing",
+        "Deobfuscate"
+      ],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/blog/main/blog3.md",
+        "https://raw.githubusercontent.com/SonVH2511/blog/master/blog3.md"
       ]
     },
     "cscv2025": {
@@ -227,8 +253,8 @@
       "background": "/assets/images/wallpaper.jpg",
       "cover": "/assets/images/teleforward.png",
       "publishedAt": "2026-04-20",
-      "updatedAt": "2026-04-16",
-      "wordCount": 54,
+      "updatedAt": "2026-07-19",
+      "wordCount": 165,
       "readingTime": "1 min",
       "tags": [
         "Tool",

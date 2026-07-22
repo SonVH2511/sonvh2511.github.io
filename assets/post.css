@@ -246,6 +246,10 @@ pre {
   word-break: break-word;
 }
 
+.content p {
+  text-align: justify;
+}
+
 .content p,
 .content li,
 .content blockquote {
