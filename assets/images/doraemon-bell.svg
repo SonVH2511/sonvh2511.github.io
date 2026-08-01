@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Doraemon bell">
+  <g transform="rotate(-18 32 33)">
+    <!-- top knob (behind body) -->
+    <path d="M25 13 C25 6.5 28.5 4 32 4 C35.5 4 39 6.5 39 13 Z"
+          fill="#FFC800" stroke="#1B34C7" stroke-width="4" stroke-linejoin="round"/>
+    <!-- bell body -->
+    <circle cx="32" cy="33" r="24" fill="#FFC800" stroke="#1B34C7" stroke-width="4"/>
+    <!-- diagonal belt -->
+    <path d="M8 36 Q32 24 56 30" fill="none" stroke="#1B34C7" stroke-width="7.5" stroke-linecap="round"/>
+    <!-- keyhole dot -->
+    <circle cx="32" cy="40" r="5.2" fill="#1B34C7"/>
+    <!-- keyhole slit -->
+    <path d="M32 45 C29 50.5 29 55 32 58 C35 55 35 50.5 32 45 Z" fill="#1B34C7"/>
+  </g>
+</svg>

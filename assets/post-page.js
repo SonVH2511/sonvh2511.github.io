@@ -519,32 +519,41 @@
         return;
       }
 
-      if (window.innerWidth <= 1320) {
+      const contentRect = contentNode.getBoundingClientRect();
+      const wide = window.innerWidth > 1320;
+      const leftGutter = contentRect.left;
+      const rightGutter = window.innerWidth - contentRect.right;
+      // A side rail only docks when its gutter can hold it without covering
+      // the content column (240px card + 22px gap on each side).
+      const DOCK_MIN = 284;
+
+      // TOC rail -> right gutter
+      if (wide && rightGutter >= DOCK_MIN) {
+        tocShellNode.style.position = "fixed";
+        tocShellNode.style.left = `${contentRect.right + 22}px`;
+        tocShellNode.style.top = "86px";
+        tocShellNode.style.width = `${Math.min(360, rightGutter - 44)}px`;
+      } else {
+        tocShellNode.style.position = "static";
         tocShellNode.style.left = "";
         tocShellNode.style.top = "";
         tocShellNode.style.width = "";
-        if (postMusicShellNode) {
+      }
+
+      // Music rail -> left gutter
+      if (postMusicShellNode) {
+        if (wide && leftGutter >= DOCK_MIN) {
+          const musicWidth = Math.min(360, leftGutter - 44);
+          postMusicShellNode.style.position = "fixed";
+          postMusicShellNode.style.left = `${Math.max(22, leftGutter - musicWidth - 22)}px`;
+          postMusicShellNode.style.top = "86px";
+          postMusicShellNode.style.width = `${musicWidth}px`;
+        } else {
+          postMusicShellNode.style.position = "static";
           postMusicShellNode.style.left = "";
           postMusicShellNode.style.top = "";
           postMusicShellNode.style.width = "";
         }
-        return;
-      }
-
-      const contentRect = contentNode.getBoundingClientRect();
-      const shellLeft = contentRect.right + 22;
-      const maxWidth = Math.max(240, Math.min(480, window.innerWidth - shellLeft - 22));
-
-      tocShellNode.style.left = `${shellLeft}px`;
-      tocShellNode.style.top = "86px";
-      tocShellNode.style.width = `${maxWidth}px`;
-
-      if (postMusicShellNode) {
-        const musicWidth = Math.max(240, Math.min(360, contentRect.left - 44));
-        const musicLeft = Math.max(22, contentRect.left - musicWidth - 22);
-        postMusicShellNode.style.left = `${musicLeft}px`;
-        postMusicShellNode.style.top = "86px";
-        postMusicShellNode.style.width = `${musicWidth}px`;
       }
     }
 
