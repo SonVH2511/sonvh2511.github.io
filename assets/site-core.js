@@ -1045,6 +1045,41 @@
     });
   };
 
+  function ensureScrollWidgets() {
+    if (!document.getElementById("scroll-progress-bar")) {
+      const bar = document.createElement("div");
+      bar.id = "scroll-progress-bar";
+      bar.setAttribute("aria-hidden", "true");
+      document.body.appendChild(bar);
+    }
+    if (!document.getElementById("back-to-top-btn")) {
+      const btn = document.createElement("button");
+      btn.id = "back-to-top-btn";
+      btn.type = "button";
+      btn.setAttribute("aria-label", "Back to top");
+      btn.setAttribute("title", "Back to top");
+      btn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m18 15-6-6-6 6"></path></svg>';
+      btn.addEventListener("click", function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+      document.body.appendChild(btn);
+    }
+  }
+
+  function updateScrollWidgets() {
+    const bar = document.getElementById("scroll-progress-bar");
+    const btn = document.getElementById("back-to-top-btn");
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = total > 0 ? (window.scrollY / total) * 100 : 0;
+
+    if (bar) {
+      bar.style.width = Math.min(100, Math.max(0, progress)) + "%";
+    }
+    if (btn) {
+      btn.classList.toggle("is-visible", window.scrollY > 280);
+    }
+  }
+
   SiteApp.boot = function () {
     if (booted) {
       return;
@@ -1054,7 +1089,10 @@
     document.addEventListener("mouseenter", handlePrefetchEvent, true);
     document.addEventListener("focusin", handlePrefetchEvent);
     window.addEventListener("popstate", handlePopState);
+    window.addEventListener("scroll", updateScrollWidgets, { passive: true });
     ensureLoader();
+    ensureScrollWidgets();
+    updateScrollWidgets();
     initCurrentPage();
   };
 

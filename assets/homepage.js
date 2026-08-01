@@ -853,6 +853,27 @@
     if (statSections) statSections.textContent = String(Object.keys(sections).length);
     if (statTags) statTags.textContent = String(tagSet.size);
 
+    const ctfCount = allPosts.filter((p) => (p.tag || "").toLowerCase().includes("writeup") || (p.tags || []).some((t) => t.toLowerCase().includes("ctf"))).length;
+    const malCount = allPosts.filter((p) => (p.tag || "").toLowerCase().includes("malware") || (p.tags || []).some((t) => t.toLowerCase().includes("malware") || t.toLowerCase().includes("ida") || t.toLowerCase().includes("deobfuscate"))).length;
+    const sortedDates = allPosts.map(getEntrySortDate).filter(Boolean).sort((a, b) => b - a);
+    const latestDateStr = sortedDates.length ? new Date(sortedDates[0]).toISOString().split("T")[0] : "2026-07-21";
+
+    const heroPosts = document.getElementById("hero-stat-posts");
+    const heroCtf = document.getElementById("hero-stat-ctf");
+    const heroMalware = document.getElementById("hero-stat-malware");
+    if (heroPosts) heroPosts.textContent = String(allPosts.length);
+    if (heroCtf) heroCtf.textContent = String(ctfCount);
+    if (heroMalware) heroMalware.textContent = String(malCount);
+
+    const ovTotal = document.getElementById("overview-stat-total");
+    const ovCtf = document.getElementById("overview-stat-ctf");
+    const ovMalware = document.getElementById("overview-stat-malware");
+    const ovLatest = document.getElementById("overview-stat-latest");
+    if (ovTotal) ovTotal.textContent = String(allPosts.length);
+    if (ovCtf) ovCtf.textContent = String(ctfCount);
+    if (ovMalware) ovMalware.textContent = String(malCount);
+    if (ovLatest) ovLatest.textContent = latestDateStr;
+
     const recentTitle = document.getElementById("recent-title");
     const recentDescription = document.getElementById("recent-description");
     const recentPrev = document.getElementById("recent-prev");
@@ -877,7 +898,7 @@
       recentTitle.textContent = "Recent";
     }
     if (recentDescription) {
-      recentDescription.textContent = "Latest updated posts, 4 posts per page.";
+      recentDescription.textContent = "Latest updated posts.";
     }
 
     let currentPage = 0;
@@ -907,6 +928,53 @@
         recentNext.disabled = currentPage >= totalPages - 1;
       }
     };
+
+    const siteSearchInput = document.getElementById("site-search-input");
+    const searchStatusBar = document.getElementById("search-status-bar");
+    const searchStatusText = document.getElementById("search-status-text");
+    const searchClearBtn = document.getElementById("search-clear-btn");
+
+    function updateSearchFilter() {
+      const query = String(siteSearchInput ? siteSearchInput.value : "").trim().toLowerCase();
+      if (!query) {
+        if (searchStatusBar) searchStatusBar.style.display = "none";
+        renderRecentPage();
+        return;
+      }
+
+      const filtered = allPosts.filter((entry) => {
+        const titleMatch = String(entry.title || "").toLowerCase().includes(query);
+        const summaryMatch = String(entry.summary || entry.description || "").toLowerCase().includes(query);
+        const tagMatch = (entry.tags || []).some((t) => String(t).toLowerCase().includes(query));
+        const categoryMatch = String(entry.tag || "").toLowerCase().includes(query);
+        return titleMatch || summaryMatch || tagMatch || categoryMatch;
+      });
+
+      if (searchStatusBar) {
+        searchStatusBar.style.display = "flex";
+        if (searchStatusText) {
+          searchStatusText.textContent = `Hiển thị ${filtered.length} bài viết phù hợp với "${query}"`;
+        }
+      }
+
+      recentList.innerHTML = filtered.length
+        ? filtered.map((entry, index) => createPostCard(entry, index)).join("\n")
+        : '<p style="padding: 24px; color: var(--muted); text-align: center;">Không tìm thấy bài viết nào phù hợp.</p>';
+
+      if (recentPage) recentPage.textContent = `1 / 1`;
+      if (recentPrev) recentPrev.disabled = true;
+      if (recentNext) recentNext.disabled = true;
+    }
+
+    if (siteSearchInput) {
+      siteSearchInput.addEventListener("input", updateSearchFilter);
+    }
+    if (searchClearBtn) {
+      searchClearBtn.addEventListener("click", () => {
+        if (siteSearchInput) siteSearchInput.value = "";
+        updateSearchFilter();
+      });
+    }
 
     const handleRecentPrev = () => {
       if (currentPage > 0) {
