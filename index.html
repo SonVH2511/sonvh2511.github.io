@@ -361,9 +361,15 @@
 
     .home-layout {
       display: grid;
-      grid-template-columns: 280px minmax(0, 1fr);
+      /* The third column is an empty spacer that mirrors the sidebar, so the
+         content column sits on the PAGE centre line -- lined up with the hero
+         title -- instead of being centred in whatever is left over next to the
+         sidebar. The container is widened to match, so the content column does
+         not lose any width by gaining the spacer. */
+      grid-template-columns: 280px minmax(0, 1fr) 280px;
       gap: 30px;
       align-items: start;
+      width: min(1680px, calc(100% - 32px));
     }
 
     .sidebar {
@@ -1361,10 +1367,21 @@
       font-weight: 700;
     }
 
+    /* The off-centre offset is (sidebar + gap) / 2 -- a CONSTANT ~155px, not
+       something that shrinks on smaller screens -- so the spacer has to stay
+       all the way down to the point where the sidebar stops being a column at
+       all. Below 1660 the rails narrow to keep the content column usable. */
+    @media (max-width: 1660px) {
+      .home-layout {
+        grid-template-columns: 240px minmax(0, 1fr) 240px;
+        gap: 26px;
+        width: calc(100% - 32px);
+      }
+    }
+
     @media (max-width: 1440px) {
       .home-layout {
         display: grid;
-        grid-template-columns: 270px minmax(0, 1fr);
         gap: 26px;
       }
 
@@ -1378,9 +1395,12 @@
       }
     }
 
-    @media (max-width: 1100px) {
+    /* Raised from 1100: with a spacer column the two rails cost ~530px, which
+       left the content at 621px on a 1200px screen. Stacking the sidebar above
+       the content instead gives it the full width, still centred. */
+    @media (max-width: 1300px) {
       .home-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
       }
 
       .sidebar {
