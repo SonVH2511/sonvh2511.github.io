@@ -250,6 +250,11 @@ pre {
   text-align: justify;
 }
 
+.content img {
+  /* Scale the height too when max-width constrains a GitHub image's dimensions. */
+  height: auto;
+}
+
 .content p,
 .content li,
 .content blockquote {
