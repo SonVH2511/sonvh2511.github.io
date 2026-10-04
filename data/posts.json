@@ -417,9 +417,9 @@
       "background": "/assets/images/wallpaper.jpg",
       "cover": "/assets/images/Coffee.png",
       "publishedAt": "2026-05-05",
-      "updatedAt": "2026-05-05",
-      "wordCount": 360,
-      "readingTime": "3 min",
+      "updatedAt": "2026-05-19",
+      "wordCount": 1083,
+      "readingTime": "5 min",
       "tags": [
         "Malware",
         "Reverse",
@@ -441,7 +441,7 @@
       "background": "/assets/images/wallpaper.jpg",
       "cover": "/assets/images/ObfuscateCFF.png",
       "publishedAt": "2025-03-15",
-      "updatedAt": "2026-04-01",
+      "updatedAt": "2026-04-21",
       "wordCount": 844,
       "readingTime": "4 min",
       "tags": [
@@ -464,8 +464,8 @@
       "background": "/assets/images/wallpaper.jpg",
       "cover": "/assets/images/GuGuGaGa.jpg",
       "publishedAt": "2026-04-15",
-      "updatedAt": "2026-05-01",
-      "wordCount": 1094,
+      "updatedAt": "2026-10-03",
+      "wordCount": 1048,
       "readingTime": "5 min",
       "tags": [
         "Malware",
