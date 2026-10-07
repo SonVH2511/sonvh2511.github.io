@@ -498,8 +498,8 @@
         "Deobfuscate"
       ],
       "candidates": [
-        "https://raw.githubusercontent.com/SonVH2511/malware/main/260924.2/readme.md",
-        "https://raw.githubusercontent.com/SonVH2511/malware/master/260924.2/readme.md"
+        "https://raw.githubusercontent.com/SonVH2511/malware/main/260924.2/README.md",
+        "https://raw.githubusercontent.com/SonVH2511/malware/master/260924.2/README.md"
       ]
     },
     "Waiting Thread Hijacking": {
