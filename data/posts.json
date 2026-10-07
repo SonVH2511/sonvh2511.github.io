@@ -479,7 +479,7 @@
       ]
     },
     "fileless Guloader": {
-      "slug": "FilelessGuLoader",
+      "slug": "fileless Guloader",
       "tag": "Malware",
       "title": "GuLoader",
       "summary": "Phân tích biến thể mới dưới dạng fileless obfuscated vbs thay vì dòng NSIS extractor trước đó",
@@ -489,7 +489,7 @@
       "background": "/assets/images/wallpaper.jpg",
       "cover": "/assets/images/Gugugaga.png",
       "publishedAt": "2026-10-01",
-      "updatedAt": "2026-10-01",
+      "updatedAt": "2026-10-07",
       "wordCount": 1048,
       "readingTime": "5 min",
       "tags": [
