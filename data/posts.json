@@ -48,6 +48,7 @@
       "items": [
         "APT32",
         "Guloader",
+        "fileless Guloader",
         "CoffeeLoader",
         "CFF mal",
         "Waiting Thread Hijacking",
