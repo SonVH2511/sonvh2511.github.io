@@ -465,8 +465,8 @@
       "cover": "/assets/images/GuGuGaGa.jpg",
       "publishedAt": "2026-04-15",
       "updatedAt": "2026-10-03",
-      "wordCount": 1048,
-      "readingTime": "5 min",
+      "wordCount": 3636,
+      "readingTime": "15 min",
       "tags": [
         "Malware",
         "Reverse",
@@ -475,6 +475,30 @@
       "candidates": [
         "https://raw.githubusercontent.com/SonVH2511/malware/main/Guloader/readme.md",
         "https://raw.githubusercontent.com/SonVH2511/malware/master/Guloader/readme.md"
+      ]
+    },
+    "fileless Guloader": {
+      "slug": "FilelessGuLoader",
+      "tag": "Malware",
+      "title": "GuLoader",
+      "summary": "Phân tích biến thể mới dưới dạng fileless obfuscated vbs thay vì dòng NSIS extractor trước đó",
+      "description": "gugugaga",
+      "route": "/post/GuLoader/",
+      "source": "https://github.com/SonVH2511/malware/blob/main/260924.2",
+      "background": "/assets/images/wallpaper.jpg",
+      "cover": "/assets/images/Gugugaga.png",
+      "publishedAt": "2026-10-01",
+      "updatedAt": "2026-10-01",
+      "wordCount": 1048,
+      "readingTime": "5 min",
+      "tags": [
+        "Malware",
+        "Reverse",
+        "Deobfuscate"
+      ],
+      "candidates": [
+        "https://raw.githubusercontent.com/SonVH2511/malware/main/260924.2/readme.md",
+        "https://raw.githubusercontent.com/SonVH2511/malware/master/260924.2/readme.md"
       ]
     },
     "Waiting Thread Hijacking": {
